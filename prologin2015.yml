@@ -1,5 +1,5 @@
 conf:
-    package_name: prologin2013
+    package_name: prologin2015
     player_lib: champion
     player_filename: prologin
     server_rule_lib: TODO
@@ -7,50 +7,64 @@ conf:
 
 constant:
   -
-    cst_name: TAILLE_TERRAIN
-    cst_val: 32
-    cst_comment: Taille du terrain (longueur et largeur)
-  -
-    cst_name: FIN_PARTIE
-    cst_val: 200
-    cst_comment: Nombre de tours par partie
-  -
-    cst_name: MAX_JOUEURS
-    cst_val: 2
-    cst_comment: Nombre maximum de joueurs dans la partie
-  -
-    cst_name: REVENU_ILE
-    cst_val: 5
-    cst_comment: Revenu en or par île à chaque tour
-  -
-    cst_name: REVENU_VOLCAN
-    cst_val: 10
-    cst_comment: Revenu en or par volcan à chaque tour
-  -
-    cst_name: OR_INITIAL
-    cst_val: 20
-    cst_comment: Or initialement possédé par chaque joueur
-  -
-    cst_name: CARAVELLE_COUT
-    cst_val: 15
-    cst_comment: Coût de construction d'une Caravelle
-  -
-    cst_name: GALION_COUT
-    cst_val: 4
-    cst_comment: Coût de construction d'un Galion
-  -
-    cst_name: CARAVELLE_DEPLACEMENT
-    cst_val: 4
-    cst_comment: Déplacement de la Caravelle
-  -
-    cst_name: GALION_DEPLACEMENT
-    cst_val: 6
-    cst_comment: Déplacement du Galion
-  -
-    cst_name: LIMITE_BATEAUX
-    cst_val: 500
-    cst_comment: Limite du nombre de bateaux pour chaque joueur
+    cst_name: TAILLE_GRILLE
+    cst_val: 40
+    cst_comment: toudou
 
+  -
+    cst_name: NB_TOURS
+    cst_val: 100
+    cst_comment: toudou
+
+  -
+    cst_name: NB_POINT_DÉPLACEMENT
+    cst_val: 8
+    cst_comment: toudou
+
+  -
+    cst_name: NB_POINT_ACTION
+    cst_val: ?
+    cst_comment: toudou
+
+  -
+    cst_name: POINTS_ACTION_CAPTURE
+    cst_val: ?
+    cst_comment: toudou
+
+  -
+    cst_name: ÉNERGIE_PORTAIL_BASE
+    cst_val: ?
+    cst_comment: toudou
+
+  -
+    cst_name: POINTS_ACTION_LIEN
+    cst_val: ?
+    cst_comment: toudou
+
+  -
+    cst_name: POINT_ACTION_ATTAQUE
+    cst_val: ?
+    cst_comment: toudou
+
+  -
+    cst_name: POINTS_ACTION_BOUCLIER
+    cst_val: ?
+    cst_comment: toudou
+
+  -
+    cst_name: POINTS_ACTION_VIRUS
+    cst_val: 
+    cst_comment: toudou
+
+  -
+    cst_name: POINTS_ACTION_BOOST_VITESSE
+    cst_val: ?
+    cst_comment: toudou
+
+  -
+    cst_name: POINTS_MOUVEMENT_BOOST_VITESSE
+    cst_val: ?
+    cst_comment: toudou
 
 enum:
   -
