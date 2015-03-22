@@ -1,0 +1,291 @@
+conf:
+    package_name: prologin2013
+    player_lib: champion
+    player_filename: prologin
+    server_rule_lib: TODO
+    client_rule_lib: TODO
+
+constant:
+  -
+    cst_name: TAILLE_TERRAIN
+    cst_val: 32
+    cst_comment: Taille du terrain (longueur et largeur)
+  -
+    cst_name: FIN_PARTIE
+    cst_val: 200
+    cst_comment: Nombre de tours par partie
+  -
+    cst_name: MAX_JOUEURS
+    cst_val: 2
+    cst_comment: Nombre maximum de joueurs dans la partie
+  -
+    cst_name: REVENU_ILE
+    cst_val: 5
+    cst_comment: Revenu en or par île à chaque tour
+  -
+    cst_name: REVENU_VOLCAN
+    cst_val: 10
+    cst_comment: Revenu en or par volcan à chaque tour
+  -
+    cst_name: OR_INITIAL
+    cst_val: 20
+    cst_comment: Or initialement possédé par chaque joueur
+  -
+    cst_name: CARAVELLE_COUT
+    cst_val: 15
+    cst_comment: Coût de construction d'une Caravelle
+  -
+    cst_name: GALION_COUT
+    cst_val: 4
+    cst_comment: Coût de construction d'un Galion
+  -
+    cst_name: CARAVELLE_DEPLACEMENT
+    cst_val: 4
+    cst_comment: Déplacement de la Caravelle
+  -
+    cst_name: GALION_DEPLACEMENT
+    cst_val: 6
+    cst_comment: Déplacement du Galion
+  -
+    cst_name: LIMITE_BATEAUX
+    cst_val: 500
+    cst_comment: Limite du nombre de bateaux pour chaque joueur
+
+
+enum:
+  -
+    enum_name: bateau_type
+    enum_summary: "Type de bateau"
+    enum_field:
+      - [bateau_caravelle, "Caravelle"]
+      - [bateau_galion, "Galion"]
+      - [bateau_erreur, "Bateau inexistant"]
+  -
+    enum_name: terrain
+    enum_summary: "Type de terrain"
+    enum_field:
+      - [terrain_ile, "Île"]
+      - [terrain_volcan, "Volcan"]
+      - [terrain_mer, "Mer"]
+      - [terrain_erreur, "Erreur, case impossible"]
+  -
+    enum_name: erreur
+    enum_summary: "Erreurs possibles"
+    enum_field:
+      - [ok, "L'action a été exécutée avec succès"]
+      - [or_insuffisant, "Vous ne possédez pas assez d'or pour cette action"]
+      - [ile_invalide, "La position spécifiée n'est pas une île"]
+      - [position_invalide, "La position spécifiée n'est pas valide"]
+      - [trop_loin, "La destination est trop éloignée"]
+      - [ile_colonisee, "L'île est déjà colonisée"]
+      - [ile_ennemie, "L'île ne vous appartient pas"]
+      - [bateau_ennemi, "Le bateau ne vous appartient pas"]
+      - [id_invalide, "L'ID spécifiée n'est pas valide"]
+      - [non_deplacable, "Le bateau n'est pas déplaçable"]
+      - [aucune_caravelle,
+            "Il n'y a aucune caravelle susceptible de coloniser l'île"]
+      - [limite_atteinte, "La limite de bateaux est atteinte"]
+
+struct:
+  -
+    str_name: position
+    str_summary: Représente la position sur la carte
+    str_tuple: yes
+    str_field:
+      - [x, int, "Coordonnée en X"]
+      - [y, int, "Coordonnée en Y"]
+  -
+    str_name: bateau
+    str_summary: Représente un bateau
+    str_tuple: no
+    str_field:
+      - [id, int, "Identifiant unique du bateau"]
+      - [pos, position, "Position"]
+      - [joueur, int, "Joueur"]
+      - [btype, bateau_type, "Type"]
+      - [nb_or, int, "Or contenu dans le bateau"]
+      - [deplacable, bool, "Le bateau n'a pas encore été déplacé ce tour-ci"]
+
+function:
+
+# Carte
+  -
+    fct_name: info_terrain
+    fct_summary:
+      Retourne la nature du terrain désigné par ``pos``.
+    fct_ret_type: terrain
+    fct_arg:
+      - [pos, position, "Position"]
+  -
+    fct_name: info_ile_joueur
+    fct_summary:
+      "Retourne le joueur qui possède l'île à l'emplacement ``pos``.
+       Retourne -1 si l'île est libre ou si la position indiquée n'est pas une
+       île"
+    fct_ret_type: int
+    fct_arg:
+      - [pos, position, "Position"]
+  -
+    fct_name: info_ile_or
+    fct_summary:
+      "Retourne l'or contenu sur l'île à l'emplacement ``pos``.
+       Retourne -1 si la case spécifiée n'est pas une île."
+    fct_ret_type: int
+    fct_arg:
+      - [pos, position, "Position"]
+  -
+    fct_name: info_bateau
+    fct_summary:
+      "Retourne le bateau ayant pour identifiant ``id``"
+    fct_ret_type: bateau
+    fct_arg:
+      - [id, int, "Identifiant"]
+  -
+    fct_name: bateau_existe
+    fct_summary:
+      "Retourne vrai si le bateau ayant pour identifiant ``id`` existe et est
+      encore à flots"
+    fct_ret_type: bool
+    fct_arg:
+      - [id, int, "Identifiant"]
+  -
+    fct_name: liste_bateaux_position
+    fct_summary:
+      "Retourne la liste de bateaux à la position ``pos``"
+    fct_ret_type: bateau array
+    fct_arg:
+      - [pos, position, "Position"]
+  -
+    fct_name: liste_id_bateaux_position
+    fct_summary:
+      "Retourne la liste des ID des bateaux à la position ``pos``"
+    fct_ret_type: int array
+    fct_arg:
+      - [pos, position, "Position"]
+  -
+    fct_name: liste_iles
+    fct_summary:
+      "Retourne la liste des positions des îles de la carte"
+    fct_ret_type: position array
+    fct_arg: []
+  -
+    fct_name: mes_iles
+    fct_summary:
+      "Retourne la liste des positions des îles qui vous appartiennent"
+    fct_ret_type: position array
+    fct_arg: []
+  -
+    fct_name: id_dernier_bateau_construit
+    fct_summary:
+      "Retourne l'ID du dernier bateau construit. Son comportement n'est pas
+      défini si vous n'avez pas encore créé de bateau à ce tour-ci."
+    fct_ret_type: int
+    fct_arg: []
+  -
+    fct_name: distance
+    fct_summary:
+      "Retourne la distance entre deux positions"
+    fct_ret_type: int
+    fct_arg:
+      - [depart, position, "Départ"]
+      - [arrivee, position, "Arrivée"]
+
+# Actions
+  -
+    fct_name: construire
+    fct_summary:
+      "Construire un bateau de type ``btype`` sur l'île à la position ``pos``"
+    fct_ret_type: erreur
+    fct_arg:
+      - [btype, bateau_type, "Type de bateau à construire"]
+      - [pos, position, "Position"]
+  -
+    fct_name: deplacer
+    fct_summary:
+      "Déplace le bateau représenté par l'identifiant ``id`` jusqu'à la
+      position `pos`` (si elle est dans la portée du bateau)"
+    fct_ret_type: erreur
+    fct_arg:
+      - [id, int, "Identifiant du bateau"]
+      - [pos, position, "Position sur laquelle déplacer le bateau"]
+  -
+    fct_name: coloniser
+    fct_summary:
+      "Colonise l'île à la position ``pos``"
+    fct_ret_type: erreur
+    fct_arg:
+      - [pos, position, "Position de l'île à coloniser"]
+  -
+    fct_name: charger
+    fct_summary:
+      "Charge la caravelle identifiée par ``id`` de ``nb_or`` d'or."
+    fct_ret_type: erreur
+    fct_arg:
+      - [id, int, "Identifiant de la caravelle"]
+      - [nb_or, int, "Quantité d'or à charger"]
+  -
+    fct_name: decharger
+    fct_summary:
+      "Décharge la caravelle identifiée par ``id`` de ``nb_or`` d'or."
+    fct_ret_type: erreur
+    fct_arg:
+      - [id, int, "Identifiant de la caravelle"]
+      - [nb_or, int, "Quantité d'or à décharger"]
+  -
+    fct_name: transferer
+    fct_summary:
+      "Transfère ``montant`` or de la caravelle ``id_source`` à la caravelle
+      ``id_dest``"
+    fct_ret_type: erreur
+    fct_arg:
+      - [montant, int, "Montant d'or à transférer"]
+      - [id_source, int, "Caravelle d'origine"]
+      - [id_dest, int, "Caravelle de destination"]
+
+# Autre
+  -
+    fct_name: mon_joueur
+    fct_summary: Retourne le numéro de votre joueur
+    fct_ret_type: int
+    fct_arg: []
+  -
+    fct_name: adversaire
+    fct_summary: Retourne le numéro de votre adversaire
+    fct_ret_type: int
+    fct_arg: []
+  -
+    fct_name: score
+    fct_summary: Retourne les scores du joueur désigné par l'identifiant ``id``
+    fct_ret_type: int
+    fct_arg:
+      - [id_joueur, int, "Identifiant du joueur"]
+  -
+    fct_name: tour_actuel
+    fct_summary: Retourne le numéro du tour actuel
+    fct_ret_type: int
+    fct_arg: []
+  -
+    fct_name: nombre_bateaux
+    fct_summary: "Retourne le nombre de bateaux que possède le joueur désigné
+      par l'identifiant ``id``"
+    fct_ret_type: int
+    fct_arg:
+      - [id_joueur, int, "Identifiant du joueur"]
+
+
+user_function:
+  -
+    fct_name: partie_init
+    fct_summary: Fonction appelée au début de la partie
+    fct_ret_type: void
+    fct_arg: []
+  -
+    fct_name: jouer_tour
+    fct_summary: Fonction appelée à chaque tour
+    fct_ret_type: void
+    fct_arg: []
+  -
+    fct_name: partie_fin
+    fct_summary: Fonction appelée à la fin de la partie
+    fct_ret_type: void
+    fct_arg: []
