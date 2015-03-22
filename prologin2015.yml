@@ -66,63 +66,55 @@ constant:
     cst_val: ?
     cst_comment: toudou
 
+  -
+    cst_name: MAX_BOUCLIERS
+    cst_val: 4
+    cst_comment: Borne sur le nombre de boucliers d'un même portail.
+
 enum:
-  -
-    enum_name: bateau_type
-    enum_summary: "Type de bateau"
-    enum_field:
-      - [bateau_caravelle, "Caravelle"]
-      - [bateau_galion, "Galion"]
-      - [bateau_erreur, "Bateau inexistant"]
-  -
-    enum_name: terrain
-    enum_summary: "Type de terrain"
-    enum_field:
-      - [terrain_ile, "Île"]
-      - [terrain_volcan, "Volcan"]
-      - [terrain_mer, "Mer"]
-      - [terrain_erreur, "Erreur, case impossible"]
   -
     enum_name: erreur
     enum_summary: "Erreurs possibles"
     enum_field:
       - [ok, "L'action a été exécutée avec succès"]
-      - [or_insuffisant, "Vous ne possédez pas assez d'or pour cette action"]
-      - [ile_invalide, "La position spécifiée n'est pas une île"]
-      - [position_invalide, "La position spécifiée n'est pas valide"]
-      - [trop_loin, "La destination est trop éloignée"]
-      - [ile_colonisee, "L'île est déjà colonisée"]
-      - [ile_ennemie, "L'île ne vous appartient pas"]
-      - [bateau_ennemi, "Le bateau ne vous appartient pas"]
-      - [id_invalide, "L'ID spécifiée n'est pas valide"]
-      - [non_deplacable, "Le bateau n'est pas déplaçable"]
-      - [aucune_caravelle,
-            "Il n'y a aucune caravelle susceptible de coloniser l'île"]
-      - [limite_atteinte, "La limite de bateaux est atteinte"]
+      - [pa_insuffisants, "Vous ne possédez pas assez de points d'action pour cette action."]
+      - [non_portail, "La position sur laquelle vous tentez d'agir n'est pas un portail."]
+      - [position_invalide, "La position spécifiée n'est pas valide (hors de la carte)."]
+      - [trop_loin, "La destination est trop éloignée."]
+      - [mauvaise_appartenance, "Le portail n'appartient pas à la bonne personne (peut inclure 'neutre')."]
+      - [intersection_lien, "Ce lien croise des liens existants, il ne peut pas être construit."]
+      - [portail_dans_triangle, "L'une des extrémités de ce lien est dans un champ existant, il ne peut pas être construit."]
+      - [limite_boucliers_atteinte, "Ce portail est déjà équipé du nombre maximal de boucliers."]
 
 struct:
   -
     str_name: position
-    str_summary: Représente la position sur la carte
+    str_summary: Position sur la carte, donnée par deux coordonnées.
     str_tuple: yes
     str_field:
       - [x, int, "Coordonnée en X"]
       - [y, int, "Coordonnée en Y"]
   -
-    str_name: bateau
-    str_summary: Représente un bateau
+    str_name: lien
+    str_summary: Représente un lien.
     str_tuple: no
     str_field:
-      - [id, int, "Identifiant unique du bateau"]
-      - [pos, position, "Position"]
-      - [joueur, int, "Joueur"]
-      - [btype, bateau_type, "Type"]
-      - [nb_or, int, "Or contenu dans le bateau"]
-      - [deplacable, bool, "Le bateau n'a pas encore été déplacé ce tour-ci"]
+      - [extr1, position, "Première extrémité du lien."]
+      - [extr2, position, "Seconde extrémité du lien."]
+      - [proprio, int, "Joueur possédant ce lien."]
+  -
+    str_name: champ
+    str_summary: Représente un champ.
+    str_tuple: no
+    str_field:
+      - [som1, position, "Première sommet du champ."]
+      - [som2, position, "Deuxème sommet du champ."]
+      - [som3, position, "Troisième sommet du champ."]
+      - [proprio, int, "Joueur possédant ce lien."]
 
 function:
 
-# Carte
+# Information
   -
     fct_name: info_terrain
     fct_summary:
@@ -167,7 +159,7 @@ function:
     fct_summary:
       "Retourne la liste de bateaux à la position ``pos``"
     fct_ret_type: bateau array
-    fct_arg:
+n    fct_arg:
       - [pos, position, "Position"]
   -
     fct_name: liste_id_bateaux_position
