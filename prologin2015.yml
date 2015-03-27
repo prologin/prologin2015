@@ -1,75 +1,70 @@
-conf:
-    package_name: prologin2015
-    player_lib: champion
-    player_filename: prologin
-    server_rule_lib: TODO
-    client_rule_lib: TODO
+name: prologin2015
 
 constant:
   -
-    cst_name: TAILLE_GRILLE
+    cst_name: TAILLE_TERRAIN
     cst_val: 40
-    cst_comment: toudou
+    cst_comment: Taille du terrain (longueur et largeur)
 
   -
     cst_name: NB_TOURS
     cst_val: 100
-    cst_comment: toudou
+    cst_comment: Nombre de tours à jouer avant la fin de la partie
 
   -
-    cst_name: NB_POINT_DÉPLACEMENT
+    cst_name: NB_POINTS_DEPLACEMENT
     cst_val: 8
-    cst_comment: toudou
+    cst_comment: Nombre de points de déplacements par tour
 
   -
-    cst_name: NB_POINT_ACTION
-    cst_val: ?
-    cst_comment: toudou
+    cst_name: NB_POINTS_ACTION
+    cst_val: 200
+    cst_comment: Nombre de points d'action à chaque tour
 
   -
-    cst_name: POINTS_ACTION_CAPTURE
-    cst_val: ?
-    cst_comment: toudou
+    cst_name: COUT_CAPTURE
+    cst_val: 5
+    cst_comment: Nombre de points d'actions que coûte la capture d'un portail
 
   -
-    cst_name: ÉNERGIE_PORTAIL_BASE
-    cst_val: ?
-    cst_comment: toudou
+    cst_name: COUT_LIEN
+    cst_val: 5
+    cst_comment: Nombre de points d'actions que coûte la création d'un lien
 
   -
-    cst_name: POINTS_ACTION_LIEN
-    cst_val: ?
-    cst_comment: toudou
+    cst_name: COUT_ATTAQUE
+    cst_val: 2
+    cst_comment: Nombre de points d'actions que coûte l'attaque
 
   -
-    cst_name: POINT_ACTION_ATTAQUE
-    cst_val: ?
-    cst_comment: toudou
+    cst_name: COUT_BOUCLIER
+    cst_val: 10
+    cst_comment: Nombre de points d'actions que coûte l'attaque
 
   -
-    cst_name: POINTS_ACTION_BOUCLIER
-    cst_val: ?
-    cst_comment: toudou
+    cst_name: COUT_VIRUS
+    cst_val: 100
+    cst_comment: Nombre de points d'actions que coûte l'utilisation d'un virus
 
   -
-    cst_name: POINTS_ACTION_VIRUS
-    cst_val: 
-    cst_comment: toudou
+    cst_name: COUT_BOOST_VITESSE
+    cst_val: 10
+    cst_comment: Nombre de points d'actions que coûte un boost de vitesse
 
   -
-    cst_name: POINTS_ACTION_BOOST_VITESSE
-    cst_val: ?
-    cst_comment: toudou
+    cst_name: GAIN_BOOST_VITESSE
+    cst_val: 1
+    cst_comment: Nombre de points de déplacement donnés par le boost de vitesse
 
   -
-    cst_name: POINTS_MOUVEMENT_BOOST_VITESSE
-    cst_val: ?
-    cst_comment: toudou
+    cst_name: ENERGIE_PORTAIL
+    cst_val: 100
+    cst_comment: L'énergie initiale d'un portal après sa capture
 
   -
     cst_name: MAX_BOUCLIERS
     cst_val: 4
-    cst_comment: Borne sur le nombre de boucliers d'un même portail.
+    cst_comment: Nombre maximum de boucliers sur un même portail.
 
 enum:
   -
@@ -101,7 +96,7 @@ struct:
     str_field:
       - [extr1, position, "Première extrémité du lien."]
       - [extr2, position, "Seconde extrémité du lien."]
-      - [proprio, int, "Joueur possédant ce lien."]
+      - [joueur, int, "Joueur possédant ce lien."]
   -
     str_name: champ
     str_summary: Représente un champ.
@@ -114,143 +109,41 @@ struct:
 
 function:
 
-# Information
-  -
-    fct_name: info_terrain
-    fct_summary:
-      Retourne la nature du terrain désigné par ``pos``.
-    fct_ret_type: terrain
-    fct_arg:
-      - [pos, position, "Position"]
-  -
-    fct_name: info_ile_joueur
-    fct_summary:
-      "Retourne le joueur qui possède l'île à l'emplacement ``pos``.
-       Retourne -1 si l'île est libre ou si la position indiquée n'est pas une
-       île"
-    fct_ret_type: int
-    fct_arg:
-      - [pos, position, "Position"]
-  -
-    fct_name: info_ile_or
-    fct_summary:
-      "Retourne l'or contenu sur l'île à l'emplacement ``pos``.
-       Retourne -1 si la case spécifiée n'est pas une île."
-    fct_ret_type: int
-    fct_arg:
-      - [pos, position, "Position"]
-  -
-    fct_name: info_bateau
-    fct_summary:
-      "Retourne le bateau ayant pour identifiant ``id``"
-    fct_ret_type: bateau
-    fct_arg:
-      - [id, int, "Identifiant"]
-  -
-    fct_name: bateau_existe
-    fct_summary:
-      "Retourne vrai si le bateau ayant pour identifiant ``id`` existe et est
-      encore à flots"
-    fct_ret_type: bool
-    fct_arg:
-      - [id, int, "Identifiant"]
-  -
-    fct_name: liste_bateaux_position
-    fct_summary:
-      "Retourne la liste de bateaux à la position ``pos``"
-    fct_ret_type: bateau array
-n    fct_arg:
-      - [pos, position, "Position"]
-  -
-    fct_name: liste_id_bateaux_position
-    fct_summary:
-      "Retourne la liste des ID des bateaux à la position ``pos``"
-    fct_ret_type: int array
-    fct_arg:
-      - [pos, position, "Position"]
-  -
-    fct_name: liste_iles
-    fct_summary:
-      "Retourne la liste des positions des îles de la carte"
-    fct_ret_type: position array
-    fct_arg: []
-  -
-    fct_name: mes_iles
-    fct_summary:
-      "Retourne la liste des positions des îles qui vous appartiennent"
-    fct_ret_type: position array
-    fct_arg: []
-  -
-    fct_name: id_dernier_bateau_construit
-    fct_summary:
-      "Retourne l'ID du dernier bateau construit. Son comportement n'est pas
-      défini si vous n'avez pas encore créé de bateau à ce tour-ci."
-    fct_ret_type: int
-    fct_arg: []
-  -
-    fct_name: distance
-    fct_summary:
-      "Retourne la distance entre deux positions"
-    fct_ret_type: int
-    fct_arg:
-      - [depart, position, "Départ"]
-      - [arrivee, position, "Arrivée"]
-
 # Actions
   -
-    fct_name: construire
-    fct_summary:
-      "Construire un bateau de type ``btype`` sur l'île à la position ``pos``"
+    fct_name: capturer
+    fct_summary: Capture le portail où est positionné votre agent
+    fct_ret_type: erreur
+    fct_arg: []
+
+  -
+    fct_name: lier
+    fct_summary: Crée un lien entre le portail où se trouve votre agent et le
+                 portail de destination donné en argument
     fct_ret_type: erreur
     fct_arg:
-      - [btype, bateau_type, "Type de bateau à construire"]
-      - [pos, position, "Position"]
+      - [portail, position, "Portail de destination"]
+  -
+    fct_name: attaquer
+    fct_summary: Attaque le portail où se trouve votre agent
+    fct_ret_type: erreur
+    fct_arg: []
   -
     fct_name: deplacer
-    fct_summary:
-      "Déplace le bateau représenté par l'identifiant ``id`` jusqu'à la
-      position `pos`` (si elle est dans la portée du bateau)"
+    fct_summary: Déplace votre agent sur la case passée en argument
     fct_ret_type: erreur
     fct_arg:
-      - [id, int, "Identifiant du bateau"]
-      - [pos, position, "Position sur laquelle déplacer le bateau"]
+      - [dest, position, "Case de destination"]
   -
-    fct_name: coloniser
-    fct_summary:
-      "Colonise l'île à la position ``pos``"
+    fct_name: recharger
+    fct_summary: Recharge le portail sur la case passé en argument
     fct_ret_type: erreur
     fct_arg:
-      - [pos, position, "Position de l'île à coloniser"]
-  -
-    fct_name: charger
-    fct_summary:
-      "Charge la caravelle identifiée par ``id`` de ``nb_or`` d'or."
-    fct_ret_type: erreur
-    fct_arg:
-      - [id, int, "Identifiant de la caravelle"]
-      - [nb_or, int, "Quantité d'or à charger"]
-  -
-    fct_name: decharger
-    fct_summary:
-      "Décharge la caravelle identifiée par ``id`` de ``nb_or`` d'or."
-    fct_ret_type: erreur
-    fct_arg:
-      - [id, int, "Identifiant de la caravelle"]
-      - [nb_or, int, "Quantité d'or à décharger"]
-  -
-    fct_name: transferer
-    fct_summary:
-      "Transfère ``montant`` or de la caravelle ``id_source`` à la caravelle
-      ``id_dest``"
-    fct_ret_type: erreur
-    fct_arg:
-      - [montant, int, "Montant d'or à transférer"]
-      - [id_source, int, "Caravelle d'origine"]
-      - [id_dest, int, "Caravelle de destination"]
+      - [portail, position, "Portail à recharger"]
 
 # Autre
   -
-    fct_name: mon_joueur
+    fct_name: moi
     fct_summary: Retourne le numéro de votre joueur
     fct_ret_type: int
     fct_arg: []
@@ -270,13 +163,6 @@ n    fct_arg:
     fct_summary: Retourne le numéro du tour actuel
     fct_ret_type: int
     fct_arg: []
-  -
-    fct_name: nombre_bateaux
-    fct_summary: "Retourne le nombre de bateaux que possède le joueur désigné
-      par l'identifiant ``id``"
-    fct_ret_type: int
-    fct_arg:
-      - [id_joueur, int, "Identifiant du joueur"]
 
 
 user_function:
