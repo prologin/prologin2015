@@ -159,13 +159,13 @@ function:
       
   -
     fct_name: deployer_virus
-    fct_summary: toudou. Peut renvoyer les erreurs ``pa_insuffisants``, ``non_portail`` et ``mauvaise_appartenance`` (si le portail est neutre).
+    fct_summary: TODO. Peut renvoyer les erreurs ``pa_insuffisants``, ``non_portail`` et ``mauvaise_appartenance`` (si le portail est neutre).
     fct_ret_type: erreur
     fct_arg: []
       
   -
     fct_name: booster_vitesse
-    fct_summary: toudou. Peut renvoyer l'erreur ``pa_insuffisants``.
+    fct_summary: TODO. Peut renvoyer l'erreur ``pa_insuffisants``.
     fct_ret_type: erreur
     fct_arg: []
 
