@@ -235,46 +235,71 @@ function:
       - [portail, position, "Position du portail."]
 
   -
-    fct_name: liens_incidents
+    fct_name: liens_incidents_portail
     fct_summary: Renvoie la liste de tous les liens dont le portail donné est une extrémité.
     fct_ret_type: lien array
     fct_arg:
       - [portail, position, "Position du portail."]
 
   -
-    fct_name: champs_incidents
+    fct_name: champs_incidents_portail
     fct_summary: Renvoie la liste de tous les champs dont le portail donné est un sommet.
     fct_ret_type: champ array
     fct_arg:
       - [portail, position, "Position du portail."]
 
+  -
+    fct_name: champs_incidents_lien
+    fct_summary: Renvoie la liste de tous les champs dont le lien donné est un côté.
+    fct_ret_type: champ array
+    fct_arg:
+      - [lien, lien, "Structure décrivant le lien."]
 
 
-# Actions de l'adversaire le tour précédent
+# Historique (actions de l'adversaire le tour précédent)
 
-TODO
+  -
+    fct_name: hist_portails_captures
+    fct_summary: Renvoie la liste des portails capturés par votre adversaire au dernier tour.
+    fct_ret_type: position array
+    fct_arg: []
+  -
+    fct_name: hist_portails_detruits
+    fct_summary: Renvoie la liste des portails détruits par votre adversaire au dernier tour. TODO : définir comportement si virus.
+    fct_ret_type: position array
+    fct_arg: []
+  -
+    fct_name: hist_liens_crees
+    fct_summary: Renvoie la liste des liens créés par votre adversaire au dernier tour.
+    fct_ret_type: position array
+    fct_arg: []
 
 
 # Autre
   -
     fct_name: moi
-    fct_summary: Retourne le numéro de votre joueur
+    fct_summary: Renvoie votre numéro de joueur.
     fct_ret_type: int
     fct_arg: []
   -
     fct_name: adversaire
-    fct_summary: Retourne le numéro de votre adversaire
+    fct_summary: Renvoie le numéro de votre adversaire.
     fct_ret_type: int
     fct_arg: []
   -
+    fct_name: position_agent
+    fct_summary: Indique la position de l'agent du joueur désigné par le numéro ``id_joueur``.
+    fct_ret_type: position
+    fct_arg: [id_joueur, int, "Numéro du joueur."]
+  -
     fct_name: score
-    fct_summary: Retourne le score du joueur désigné par l'identifiant ``id``
+    fct_summary: Retourne le score du joueur désigné par le numéro ``id_joueur``.
     fct_ret_type: int
     fct_arg:
       - [id_joueur, int, "Identifiant du joueur"]
   -
     fct_name: tour_actuel
-    fct_summary: Retourne le numéro du tour actuel
+    fct_summary: Retourne le numéro du tour actuel.
     fct_ret_type: int
     fct_arg: []
 
