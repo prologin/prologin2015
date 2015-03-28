@@ -66,6 +66,13 @@ constant:
     cst_val: 4
     cst_comment: Nombre maximum de boucliers sur un même portail.
 
+  -
+    cst_name: ENERGIE_BOUCLIER
+    cst_val: 20
+    cst_comment: Quantité d'énergie supplémentaire conférée à un portail par un bouclier.
+
+
+
 enum:
   -
     enum_name: erreur
@@ -76,9 +83,9 @@ enum:
       - [non_portail, "La position sur laquelle vous tentez d'agir n'est pas un portail."]
       - [position_invalide, "La position spécifiée n'est pas valide (hors de la carte)."]
       - [trop_loin, "La destination est trop éloignée."]
-      - [mauvaise_appartenance, "Le portail n'appartient pas à la bonne personne (peut inclure 'neutre')."]
+      - [mauvaise_appartenance, "Le portail n'appartient pas à la bonne personne (peut inclure 'neutre', bonne formulation à trouver)."]
       - [intersection_lien, "Ce lien croise des liens existants, il ne peut pas être construit."]
-      - [portail_dans_triangle, "L'une des extrémités de ce lien est dans un champ existant, il ne peut pas être construit."]
+      - [portail_dans_champ, "L'une des extrémités de ce lien est dans un champ existant, il ne peut pas être construit."]
       - [limite_boucliers_atteinte, "Ce portail est déjà équipé du nombre maximal de boucliers."]
 
 struct:
@@ -91,10 +98,10 @@ struct:
       - [y, int, "Coordonnée en Y"]
   -
     str_name: lien
-    str_summary: Représente un lien.
+    str_summary: Représente un lien
     str_tuple: no
     str_field:
-      - [extr1, position, "Première extrémité du lien."]
+      - [extr1, position, "Première extrémité du lien. The endpoints are guaranteed to be given in lexicographical order (todo trouver une traduction de cette construction)."]
       - [extr2, position, "Seconde extrémité du lien."]
       - [joueur, int, "Joueur possédant ce lien."]
   -
@@ -102,44 +109,151 @@ struct:
     str_summary: Représente un champ.
     str_tuple: no
     str_field:
-      - [som1, position, "Première sommet du champ."]
+      - [som1, position, "Première sommet du champ. ordre lexico blabla"]
       - [som2, position, "Deuxème sommet du champ."]
       - [som3, position, "Troisième sommet du champ."]
-      - [proprio, int, "Joueur possédant ce lien."]
+      - [joueur, int, "Joueur possédant ce lien."]
 
 function:
 
 # Actions
   -
     fct_name: capturer
-    fct_summary: Capture le portail où est positionné votre agent
+    fct_summary: Capture le portail où est positionné votre agent. Peut renvoyer les erreurs ``pa_insuffisants``, ``non_portail`` et ``mauvaise_appartenance``.
     fct_ret_type: erreur
     fct_arg: []
 
   -
     fct_name: lier
-    fct_summary: Crée un lien entre le portail où se trouve votre agent et le
-                 portail de destination donné en argument
+    fct_summary: Crée un lien entre le portail où se trouve votre agent et le portail de destination donné en argument. Peut renvoyer les erreurs ``pa_insuffisants``, ``non_portail`` (la position actuelle OU la cible en argument n'est pas un portail), ``position_invalide``, ``mauvaise_appartenance``, ``intersection_lien`` et ``portail_dans_champ``.
     fct_ret_type: erreur
     fct_arg:
-      - [portail, position, "Portail de destination"]
+      - [portail, position, "Portail de destination du lien."]
+      
   -
     fct_name: attaquer
-    fct_summary: Attaque le portail où se trouve votre agent
-    fct_ret_type: erreur
-    fct_arg: []
-  -
-    fct_name: deplacer
-    fct_summary: Déplace votre agent sur la case passée en argument
+    fct_summary: Attaque le portail où se trouve votre agent. Peut renvoyer les erreurs ``pa_insuffisants``, ``non_portail`` et ``mauvaise_appartenance``.
     fct_ret_type: erreur
     fct_arg:
-      - [dest, position, "Case de destination"]
+      - [energie, int, "Quantité d'énergie à retrancher au portail visé."]
+    
+  -
+    fct_name: deplacer
+    fct_summary: Déplace votre agent sur la case passée en argument. Peut renvoyer les erreurs ``position_invalide`` et ``trop_loin``.
+    fct_ret_type: erreur
+    fct_arg:
+      - [dest, position, "Case de destination."]
+      
   -
     fct_name: recharger
-    fct_summary: Recharge le portail sur la case passé en argument
+    fct_summary: Recharge le portail sur la case passé en argument. Peut renvoyer les erreurs ``pa_insuffisants``, ``non_portail`` (la position actuelle OU la cible en argument n'est pas un portail), ``position_invalide``, ``mauvaise_appartenance`` et ``intersection_lien`` et ``portail_dans_champ``.
     fct_ret_type: erreur
     fct_arg:
       - [portail, position, "Portail à recharger"]
+      
+  -
+    fct_name: ajouter_bouclier
+    fct_summary: Ajoute un bouclier au portail sur lequel se trouve votre agent. Peut renvoyer les erreurs ``pa_insuffisants``, ``non_portail``, ``mauvaise_appartenance`` et ``limite_boucliers_atteinte``.
+    fct_ret_type: erreur
+    fct_arg: []
+      
+  -
+    fct_name: deployer_virus
+    fct_summary: toudou. Peut renvoyer les erreurs ``pa_insuffisants``, ``non_portail`` et ``mauvaise_appartenance`` (si le portail est neutre).
+    fct_ret_type: erreur
+    fct_arg: []
+      
+  -
+    fct_name: booster_vitesse
+    fct_summary: toudou. Peut renvoyer l'erreur ``pa_insuffisants``.
+    fct_ret_type: erreur
+    fct_arg: []
+
+# Fonctions de query sur les champs / les liens
+
+  -
+    fct_name: liste_liens
+    fct_summary: Renvoie la liste de tous les liens présents.
+    fct_ret_type: lien array
+    fct_arg: []
+
+  -
+    fct_name: liste_champs
+    fct_summary: Renvoie la liste de tous les champs, i.e. tous les triangles constitués par les liens présents.
+    fct_ret_type: champ array
+    fct_arg:
+      - []
+
+  -
+    fct_name: liens_bloquants
+    fct_summary: Renvoie la liste de tous les liens existants qui croisent un segment, entravant la création d'un lien.
+    fct_ret_type: lien array
+    fct_arg:
+      - [ext1, position, "Première extrémité du segment."]
+      - [ext2, position, "Seconde extrémité du segment."]
+
+# Spécifique à une case
+
+  -
+    fct_name: case_joueur
+    fct_summary: Renvoie un booléen indiquant si la case ``pos`` se trouve dans un champ appartenant au joueur ``num_joueur`` (il peut y avoir 0, 1 ou 2 joueurs pour lesquels c'est vrai pour une case donnée).
+    fct_ret_type: bool
+    fct_arg:
+      - [pos, position, "Position de la case."]
+      - [num_joueur, int, "Numéro du joueur."]
+
+  -
+    fct_name: case_champs
+    fct_summary: Renvoie la liste des champs dans lesquels la case ``pos`` se trouve. Si la case est un portail, le résultat de ``champs_incidents`` sera inclus dans (mais pas forcément égal à) celui de ``case_champs``.
+    fct_ret_type: champ array
+    fct_arg:
+      - [pos, position, "Position de la case."]
+
+# Spécifique à un portail
+# Convention : toutes ces fonctions retournent -42 si pas un portail
+# TODO : écrire ça dans la documentation… CHECK : nombres négatifs en TeX en mode math ?
+
+  -
+    fct_name: portail_joueur
+    fct_summary: Renvoie le numéro du joueur correspondant au portail donné, -1 si le portail est neutre. Si la position désignée n'est pas un portail, la fonction renverra -42 ; /il est conseillé d'utiliser cette fonction pour tester si une case contient un portail/.
+    fct_ret_type: int
+    fct_arg:
+      - [portail, position, "Position du portail."]
+
+  -
+    fct_name: portail_boucliers
+    fct_summary: Renvoie le nombre de boucliers présents sur un portail.
+    fct_ret_type: int
+    fct_arg:
+      - [portail, position, "Position du portail."]
+
+  -
+    fct_name: portail_energie
+    fct_summary: Renvoie la quantité d'énergie restante sur un portail.
+    fct_ret_type: int
+    fct_arg:
+      - [portail, position, "Position du portail."]
+
+  -
+    fct_name: liens_incidents
+    fct_summary: Renvoie la liste de tous les liens dont le portail donné est une extrémité.
+    fct_ret_type: lien array
+    fct_arg:
+      - [portail, position, "Position du portail."]
+
+  -
+    fct_name: champs_incidents
+    fct_summary: Renvoie la liste de tous les champs dont le portail donné est un sommet.
+    fct_ret_type: champ array
+    fct_arg:
+      - [portail, position, "Position du portail."]
+
+
+
+# Actions de l'adversaire le tour précédent
+
+TODO
+
 
 # Autre
   -
@@ -154,7 +268,7 @@ function:
     fct_arg: []
   -
     fct_name: score
-    fct_summary: Retourne les scores du joueur désigné par l'identifiant ``id``
+    fct_summary: Retourne le score du joueur désigné par l'identifiant ``id``
     fct_ret_type: int
     fct_arg:
       - [id_joueur, int, "Identifiant du joueur"]
