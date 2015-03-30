@@ -102,6 +102,7 @@ struct:
   -
     str_name: lien
     str_summary: Représente un lien
+    str_tuple: no
     str_field:
       - [extr1, position, "Première extrémité du lien."]
       - [extr2, position, "Seconde extrémité du lien."]
@@ -109,6 +110,7 @@ struct:
   -
     str_name: champ
     str_summary: Représente un champ de contrôle.
+    str_tuple: no
     str_field:
       - [som1, position, "Premier sommet du champ."]
       - [som2, position, "Deuxième sommet du champ."]
@@ -184,15 +186,13 @@ function:
     fct_name: liste_champs
     fct_summary: Renvoie la liste de tous les champs de contrôle.
     fct_ret_type: champ array
-    fct_arg:
-      - []
+    fct_arg: []
 
   -
     fct_name: liste_portails
     fct_summary: Renvoie la liste de tous les portails de la carte.
     fct_ret_type: position array
-    fct_arg:
-      - []
+    fct_arg: []
 
   -
     fct_name: liens_bloquants
@@ -315,7 +315,8 @@ function:
     fct_name: position_agent
     fct_summary: Indique la position de l'agent du joueur désigné par le numéro ``id_joueur``.
     fct_ret_type: position
-    fct_arg: [id_joueur, int, "Numéro du joueur."]
+    fct_arg:
+      - [id_joueur, int, "Numéro du joueur."]
   -
     fct_name: distance
     fct_summary: Retourne la distance entre deux positions
