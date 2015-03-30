@@ -216,8 +216,9 @@ function:
   -
     fct_name: case_champs
     fct_summary: Renvoie la liste des champs dans lesquels la case ``pos`` se
-        trouve. Si la case est un portail, le résultat de ``champs_incidents``
-        sera inclus dans (mais pas forcément égal à) celui de ``case_champs``.
+        trouve. Si la case est un portail, le résultat de
+        ``champs_incidents_portail`` sera inclus dans (mais pas forcément égal
+        à) celui de ``case_champs``.
     fct_ret_type: champ array
     fct_arg:
       - [pos, position, "Position de la case."]
