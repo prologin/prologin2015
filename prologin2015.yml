@@ -335,7 +335,12 @@ function:
     fct_summary: Retourne le numéro du tour actuel.
     fct_ret_type: int
     fct_arg: []
-
+  -
+    fct_name: annuler
+    fct_summary: "Annule la dernière action.
+         Renvoie ``false`` quand il n'y a pas d'action à annuler ce tour-ci."
+    fct_ret_type: bool
+    fct_arg: []
 
 user_function:
   -

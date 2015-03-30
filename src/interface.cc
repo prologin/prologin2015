@@ -400,6 +400,14 @@ extern "C" int api_tour_actuel()
 }
 
 ///
+// Annule la dernière action. Renvoie ``false`` quand il n'y a pas d'action à annuler ce tour-ci.
+//
+extern "C" bool api_annuler()
+{
+  return api->annuler();
+}
+
+///
 // Affiche le contenu d'une valeur de type erreur
 //
 std::ostream& operator<<(std::ostream& os, erreur v)

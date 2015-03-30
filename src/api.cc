@@ -295,6 +295,15 @@ int Api::tour_actuel()
 }
 
 ///
+// Annule la dernière action. Renvoie ``false`` quand il n'y a pas d'action à annuler ce tour-ci.
+//
+bool Api::annuler()
+{
+  // TODO
+  abort();
+}
+
+///
 // Affiche le contenu d'une valeur de type erreur
 //
 

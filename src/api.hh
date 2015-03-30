@@ -155,6 +155,10 @@ class Api
 //
    int tour_actuel();
 ///
+// Annule la dernière action. Renvoie ``false`` quand il n'y a pas d'action à annuler ce tour-ci.
+//
+   bool annuler();
+///
 // Affiche le contenu d'une valeur de type erreur
 //
 
