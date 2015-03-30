@@ -89,6 +89,7 @@ enum:
       - [lien_champ, "Le lien se trouve dans un champ existant."]
       - [limite_boucliers, "Ce portail est équipé du nombre maximal de
                             boucliers."]
+      - [valeur_invalide, "La valeur donnée est invalide."]
 
 struct:
   -
