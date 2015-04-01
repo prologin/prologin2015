@@ -1,6 +1,6 @@
 // FIXME License notice
 
-#include "action_attaquer.hh"
+#include "actions.hh"
 
 ActionAttaquer::ActionAttaquer(int energie, int player_id)
     : energie_(energie)
@@ -10,7 +10,7 @@ ActionAttaquer::ActionAttaquer(int energie, int player_id)
 
 ActionAttaquer::ActionAttaquer()
     : energie_(FIXME)
-    , player_id_(FIXME)
+    , player_id_(-1)
 {
 }
 

@@ -1,6 +1,6 @@
 // FIXME License notice
 
-#include "action_recharger.hh"
+#include "actions.hh"
 
 ActionRecharger::ActionRecharger(position portail, int player_id)
     : portail_(portail)
@@ -10,7 +10,7 @@ ActionRecharger::ActionRecharger(position portail, int player_id)
 
 ActionRecharger::ActionRecharger()
     : portail_(FIXME)
-    , player_id_(FIXME)
+    , player_id_(-1)
 {
 }
 

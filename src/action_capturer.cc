@@ -1,6 +1,6 @@
 // FIXME License notice
 
-#include "action_capturer.hh"
+#include "actions.hh"
 
 ActionCapturer::ActionCapturer(int player_id)
     : player_id_(player_id)
@@ -8,7 +8,7 @@ ActionCapturer::ActionCapturer(int player_id)
 }
 
 ActionCapturer::ActionCapturer()
-    : player_id_(FIXME)
+    : player_id_(-1)
 {
 }
 

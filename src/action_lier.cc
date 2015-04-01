@@ -1,6 +1,6 @@
 // FIXME License notice
 
-#include "action_lier.hh"
+#include "actions.hh"
 
 ActionLier::ActionLier(position portail, int player_id)
     : portail_(portail)
@@ -10,7 +10,7 @@ ActionLier::ActionLier(position portail, int player_id)
 
 ActionLier::ActionLier()
     : portail_(FIXME)
-    , player_id_(FIXME)
+    , player_id_(-1)
 {
 }
 

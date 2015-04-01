@@ -1,6 +1,6 @@
 // FIXME License notice
 
-#include "action_ajouter_bouclier.hh"
+#include "actions.hh"
 
 ActionAjouterBouclier::ActionAjouterBouclier(int player_id)
     : player_id_(player_id)
@@ -8,7 +8,7 @@ ActionAjouterBouclier::ActionAjouterBouclier(int player_id)
 }
 
 ActionAjouterBouclier::ActionAjouterBouclier()
-    : player_id_(FIXME)
+    : player_id_(-1)
 {
 }
 

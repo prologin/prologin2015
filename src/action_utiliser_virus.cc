@@ -1,6 +1,6 @@
 // FIXME License notice
 
-#include "action_utiliser_virus.hh"
+#include "actions.hh"
 
 ActionUtiliserVirus::ActionUtiliserVirus(int player_id)
     : player_id_(player_id)
@@ -8,7 +8,7 @@ ActionUtiliserVirus::ActionUtiliserVirus(int player_id)
 }
 
 ActionUtiliserVirus::ActionUtiliserVirus()
-    : player_id_(FIXME)
+    : player_id_(-1)
 {
 }
 

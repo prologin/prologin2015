@@ -1,6 +1,6 @@
 // FIXME License notice
 
-#include "action_utiliser_turbo.hh"
+#include "actions.hh"
 
 ActionUtiliserTurbo::ActionUtiliserTurbo(int player_id)
     : player_id_(player_id)
@@ -8,7 +8,7 @@ ActionUtiliserTurbo::ActionUtiliserTurbo(int player_id)
 }
 
 ActionUtiliserTurbo::ActionUtiliserTurbo()
-    : player_id_(FIXME)
+    : player_id_(-1)
 {
 }
 

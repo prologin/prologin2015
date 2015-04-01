@@ -1,6 +1,6 @@
 // FIXME License notice
 
-#include "action_deplacer.hh"
+#include "actions.hh"
 
 ActionDeplacer::ActionDeplacer(position dest, int player_id)
     : dest_(dest)
@@ -10,7 +10,7 @@ ActionDeplacer::ActionDeplacer(position dest, int player_id)
 
 ActionDeplacer::ActionDeplacer()
     : dest_(FIXME)
-    , player_id_(FIXME)
+    , player_id_(-1)
 {
 }
 
