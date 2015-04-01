@@ -24,13 +24,32 @@ Api::Api(rules::GameState* game_state, rules::Player_sptr player)
   api = this;
 }
 
+const GameState* game_state() const {
+    return game_state_;
+}
+GameState* game_state() {
+    return game_state_;
+}
+
+void game_state_set(rules::GameState* gs) {
+    game_state_ = dynamic_cast<GameState*>(gs);
+}
+
+
 ///
 // Capture le portail où est positionné votre agent.
 //
 erreur Api::capturer()
 {
-  // TODO
-  abort();
+    rules::IAction_sptr action(new ActionCapturer(player_->id));
+
+    erreur err;
+    if ((err = static_cast<erreur>(action->check(game_state_))) != OK)
+        return err;
+
+    actions_.add(action);
+    game_state_set(action->apply(game_state_));
+    return OK;
 }
 
 ///
@@ -38,8 +57,15 @@ erreur Api::capturer()
 //
 erreur Api::lier(position portail)
 {
-  // TODO
-  abort();
+    rules::IAction_sptr action(new ActionLier(portail, player_->id));
+
+    erreur err;
+    if ((err = static_cast<erreur>(action->check(game_state_))) != OK)
+        return err;
+
+    actions_.add(action);
+    game_state_set(action->apply(game_state_));
+    return OK;
 }
 
 ///
@@ -47,8 +73,15 @@ erreur Api::lier(position portail)
 //
 erreur Api::attaquer(int energie)
 {
-  // TODO
-  abort();
+    rules::IAction_sptr action(new ActionAttaquer(energie, player_->id));
+
+    erreur err;
+    if ((err = static_cast<erreur>(action->check(game_state_))) != OK)
+        return err;
+
+    actions_.add(action);
+    game_state_set(action->apply(game_state_));
+    return OK;
 }
 
 ///
@@ -56,8 +89,15 @@ erreur Api::attaquer(int energie)
 //
 erreur Api::deplacer(position dest)
 {
-  // TODO
-  abort();
+    rules::IAction_sptr action(new ActionDeplacer(dest, player_->id));
+
+    erreur err;
+    if ((err = static_cast<erreur>(action->check(game_state_))) != OK)
+        return err;
+
+    actions_.add(action);
+    game_state_set(action->apply(game_state_));
+    return OK;
 }
 
 ///
@@ -65,8 +105,15 @@ erreur Api::deplacer(position dest)
 //
 erreur Api::recharger(position portail)
 {
-  // TODO
-  abort();
+    rules::IAction_sptr action(new ActionRecharger(portail, player_->id));
+
+    erreur err;
+    if ((err = static_cast<erreur>(action->check(game_state_))) != OK)
+        return err;
+
+    actions_.add(action);
+    game_state_set(action->apply(game_state_));
+    return OK;
 }
 
 ///
@@ -74,8 +121,15 @@ erreur Api::recharger(position portail)
 //
 erreur Api::ajouter_bouclier()
 {
-  // TODO
-  abort();
+    rules::IAction_sptr action(new ActionAjouterBouclier(player_->id));
+
+    erreur err;
+    if ((err = static_cast<erreur>(action->check(game_state_))) != OK)
+        return err;
+
+    actions_.add(action);
+    game_state_set(action->apply(game_state_));
+    return OK;
 }
 
 ///
@@ -83,8 +137,15 @@ erreur Api::ajouter_bouclier()
 //
 erreur Api::utiliser_virus()
 {
-  // TODO
-  abort();
+    rules::IAction_sptr action(new ActionUtiliserVirus(player_->id));
+
+    erreur err;
+    if ((err = static_cast<erreur>(action->check(game_state_))) != OK)
+        return err;
+
+    actions_.add(action);
+    game_state_set(action->apply(game_state_));
+    return OK;
 }
 
 ///
@@ -92,8 +153,15 @@ erreur Api::utiliser_virus()
 //
 erreur Api::utiliser_turbo()
 {
-  // TODO
-  abort();
+    rules::IAction_sptr action(new ActionUtiliserTurbo(player_->id));
+
+    erreur err;
+    if ((err = static_cast<erreur>(action->check(game_state_))) != OK)
+        return err;
+
+    actions_.add(action);
+    game_state_set(action->apply(game_state_));
+    return OK;
 }
 
 ///

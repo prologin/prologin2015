@@ -124,6 +124,7 @@ function:
     fct_name: capturer
     fct_summary: Capture le portail où est positionné votre agent.
     fct_ret_type: erreur
+    fct_action: yes
     fct_arg: []
 
   -
@@ -131,6 +132,7 @@ function:
     fct_summary: "Crée un lien entre le portail où se trouve votre agent et le
                   portail de destination donné en argument."
     fct_ret_type: erreur
+    fct_action: yes
     fct_arg:
       - [portail, position, "Portail de destination du lien."]
 
@@ -138,6 +140,7 @@ function:
     fct_name: attaquer
     fct_summary: Attaque le portail où se trouve votre agent.
     fct_ret_type: erreur
+    fct_action: yes
     fct_arg:
       - [energie, int, "Quantité d'énergie à retrancher au portail visé."]
 
@@ -145,6 +148,7 @@ function:
     fct_name: deplacer
     fct_summary: Déplace votre agent sur la case passée en argument.
     fct_ret_type: erreur
+    fct_action: yes
     fct_arg:
       - [dest, position, "Case de destination."]
 
@@ -152,6 +156,7 @@ function:
     fct_name: recharger
     fct_summary: Recharge le portail sur la case passé en argument.
     fct_ret_type: erreur
+    fct_action: yes
     fct_arg:
       - [portail, position, "Portail à recharger"]
 
@@ -159,6 +164,7 @@ function:
     fct_name: ajouter_bouclier
     fct_summary: Ajoute un bouclier au portail sur lequel se trouve votre agent.
     fct_ret_type: erreur
+    fct_action: yes
     fct_arg: []
 
   -
@@ -166,12 +172,14 @@ function:
     fct_summary: "Fait passer le portail où se situe votre agent à l'autre
                   joueur."
     fct_ret_type: erreur
+    fct_action: yes
     fct_arg: []
 
   -
     fct_name: utiliser_turbo
     fct_summary: Utilise un turbo de vitesse.
     fct_ret_type: erreur
+    fct_action: yes
     fct_arg: []
 
 # Fonctions de query sur les champs / les liens
