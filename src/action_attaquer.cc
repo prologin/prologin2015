@@ -9,7 +9,7 @@ ActionAttaquer::ActionAttaquer(int energie, int player_id)
 }
 
 ActionAttaquer::ActionAttaquer()
-    : energie_({-1,-1})
+    : energie_(-1)
     , player_id_(-1)
 {
 }
