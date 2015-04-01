@@ -2,7 +2,7 @@
 #include "actions.hh"
 
 Rules::Rules(const rules::Options opt)
-    : // FIXME inheritance
+    : TurnBasedRules(opt)
     , sandbox_(opt.time)
 {
     if (!opt.champion_lib.empty())
@@ -65,15 +65,8 @@ Rules::~Rules()
     delete champion_dll_;
 }
 
-
-// FIXME
-// If you inherit from TurnBasedRules or SynchronousRules,
-// keep 1) and delete 2) ; else, keep 2) and delete 1)
-
-// 1)
 rules::Actions* Rules::get_actions()
 {
-    // FIXME
     return api_->actions();
 }
 
@@ -88,23 +81,4 @@ bool Rules::is_finished()
     // FIXME
     return true;
 }
-// end 1)
-
-// 2)
-void Rules::client_loop(rules::ClientMessenger_sptr msgr)
-{
-    // FIXME
-}
-
-void Rules::spectator_loop(rules::ClientMessenger_sptr msgr)
-{
-    // FIXME
-}
-
-void Rules::server_loop(rules::ServerMessenger_sptr msgr)
-{
-    // FIXME
-}
-
-// end 2)
 

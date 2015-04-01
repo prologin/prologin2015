@@ -9,7 +9,7 @@ ActionDeplacer::ActionDeplacer(position dest, int player_id)
 }
 
 ActionDeplacer::ActionDeplacer()
-    : dest_(FIXME)
+    : dest_({-1,-1})
     , player_id_(-1)
 {
 }

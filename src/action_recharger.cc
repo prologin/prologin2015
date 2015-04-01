@@ -9,7 +9,7 @@ ActionRecharger::ActionRecharger(position portail, int player_id)
 }
 
 ActionRecharger::ActionRecharger()
-    : portail_(FIXME)
+    : portail_({-1,-1})
     , player_id_(-1)
 {
 }

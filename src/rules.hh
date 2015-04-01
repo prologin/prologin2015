@@ -12,26 +12,15 @@
 
 #include "api.hh"
 
-class Rules : // FIXME inheritance
+class Rules : public rules::TurnBasedRules
 {
 public:
     explicit Rules(const rules::Options opt);
     virtual ~Rules();
 
-    // FIXME
-    // If you inherit from TurnBasedRules or SynchronousRules,
-    // keep 1) and delete 2) ; else, keep 2) and delete 1)
-
-    // 1)
     virtual rules::Actions* get_actions();
     virtual void apply_action(const rules::IAction_sptr& action);
     virtual bool is_finished();
-
-    // 2)
-    virtual void client_loop(rules::ClientMessenger_sptr msgr);
-    virtual void spectator_loop(rules::ClientMessenger_sptr msgr);
-    virtual void server_loop(rules::ServerMessenger_sptr msgr);
-
 
 protected:
     // FIXME

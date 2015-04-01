@@ -9,7 +9,7 @@ ActionLier::ActionLier(position portail, int player_id)
 }
 
 ActionLier::ActionLier()
-    : portail_(FIXME)
+    : portail_({-1,-1})
     , player_id_(-1)
 {
 }
