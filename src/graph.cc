@@ -34,11 +34,6 @@ void Graph::remove_incident_edges(int v)
     adj_list_[v].clear();
 }
 
-const std::set<int>& Graph::neighbors(int v) const
-{
-    return adj_list_[v];
-}
-
 std::vector<ipair> Graph::edges() const
 {
     std::vector<ipair> edges;

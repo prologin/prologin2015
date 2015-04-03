@@ -24,10 +24,13 @@ public:
     void remove_edge(ipair e);
     void remove_incident_edges(int v);
 
+    const std::vector<std::set<int>>& adj_list() const {
+        return adj_list_;
+    }
+
     // This interface causes unnecessary copying
     // but iterators and higher-order functions are too cumbersome…
     // TODO: memoize to avoid recomputing when nothing has changed
-    const std::set<int>& neighbors(int v) const;
     std::vector<ipair> edges() const;
     std::vector<itriple> triangles() const;
     std::vector<ipair> incident_triangles(int v) const;

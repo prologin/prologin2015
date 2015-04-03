@@ -32,3 +32,17 @@ bool segments_intersect(const position& a, const position& b,
         || (d4 == 0 && on_segment(a, b, d) && d != a && d != b);
 }
 
+// Fast point-in-triangle testing taken from StackOverflow
+// (s and t are barycentric coordinates up to a factor)
+bool point_in_triangle(const position& a, const position& b, const position& c,
+                       const position& p)
+{
+    int area_twice = determinant(a, b, a, c);
+    int sign = area_twice < 0 ? -1 : 1;
+    int s = (a.y * c.x - a.x * c.y + (c.y - a.y) * p.x + (a.x - c.x) * p.y) * sign;
+    int t = (a.x * b.y - a.y * b.x + (a.y - b.y) * p.x + (b.x - a.x) * p.y) * sign;
+
+    return s > 0 && t > 0 && (s + t) < area_twice * sign;
+}
+
+

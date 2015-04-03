@@ -29,5 +29,8 @@ inline int determinant(const position& a, const position& b,
 bool segments_intersect(const position& a, const position& b,
                         const position& c, const position& d);
 
+bool point_in_triangle(const position& a, const position& b, const position& c,
+                       const position& p);
+
 #endif /* !GEOMETRY_HH */
 
