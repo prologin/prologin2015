@@ -1,0 +1,41 @@
+// FIXME License notice
+
+#ifndef GRAPH_HH
+#define GRAPH_HH
+
+#include "constant.hh"
+
+#include <set>
+#include <vector>
+#include <utility>
+#include <tuple>
+
+typedef std::pair<int,int> ipair;
+typedef std::tuple<int,int,int> itriple;
+
+class Graph
+{
+public:
+    Graph(int size);
+    Graph(const Graph& g);
+
+    bool edge_exists(ipair e) const;
+    void add_edge(ipair e);
+    void remove_edge(ipair e);
+    void remove_incident_edges(int v);
+
+    // This interface causes unnecessary copying
+    // but iterators and higher-order functions are too cumbersome…
+    // TODO: memoize to avoid recomputing when nothing has changed
+    const std::set<int>& neighbors(int v) const;
+    std::vector<ipair> edges() const;
+    std::vector<itriple> triangles() const;
+    std::vector<ipair> incident_triangles(int v) const;
+    std::vector<int> incident_triangles(ipair e) const;
+
+private:
+    std::vector<std::set<int>> adj_list_;
+}
+
+#endif /* !GRAPH_HH */
+
