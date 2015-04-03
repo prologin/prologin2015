@@ -13,6 +13,7 @@
 #include "action_utiliser_turbo.hh"
 
 enum action_id {
+    ID_ACTION_ACK,
     ID_ACTION_CAPTURER,
     ID_ACTION_LIER,
     ID_ACTION_ATTAQUER,
