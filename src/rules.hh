@@ -12,6 +12,10 @@
 
 #include "api.hh"
 
+typedef void (*f_champion_partie_init)();
+typedef void (*f_champion_jouer_tour)();
+typedef void (*f_champion_partie_fin)();
+
 class Rules : public rules::TurnBasedRules
 {
 public:
@@ -22,15 +26,27 @@ public:
     virtual void apply_action(const rules::IAction_sptr& action);
     virtual bool is_finished();
 
-protected:
-    // FIXME
-    // include user functions here
+    virtual void at_start();
+    virtual void at_client_start();
+    virtual void at_spectator_start();
+    virtual void at_client_end();
+    virtual void at_spectator_end();
+
+    virtual void player_turn();
+    virtual void spectator_turn();
+
+    virtual void start_of_turn();
+    virtual void end_of_turn();
     
+protected:
+    f_champion_partie_init champion_partie_init_;
+    f_champion_jouer_tour champion_jouer_tour_;
+    f_champion_partie_fin champion_partie_fin_;
+
 private:
     utils::DLL* champion_dll_;
     Api* api_;
     utils::Sandbox sandbox_;
-    // FIXME
 };
 
 #endif // !RULES_RULES_HH_
