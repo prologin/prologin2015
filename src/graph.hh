@@ -38,7 +38,7 @@ public:
 
 private:
     std::vector<std::set<int>> adj_list_;
-}
+};
 
 #endif /* !GRAPH_HH */
 

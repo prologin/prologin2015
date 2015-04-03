@@ -17,7 +17,7 @@ public:
     virtual void handle_buffer(utils::Buffer&);
 
     uint32_t player_id() const;
-    uint32_t id() const
+    uint32_t id() const;
 
 protected:
     virtual void apply_on(GameState*) const { }

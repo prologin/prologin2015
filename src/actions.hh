@@ -3,6 +3,7 @@
 #ifndef ACTIONS_HH
 #define ACTIONS_HH
 
+#include "action_ack.hh"
 #include "action_capturer.hh"
 #include "action_lier.hh"
 #include "action_attaquer.hh"

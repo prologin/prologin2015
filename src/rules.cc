@@ -15,11 +15,11 @@ Rules::Rules(const rules::Options opt)
     {
         champion_dll_ = new utils::DLL(opt.champion_lib);
         champion_partie_init_ =
-            champion_->get<f_champion_partie_init>("partie_init");
+            champion_dll_->get<f_champion_partie_init>("partie_init");
         champion_jouer_tour_ =
-            champion_->get<f_champion_jouer_tour>("jouer_tour");
+            champion_dll_->get<f_champion_jouer_tour>("jouer_tour");
         champion_partie_fin_ =
-            champion_->get<f_champion_partie_fin>("partie_fin");
+            champion_dll_->get<f_champion_partie_fin>("partie_fin");
     }
     else
         champion_dll_ = nullptr;
@@ -102,32 +102,32 @@ void Rules::at_start()
 
 void Rules::at_client_start()
 {
-    sandbox_.execute(champion_partie_init);
+    sandbox_.execute(champion_partie_init_);
 }
 
 void Rules::at_spectator_start()
 {
-    champion_partie_init();
+    champion_partie_init_();
 }
 
 void Rules::at_client_end()
 {
-    sandbox_.execute(champion_partie_fin);
+    sandbox_.execute(champion_partie_fin_);
 }
 
 void Rules::at_spectator_end()
 {
-    champion_partie_fin();
+    champion_partie_fin_();
 }
 
 void Rules::player_turn()
 {
-    sandbox_.execute(champion_jouer_tour);
+    sandbox_.execute(champion_jouer_tour_);
 }
 
 void Rules::spectator_turn()
 {
-    champion_jouer_tour();
+    champion_jouer_tour_();
     // CHECK: j'ai pas compris comment ça marche ce truc
     api_->actions()->add(
             rules::IAction_sptr(new ActionAck(api_->player()->id)));
