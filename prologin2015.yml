@@ -114,35 +114,21 @@ struct:
       - [x, int, "Coordonnée en X"]
       - [y, int, "Coordonnée en Y"]
   -
-    str_name: segment
-    str_summary: Représente un segment reliant deux positions,
-                 qui ne correspond pas forcément à un lien présent.
-    str_tuple: yes
-    str_field:
-      - [extr1, position, "Première extrémité du segment."]
-      - [extr2, position, "Seconde extrémité du segment."]
-  -
     str_name: lien
     str_summary: Représente un lien existant.
     str_tuple: no
     str_field:
-      - [seg, segment, "Segment correspondant au lien."]
+      - [extr1, position, "Première extrémité du lien."]
+      - [extr2, position, "Seconde extrémité du lien."]
       - [joueur, int, "Joueur possédant ce lien."]
-  -
-    str_name: triangle
-    str_summary: Représente un triangle,
-                 qui ne correspond pas forcément à un champ présent.
-    str_tuple: yes
-    str_field:
-      - [som1, position, "Premier sommet du triangle."]
-      - [som2, position, "Deuxième sommet du triangle."]
-      - [som3, position, "Troisième sommet du triangle."]
   -
     str_name: champ
     str_summary: Représente un champ de contrôle existant.
     str_tuple: no
     str_field:
-      - [tri, triangle, "Triangle correspondant au champ."]
+      - [som1, position, "Premier sommet du champ."]
+      - [som2, position, "Deuxième sommet du champ."]
+      - [som3, position, "Troisième sommet du champ."]
       - [joueur, int, "Joueur possédant ce champ."]
 
 function:
@@ -350,7 +336,9 @@ function:
                  tour un champ existant ou hypothétique.
     fct_ret_type: int
     fct_arg:
-      - [tri, triangle, "Triangle qu'occuperait le champ."]
+      - [som1, position, "Premier sommet du triangle."]
+      - [som2, position, "Deuxième sommet du triangle."]
+      - [som3, position, "Troisième sommet du triangle."]
   -
     fct_name: intersection_segments
     fct_summary: Indique si deux segments se croisent.
@@ -360,8 +348,10 @@ function:
                  deux segments.
     fct_ret_type: bool
     fct_arg:
-      - [seg1, segment, "Premier segment."]
-      - [seg1, segment, "Second segment."]
+      - [a1, position, "Première extrémité du premier segment."]
+      - [a2, position, "Seconde extrémité du premier segment."]
+      - [b1, position, "Première extrémité du second segment."]
+      - [b2, position, "Seconde extrémité du second segment."]
 
 # Autre
   -
