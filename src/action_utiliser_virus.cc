@@ -16,7 +16,7 @@ int ActionUtiliserVirus::check(const GameState* st) const
 {
     CHECK_PA(COUT_VIRUS);
     CHECK_PORTAL_HERE();
-    PROHIBIT_NEUTRAL_PORTAL(OWN_PORTAL);
+    PROHIBIT_NEUTRAL_PORTAL(portal_here);
     return 0;
 }
 
