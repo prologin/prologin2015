@@ -98,7 +98,9 @@ enum:
       - [aucun_portail, "La position spécifiée n'est pas un portail."]
       - [position_invalide, "La position spécifiée est hors de la carte."]
       - [position_eloignee, "La destination est trop éloignée."]
-      - [portail_ennemi, "Le portail ne vous appartient pas, ou est neutre."]
+      - [portail_ami, "Le portail vous appartient."]
+      - [portail_neutre, "Le portail est neutre."]
+      - [portail_ennemi, "Le portail ne vous appartient pas."]
       - [lien_intersection, "Le lien croise un lien existant."]
       - [lien_champ, "Le lien se trouve dans un champ existant."]
       - [limite_boucliers, "Ce portail est équipé du nombre maximal de
