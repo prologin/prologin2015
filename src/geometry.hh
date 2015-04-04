@@ -5,6 +5,8 @@
 
 #include "constant.hh"
 
+#include <cstdlib>
+
 inline bool operator==(const position& a, const position& b)
 {
     return a.x == b.x && a.y == b.y;
@@ -13,6 +15,21 @@ inline bool operator==(const position& a, const position& b)
 inline bool operator!=(const position& a, const position& b)
 {
     return !(a == b);
+}
+
+inline int l1_norm(int x, int y)
+{
+    return abs(x) + abs(y);
+}
+
+inline int l1_distance(int x1, int y1, int x2, int y2)
+{
+    return l1_norm(x1-x2, y1-y2);
+}
+
+inline int l1_distance(const position& a, const position& b)
+{
+    return l1_distance(a.x, a.y, b.x, b.y);
 }
 
 inline int determinant(int x1, int y1, int x2, int y2)

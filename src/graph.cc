@@ -7,6 +7,12 @@ Graph::Graph(int size)
 {
 }
 
+Graph(const Graph& g)
+    : adj_list_(g.adj_list_)
+{
+}
+
+
 bool Graph::edge_exists(ipair e) const
 {
     auto s = adj_list_[e.first];
