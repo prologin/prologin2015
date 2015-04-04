@@ -14,8 +14,8 @@ ActionUtiliserTurbo::ActionUtiliserTurbo()
 
 int ActionUtiliserTurbo::check(const GameState* st) const
 {
-    // FIXME
-    return 0;
+    CHECK_PA(COUT_TURBO);
+    return OK;
 }
 
 void ActionUtiliserTurbo::handle_buffer(utils::Buffer& buf)
@@ -25,7 +25,7 @@ void ActionUtiliserTurbo::handle_buffer(utils::Buffer& buf)
 
 void ActionUtiliserTurbo::apply_on(GameState* st) const
 {
-    // FIXME
+    st->increment_move_points(player_id, GAIN_TURBO);
 }
 
 uint32_t ActionUtiliserTurbo::player_id() const

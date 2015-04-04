@@ -14,7 +14,9 @@ ActionUtiliserVirus::ActionUtiliserVirus()
 
 int ActionUtiliserVirus::check(const GameState* st) const
 {
-    // FIXME
+    CHECK_PA(COUT_VIRUS);
+    CHECK_PORTAL_HERE();
+    PROHIBIT_NEUTRAL_PORTAL(OWN_PORTAL);
     return 0;
 }
 
@@ -25,7 +27,9 @@ void ActionUtiliserVirus::handle_buffer(utils::Buffer& buf)
 
 void ActionUtiliserVirus::apply_on(GameState* st) const
 {
-    // FIXME
+    CONSUME_PA(COUT_VIRUS);
+    PORTAL_HERE();
+    capture(portal_here, st->get_opponent(st->owner(portal_here)));
 }
 
 uint32_t ActionUtiliserVirus::player_id() const

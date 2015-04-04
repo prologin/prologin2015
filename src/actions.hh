@@ -13,6 +13,8 @@
 #include "action_utiliser_virus.hh"
 #include "action_utiliser_turbo.hh"
 
+#include "constant.hh"
+
 enum action_id {
     ID_ACTION_ACK,
     ID_ACTION_CAPTURER,

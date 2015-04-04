@@ -16,8 +16,12 @@ ActionAttaquer::ActionAttaquer()
 
 int ActionAttaquer::check(const GameState* st) const
 {
-    // FIXME
-    return 0;
+    CHECK_POSITIVE(energie_);
+    CHECK_PA(energie_ * COUT_ATTAQUE);
+    CHECK_PORTAL_HERE();
+    PROHIBIT_OWN_PORTAL(portal_here);
+    PROHIBIT_NEUTRAL_PORTAL(portal_here);
+    return OK;
 }
 
 void ActionAttaquer::handle_buffer(utils::Buffer& buf)
@@ -28,7 +32,11 @@ void ActionAttaquer::handle_buffer(utils::Buffer& buf)
 
 void ActionAttaquer::apply_on(GameState* st) const
 {
-    // FIXME
+    CONSUME_PA(energie_ * COUT_ATTAQUE);
+    PORTAL_HERE();
+    st->increment_energy(portal_here, -energie_);
+    if (st->portal_energy(portal_here) < 0)
+        st->neutralize(portal_here);
 }
 
 uint32_t ActionAttaquer::player_id() const
