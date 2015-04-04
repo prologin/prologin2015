@@ -14,9 +14,15 @@ ActionUtiliserVirus::ActionUtiliserVirus()
 
 int ActionUtiliserVirus::check(const GameState* st) const
 {
-    CHECK_PA(COUT_VIRUS);
-    CHECK_PORTAL_HERE();
-    PROHIBIT_NEUTRAL_PORTAL(portal_here);
+    // Check action points
+    if (st->action_points(player_id_) < (COUT_VIRUS)) return PA_INSUFFISANTS;
+
+    // Check that the agent's current position is a portal
+    int portal_here = st->map()->portal_id_maybe(st->player_pos(player_id_));
+    if (portal_here == -1) return AUCUN_PORTAIL;
+
+    if (st->owner(portal_here) == player_id_) return PORTAIL_NEUTRE;;
+
     return 0;
 }
 
@@ -27,8 +33,10 @@ void ActionUtiliserVirus::handle_buffer(utils::Buffer& buf)
 
 void ActionUtiliserVirus::apply_on(GameState* st) const
 {
-    CONSUME_PA(COUT_VIRUS);
-    PORTAL_HERE();
+    // Consume action points
+    st->action_points(player_id_) -= COUT_VIRUS;
+
+    int portal_here = st->map()->portal_id_maybe(st->player_pos(player_id_));
     capture(portal_here, st->get_opponent(st->owner(portal_here)));
 }
 

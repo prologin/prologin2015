@@ -22,14 +22,26 @@ ActionLier::ActionLier()
 
 int ActionLier::check(const GameState* st) const
 {
-    CHECK_PA(COUT_LIEN);
-    CHECK_POSITION(portail_);
-    CHECK_PORTAL_HERE();
-    CHECK_PORTAL_THERE(portail_);
-    PROHIBIT_ENEMY_PORTAL(portal_here);
-    PROHIBIT_NEUTRAL_PORTAL(portal_here);
-    PROHIBIT_ENEMY_PORTAL(portal_there);
-    PROHIBIT_NEUTRAL_PORTAL(portal_there);
+    // Check action points
+    if (st->action_points(player_id_) < (COUT_LIEN)) return PA_INSUFFISANTS;
+
+    // Check out of bounds
+    if (portail_.x < 0 || portail_.y < 0 ||
+        portail_.x >= TAILLE_TERRAIN || portail_.y >= TAILLE_TERRAIN)
+        return POSITION_INVALIDE;
+
+    // Check that the agent's current position is a portal
+    int portal_here = st->map()->portal_id_maybe(st->player_pos(player_id_));
+    if (portal_here == -1) return AUCUN_PORTAIL;
+
+    // Check that the given position is a portal
+    int portal_there = st->map()->portal_id_maybe(portail_);
+    if (portal_there == -1) return AUCUN_PORTAIL;
+
+    if (st->owner(portal_here) == player_id_) return PORTAIL_ENNEMI;
+    if (st->owner(portal_here) == -1) return PORTAIL_NEUTRE;
+    if (st->owner(portal_there) == player_id_) return PORTAIL_ENNEMI;
+    if (st->owner(portal_there) == -1) return PORTAIL_NEUTRE;
 
     // TODO improve algorithmic efficiency
 
@@ -66,9 +78,11 @@ void ActionLier::handle_buffer(utils::Buffer& buf)
 
 void ActionLier::apply_on(GameState* st) const
 {
-    CONSUME_PA(COUT_LIEN);
-    PORTAL_HERE();
-    PORTAL_THERE(portail_);
+    // Consume action points
+    st->action_points(player_id_) -= COUT_LIEN;
+
+    int portal_here = st->map()->portal_id_maybe(st->player_pos(player_id_));
+    int portal_there = st->map()->portal_id_maybe(portail_);
     st->graph()->add_edge(std::make_pair(portal_here, portal_there));
 }
 

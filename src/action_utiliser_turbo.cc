@@ -14,7 +14,9 @@ ActionUtiliserTurbo::ActionUtiliserTurbo()
 
 int ActionUtiliserTurbo::check(const GameState* st) const
 {
-    CHECK_PA(COUT_TURBO);
+    // Check action points
+    if (st->action_points(player_id_) < (COUT_TURBO)) return PA_INSUFFISANTS;
+
     return OK;
 }
 

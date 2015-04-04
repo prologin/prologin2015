@@ -18,7 +18,11 @@ ActionDeplacer::ActionDeplacer()
 
 int ActionDeplacer::check(const GameState* st) const
 {
-    CHECK_POSITION(dest_);
+    // Check out of bounds
+    if ((pos).x < 0 || (pos).y < 0 ||
+        (pos).x >= TAILLE_TERRAIN || (pos).y >= TAILLE_TERRAIN)
+        return POSITION_INVALIDE;
+
     int p = player_id_;
     if (l1_distance(st->player_pos(p), dest_) > st->move_points(p))
         return POSITION_ELOIGNEE;
