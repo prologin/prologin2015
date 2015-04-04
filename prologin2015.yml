@@ -47,12 +47,12 @@ constant:
     cst_comment: Nombre de points d'actions que coûte l'utilisation d'un virus
 
   -
-    cst_name: COUT_BOOST_VITESSE
+    cst_name: COUT_TURBO_VITESSE
     cst_val: 10
     cst_comment: Nombre de points d'actions que coûte un turbo de vitesse
 
   -
-    cst_name: GAIN_BOOST_VITESSE
+    cst_name: GAIN_TURBO_VITESSE
     cst_val: 1
     cst_comment: Nombre de points de déplacement donnés par le turbo de vitesse
 
@@ -71,7 +71,21 @@ constant:
     cst_val: 20
     cst_comment: Quantité d'énergie supplémentaire conférée à un portail par un bouclier.
 
+  -
+    cst_name: POINTS_CREATION_PORTAIL
+    cst_val: 3
+    cst_comment: Nombre de points que rapporte la création d'un portail.
 
+  -
+    cst_name: POINTS_CREATION_LIEN
+    cst_val: 5
+    cst_comment: Nombre de points que rapporte la création d'un lien.
+
+  -
+    cst_name: POINTS_CHAMP
+    cst_val: 10
+    cst_comment: Constante de proportionnalité reliant l'aire d'un champ
+                 au nombre de points qu'il rapporte par tour.
 
 enum:
   -
@@ -100,21 +114,35 @@ struct:
       - [x, int, "Coordonnée en X"]
       - [y, int, "Coordonnée en Y"]
   -
+    str_name: segment
+    str_summary: Représente un segment reliant deux positions,
+                 qui ne correspond pas forcément à un lien présent.
+    str_tuple: yes
+    str_field:
+      - [extr1, position, "Première extrémité du segment."]
+      - [extr2, position, "Seconde extrémité du segment."]
+  -
     str_name: lien
-    str_summary: Représente un lien
+    str_summary: Représente un lien existant.
     str_tuple: no
     str_field:
-      - [extr1, position, "Première extrémité du lien."]
-      - [extr2, position, "Seconde extrémité du lien."]
+      - [seg, segment, "Segment correspondant au lien."]
       - [joueur, int, "Joueur possédant ce lien."]
   -
+    str_name: triangle
+    str_summary: Représente un triangle,
+                 qui ne correspond pas forcément à un champ présent.
+    str_tuple: yes
+    str_field:
+      - [som1, position, "Premier sommet du triangle."]
+      - [som2, position, "Deuxième sommet du triangle."]
+      - [som3, position, "Troisième sommet du triangle."]
+  -
     str_name: champ
-    str_summary: Représente un champ de contrôle.
+    str_summary: Représente un champ de contrôle existant.
     str_tuple: no
     str_field:
-      - [som1, position, "Premier sommet du champ."]
-      - [som2, position, "Deuxième sommet du champ."]
-      - [som3, position, "Troisième sommet du champ."]
+      - [tri, triangle, "Triangle correspondant au champ."]
       - [joueur, int, "Joueur possédant ce champ."]
 
 function:
@@ -307,6 +335,33 @@ function:
     fct_ret_type: position array
     fct_arg: []
 
+# Algorithmes offerts gratuitement
+
+  -
+    fct_name: distance
+    fct_summary: Retourne la distance entre deux positions
+    fct_ret_type: int
+    fct_arg:
+      - [pos1, position, "Première position"]
+      - [pos2, position, "Seconde position"]
+  -
+    fct_name: score_triangle
+    fct_summary: Renvoie le nombre de points que rapporte(rait) chaque
+                 tour un champ existant ou hypothétique.
+    fct_ret_type: int
+    fct_arg:
+      - [tri, triangle, "Triangle qu'occuperait le champ."]
+  -
+    fct_name: intersection_segments
+    fct_summary: Indique si deux segments se croisent.
+                 Cette fonction correspond exactement à la condition
+                 d'interférence entre liens, c'est-à-dire qu'elle renvoie
+                 ``false`` si l'intersection est une extrémité des
+                 deux segments.
+    fct_ret_type: bool
+    fct_arg:
+      - [seg1, segment, "Premier segment."]
+      - [seg1, segment, "Second segment."]
 
 # Autre
   -
@@ -325,13 +380,6 @@ function:
     fct_ret_type: position
     fct_arg:
       - [id_joueur, int, "Numéro du joueur."]
-  -
-    fct_name: distance
-    fct_summary: Retourne la distance entre deux positions
-    fct_ret_type: int
-    fct_arg:
-      - [pos1, position, "Première position"]
-      - [pos2, position, "Seconde position"]
   -
     fct_name: score
     fct_summary: Retourne le score du joueur désigné par le numéro ``id_joueur``.
