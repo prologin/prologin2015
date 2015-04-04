@@ -7,10 +7,28 @@ GameState::GameState(Map* map, rules::Players_sptr players)
     : rules::GameState()
     , players_(players)
     , map_(map)
-    , graph_(map->num_portals())
     , current_turn_(0)
+    , graph_(map->num_portals())
+    , portal_player_(map->num_portals(), -1)
+    , portal_energy_(map->num_portals(), ENERGIE_PORTAIL)
+      // , portal_shields_(map->num_portals(), 0)
 {
-    // FIXME
+    int player_ordinal = 0;
+    for (auto& p : players_->players)
+    {
+        if (player_ordinal > 2)
+            FATAL("This game cannot accomodate more than two players.");
+        if (p->type == rules::PLAYER)
+        {
+            player_info_[p->id] = (player_info) {
+                .action_points = NB_POINTS_ACTION,
+                .move_points = NB_POINTS_DEPLACEMENT,
+                .pos = map_->get_start_position(player_ordinal),
+                .score = &(p->score)
+            };
+            player_ordinal++;
+        }
+    }
 }
 
 GameState::GameState(const GameState& st)
@@ -19,8 +37,18 @@ GameState::GameState(const GameState& st)
     , map_(st.map_)
     , current_turn_(st.current_turn_)
     , graph_(st.graph_)
+    , portal_player_(st.portal_player_)
+    , portal_energy_(st.portal_energy_)
+    // , portal_shields_(st.portal_shields_)
+    , player_info_(st.player_info)
 {
-    // FIXME
+    // I think that's the default copy constructor?
+    // CHECK : can we remove this declaration?
+}
+
+
+GameState::~GameState()
+{
 }
 
 rules::GameState* GameState::copy() const
@@ -43,8 +71,83 @@ bool GameState::is_finished() const
     return current_turn_ > NB_TOURS;
 }
 
-
-GameState::~GameState()
+int get_opponent(int player_id) const
 {
-    // FIXME
+    for (auto& pair : player_info_)
+        if (pair.first != player_id)
+            return pair.first;
+    return -1;
 }
+
+int get_score(int player_id) const
+{
+    return *(player_info_.at(player_id).score);
+}
+
+void increment_score(int player_id, int delta)
+{
+    *(player_info_.at(player_id).score) += delta;
+}
+
+int portal_energy(int portal_id) const
+{
+    return portal_energy_[portal_id];
+}
+
+int owner(int portal_id) const
+{
+    return portal_player_[portal_id]
+}
+
+void increment_energy(int portal_id, int delta)
+{
+    portal_energy_[portal_id]++;
+}
+
+void neutralize(int portal_id)
+{
+    portal_player_[portal_id] = -1;
+}
+
+void capture(int portal_id, int player_id)
+{
+    portal_player_[portal_id] = player_id;
+    // TODO reset energy and shields
+}
+
+int action_points(int player_id) const
+{
+    return player_info.at(player_id).action_points;
+}
+
+int move_points(int player_id) const
+{
+    return player_info.at(player_id).move_points;
+}
+
+void decrement_action_points(int player_id, int delta)
+{
+    player_info.at(player_id).action_points -= delta;
+}
+
+void increment_move_points(int player_id, int delta)
+{
+    player_info.at(player_id).move_points += delta;
+}
+
+const position& portal_pos(int portal_id) const
+{
+    return map_->get_portals()[portal_id];
+}
+
+const position& player_pos(int player_id) const
+{
+    return player_info.at(player_id).pos;
+}
+
+void set_pos(int player_id, const position& position);
+{
+    player_info.at(player_id).pos = position;
+}
+
+
