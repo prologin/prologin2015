@@ -58,7 +58,7 @@ constant:
     cst_val: 1
     cst_comment: Nombre de points de déplacement donnés par le turbo
 
- -
+  -
     cst_name: MAX_BOUCLIERS
     cst_val: 4
     cst_comment: Nombre maximum de boucliers sur un même portail.
@@ -67,7 +67,6 @@ constant:
     cst_name: POINTS_CREATION_PORTAIL
     cst_val: 3
     cst_comment: Nombre de points que rapporte la création d'un portail.
-
   -
     cst_name: POINTS_CREATION_LIEN
     cst_val: 5
