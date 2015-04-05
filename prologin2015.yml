@@ -64,7 +64,7 @@ constant:
     cst_val: 1
     cst_comment: Nombre de points de déplacement donnés par le turbo
 
- -
+  -
     cst_name: MAX_BOUCLIERS
     cst_val: 4
     cst_comment: Nombre maximum de boucliers sur un même portail.
