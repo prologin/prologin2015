@@ -19,8 +19,8 @@ ActionDeplacer::ActionDeplacer()
 int ActionDeplacer::check(const GameState* st) const
 {
     // Check out of bounds
-    if ((pos).x < 0 || (pos).y < 0 ||
-        (pos).x >= TAILLE_TERRAIN || (pos).y >= TAILLE_TERRAIN)
+    if (dest_.x < 0 || dest_.y < 0 ||
+        dest_.x >= TAILLE_TERRAIN || dest_.y >= TAILLE_TERRAIN)
         return POSITION_INVALIDE;
 
     int p = player_id_;
@@ -37,8 +37,9 @@ void ActionDeplacer::handle_buffer(utils::Buffer& buf)
 
 void ActionDeplacer::apply_on(GameState* st) const
 {
-    st->set_pos(player_id_, dest);
-    st->increment_move_points(player_id_, -l1_distance(TODO, dest_));
+    st->set_pos(player_id_, dest_);
+    st->increment_move_points(player_id_,
+                              -l1_distance(st->player_pos(player_id_), dest_));
 }
 
 uint32_t ActionDeplacer::player_id() const

@@ -40,8 +40,8 @@ public:
 
     const Graph& graph() const { return graph_; }
     Graph& graph() { return graph_; }
-    const Map& map() const { return map_; }
-    Map& map() { return map_; }
+    const Map& map() const { return *map_; }
+    Map& map() { return *map_; }
 
     int portal_energy(int portal_id) const;
     int owner(int portal_id) const;

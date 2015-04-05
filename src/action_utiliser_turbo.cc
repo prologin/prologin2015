@@ -27,7 +27,7 @@ void ActionUtiliserTurbo::handle_buffer(utils::Buffer& buf)
 
 void ActionUtiliserTurbo::apply_on(GameState* st) const
 {
-    st->increment_move_points(player_id, GAIN_TURBO);
+    st->increment_move_points(player_id_, GAIN_TURBO);
 }
 
 uint32_t ActionUtiliserTurbo::player_id() const

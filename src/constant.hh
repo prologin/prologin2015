@@ -61,12 +61,12 @@
 ///
 // Nombre de points d'actions que coûte un turbo de vitesse
 //
-# define COUT_BOOST_VITESSE        10
+# define COUT_TURBO        10
 
 ///
 // Nombre de points de déplacement donnés par le turbo de vitesse
 //
-# define GAIN_BOOST_VITESSE        1
+# define GAIN_TURBO        1
 
 ///
 // L'énergie initiale d'un portal après sa capture
@@ -92,6 +92,8 @@ typedef enum erreur {
   AUCUN_PORTAIL, /* <- La position spécifiée n'est pas un portail. */
   POSITION_INVALIDE, /* <- La position spécifiée est hors de la carte. */
   POSITION_ELOIGNEE, /* <- La destination est trop éloignée. */
+  PORTAIL_AMI, /* <- Le portail ne vous appartient pas, ou est neutre. */
+  PORTAIL_NEUTRE, /* <- Le portail ne vous appartient pas, ou est neutre. */
   PORTAIL_ENNEMI, /* <- Le portail ne vous appartient pas, ou est neutre. */
   LIEN_INTERSECTION, /* <- Le lien croise un lien existant. */
   LIEN_CHAMP, /* <- Le lien se trouve dans un champ existant. */

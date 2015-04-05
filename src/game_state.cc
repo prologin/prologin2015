@@ -40,7 +40,7 @@ GameState::GameState(const GameState& st)
     , portal_player_(st.portal_player_)
     , portal_energy_(st.portal_energy_)
     // , portal_shields_(st.portal_shields_)
-    , player_info_(st.player_info)
+    , player_info_(st.player_info_)
 {
     // I think that's the default copy constructor?
     // CHECK : can we remove this declaration?
@@ -71,7 +71,7 @@ bool GameState::is_finished() const
     return current_turn_ > NB_TOURS;
 }
 
-int get_opponent(int player_id) const
+int GameState::get_opponent(int player_id) const
 {
     for (auto& pair : player_info_)
         if (pair.first != player_id)
@@ -79,75 +79,75 @@ int get_opponent(int player_id) const
     return -1;
 }
 
-int get_score(int player_id) const
+int GameState::get_score(int player_id) const
 {
     return *(player_info_.at(player_id).score);
 }
 
-void increment_score(int player_id, int delta)
+void GameState::increment_score(int player_id, int delta)
 {
     *(player_info_.at(player_id).score) += delta;
 }
 
-int portal_energy(int portal_id) const
+int GameState::portal_energy(int portal_id) const
 {
     return portal_energy_[portal_id];
 }
 
-int owner(int portal_id) const
+int GameState::owner(int portal_id) const
 {
-    return portal_player_[portal_id]
+    return portal_player_[portal_id];
 }
 
-void increment_energy(int portal_id, int delta)
+void GameState::increment_energy(int portal_id, int delta)
 {
     portal_energy_[portal_id]++;
 }
 
-void neutralize(int portal_id)
+void GameState::neutralize(int portal_id)
 {
     portal_player_[portal_id] = -1;
 }
 
-void capture(int portal_id, int player_id)
+void GameState::capture(int portal_id, int player_id)
 {
     portal_player_[portal_id] = player_id;
     // TODO reset energy and shields
 }
 
-int action_points(int player_id) const
+int GameState::action_points(int player_id) const
 {
-    return player_info.at(player_id).action_points;
+    return player_info_.at(player_id).action_points;
 }
 
-int move_points(int player_id) const
+int GameState::move_points(int player_id) const
 {
-    return player_info.at(player_id).move_points;
+    return player_info_.at(player_id).move_points;
 }
 
-void decrement_action_points(int player_id, int delta)
+void GameState::decrement_action_points(int player_id, int delta)
 {
-    player_info.at(player_id).action_points -= delta;
+    player_info_.at(player_id).action_points -= delta;
 }
 
-void increment_move_points(int player_id, int delta)
+void GameState::increment_move_points(int player_id, int delta)
 {
-    player_info.at(player_id).move_points += delta;
+    player_info_.at(player_id).move_points += delta;
 }
 
-const position& portal_pos(int portal_id) const
+const position& GameState::portal_pos(int portal_id) const
 {
     return map_->get_portals()[portal_id];
 }
 
-const position& player_pos(int player_id) const
+const position& GameState::player_pos(int player_id) const
 {
-    return player_info.at(player_id).pos;
+    return player_info_.at(player_id).pos;
 }
 
-void set_pos(int player_id, const position& position);
+void GameState::set_pos(int player_id, const position& position)
 {
-    player_info.at(player_id).pos = position;
+    player_info_.at(player_id).pos = position;
 }
 
 
