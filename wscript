@@ -10,11 +10,10 @@ def build(bld):
     bld.shlib(
         source = '''
             src/action_ajouter_bouclier.cc
-            src/action_attaquer.cc
             src/action_capturer.cc
+            src/action_detruire.cc
             src/action_deplacer.cc
             src/action_lier.cc
-            src/action_recharger.cc
             src/action_utiliser_turbo.cc
             src/action_utiliser_virus.cc
             src/api.cc
