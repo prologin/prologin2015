@@ -59,11 +59,11 @@ erreur Api::lier(position portail)
 }
 
 ///
-// Attaque le portail où se trouve votre agent.
+// Détruit le portail où se trouve votre agent.
 //
-erreur Api::attaquer(int energie)
+erreur Api::detruire()
 {
-    rules::IAction_sptr action(new ActionAttaquer(energie, player_->id));
+    rules::IAction_sptr action(new ActionDetruire(player_->id));
 
     erreur err;
     if ((err = static_cast<erreur>(action->check(game_state_))) != OK)
@@ -80,22 +80,6 @@ erreur Api::attaquer(int energie)
 erreur Api::deplacer(position dest)
 {
     rules::IAction_sptr action(new ActionDeplacer(dest, player_->id));
-
-    erreur err;
-    if ((err = static_cast<erreur>(action->check(game_state_))) != OK)
-        return err;
-
-    actions_.add(action);
-    game_state_set(action->apply(game_state_));
-    return OK;
-}
-
-///
-// Recharge le portail sur la case passé en argument.
-//
-erreur Api::recharger(position portail)
-{
-    rules::IAction_sptr action(new ActionRecharger(portail, player_->id));
 
     erreur err;
     if ((err = static_cast<erreur>(action->check(game_state_))) != OK)
@@ -139,7 +123,7 @@ erreur Api::utiliser_virus()
 }
 
 ///
-// Utilise un turbo de vitesse.
+// Utilise un turbo.
 //
 erreur Api::utiliser_turbo()
 {
@@ -299,6 +283,33 @@ std::vector<position> Api::hist_champs_crees()
 }
 
 ///
+// Retourne la distance entre deux positions
+//
+int Api::distance(position pos1, position pos2)
+{
+  // TODO
+  abort();
+}
+
+///
+// Renvoie le nombre de points que rapporte(rait) chaque tour un champ existant ou hypothétique.
+//
+int Api::score_triangle(position som1, position som2, position som3)
+{
+  // TODO
+  abort();
+}
+
+///
+// Indique si deux segments se croisent. Cette fonction correspond exactement à la condition d'interférence entre liens, c'est-à-dire qu'elle renvoie ``false`` si l'intersection est une extrémité des deux segments.
+//
+bool Api::intersection_segments(position a1, position a2, position b1, position b2)
+{
+  // TODO
+  abort();
+}
+
+///
 // Renvoie votre numéro de joueur.
 //
 int Api::moi()
@@ -320,15 +331,6 @@ int Api::adversaire()
 // Indique la position de l'agent du joueur désigné par le numéro ``id_joueur``.
 //
 position Api::position_agent(int id_joueur)
-{
-  // TODO
-  abort();
-}
-
-///
-// Retourne la distance entre deux positions
-//
-int Api::distance(position pos1, position pos2)
 {
   // TODO
   abort();

@@ -59,17 +59,13 @@ public:
 //
    erreur lier(position portail);
 ///
-// Attaque le portail où se trouve votre agent.
+// Détruit le portail où se trouve votre agent.
 //
-   erreur attaquer(int energie);
+   erreur detruire();
 ///
 // Déplace votre agent sur la case passée en argument.
 //
    erreur deplacer(position dest);
-///
-// Recharge le portail sur la case passé en argument.
-//
-   erreur recharger(position portail);
 ///
 // Ajoute un bouclier au portail sur lequel se trouve votre agent.
 //
@@ -79,7 +75,7 @@ public:
 //
    erreur utiliser_virus();
 ///
-// Utilise un turbo de vitesse.
+// Utilise un turbo.
 //
    erreur utiliser_turbo();
 ///
@@ -147,6 +143,18 @@ public:
 //
    std::vector<position> hist_champs_crees();
 ///
+// Retourne la distance entre deux positions
+//
+   int distance(position pos1, position pos2);
+///
+// Renvoie le nombre de points que rapporte(rait) chaque tour un champ existant ou hypothétique.
+//
+   int score_triangle(position som1, position som2, position som3);
+///
+// Indique si deux segments se croisent. Cette fonction correspond exactement à la condition d'interférence entre liens, c'est-à-dire qu'elle renvoie ``false`` si l'intersection est une extrémité des deux segments.
+//
+   bool intersection_segments(position a1, position a2, position b1, position b2);
+///
 // Renvoie votre numéro de joueur.
 //
    int moi();
@@ -158,10 +166,6 @@ public:
 // Indique la position de l'agent du joueur désigné par le numéro ``id_joueur``.
 //
    position position_agent(int id_joueur);
-///
-// Retourne la distance entre deux positions
-//
-   int distance(position pos1, position pos2);
 ///
 // Retourne le score du joueur désigné par le numéro ``id_joueur``.
 //

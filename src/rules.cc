@@ -31,16 +31,12 @@ Rules::Rules(const rules::Options opt)
         []() -> rules::IAction* { return new ActionLier(); }
         );
     api_->actions()->register_action(
-        ID_ACTION_ATTAQUER,
-        []() -> rules::IAction* { return new ActionAttaquer(); }
+        ID_ACTION_DETRUIRE,
+        []() -> rules::IAction* { return new ActionDetruire(); }
         );
     api_->actions()->register_action(
         ID_ACTION_DEPLACER,
         []() -> rules::IAction* { return new ActionDeplacer(); }
-        );
-    api_->actions()->register_action(
-        ID_ACTION_RECHARGER,
-        []() -> rules::IAction* { return new ActionRecharger(); }
         );
     api_->actions()->register_action(
         ID_ACTION_AJOUTER_BOUCLIER,

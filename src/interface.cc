@@ -68,6 +68,8 @@ std::string convert_to_string(erreur in){
     case AUCUN_PORTAIL: return "\"aucun_portail\"";
     case POSITION_INVALIDE: return "\"position_invalide\"";
     case POSITION_ELOIGNEE: return "\"position_eloignee\"";
+    case PORTAIL_AMI: return "\"portail_ami\"";
+    case PORTAIL_NEUTRE: return "\"portail_neutre\"";
     case PORTAIL_ENNEMI: return "\"portail_ennemi\"";
     case LIEN_INTERSECTION: return "\"lien_intersection\"";
     case LIEN_CHAMP: return "\"lien_champ\"";
@@ -176,11 +178,11 @@ extern "C" erreur api_lier(position portail)
 }
 
 ///
-// Attaque le portail où se trouve votre agent.
+// Détruit le portail où se trouve votre agent.
 //
-extern "C" erreur api_attaquer(int energie)
+extern "C" erreur api_detruire()
 {
-  return api->attaquer(energie);
+  return api->detruire();
 }
 
 ///
@@ -189,14 +191,6 @@ extern "C" erreur api_attaquer(int energie)
 extern "C" erreur api_deplacer(position dest)
 {
   return api->deplacer(dest);
-}
-
-///
-// Recharge le portail sur la case passé en argument.
-//
-extern "C" erreur api_recharger(position portail)
-{
-  return api->recharger(portail);
 }
 
 ///
@@ -216,7 +210,7 @@ extern "C" erreur api_utiliser_virus()
 }
 
 ///
-// Utilise un turbo de vitesse.
+// Utilise un turbo.
 //
 extern "C" erreur api_utiliser_turbo()
 {
@@ -352,6 +346,30 @@ extern "C" std::vector<position> api_hist_champs_crees()
 }
 
 ///
+// Retourne la distance entre deux positions
+//
+extern "C" int api_distance(position pos1, position pos2)
+{
+  return api->distance(pos1, pos2);
+}
+
+///
+// Renvoie le nombre de points que rapporte(rait) chaque tour un champ existant ou hypothétique.
+//
+extern "C" int api_score_triangle(position som1, position som2, position som3)
+{
+  return api->score_triangle(som1, som2, som3);
+}
+
+///
+// Indique si deux segments se croisent. Cette fonction correspond exactement à la condition d'interférence entre liens, c'est-à-dire qu'elle renvoie ``false`` si l'intersection est une extrémité des deux segments.
+//
+extern "C" bool api_intersection_segments(position a1, position a2, position b1, position b2)
+{
+  return api->intersection_segments(a1, a2, b1, b2);
+}
+
+///
 // Renvoie votre numéro de joueur.
 //
 extern "C" int api_moi()
@@ -373,14 +391,6 @@ extern "C" int api_adversaire()
 extern "C" position api_position_agent(int id_joueur)
 {
   return api->position_agent(id_joueur);
-}
-
-///
-// Retourne la distance entre deux positions
-//
-extern "C" int api_distance(position pos1, position pos2)
-{
-  return api->distance(pos1, pos2);
 }
 
 ///
@@ -418,6 +428,8 @@ std::ostream& operator<<(std::ostream& os, erreur v)
   case AUCUN_PORTAIL: os << "AUCUN_PORTAIL"; break;
   case POSITION_INVALIDE: os << "POSITION_INVALIDE"; break;
   case POSITION_ELOIGNEE: os << "POSITION_ELOIGNEE"; break;
+  case PORTAIL_AMI: os << "PORTAIL_AMI"; break;
+  case PORTAIL_NEUTRE: os << "PORTAIL_NEUTRE"; break;
   case PORTAIL_ENNEMI: os << "PORTAIL_ENNEMI"; break;
   case LIEN_INTERSECTION: os << "LIEN_INTERSECTION"; break;
   case LIEN_CHAMP: os << "LIEN_CHAMP"; break;
