@@ -37,10 +37,6 @@ Rules::Rules(const rules::Options opt)
 
     // Register actions
     api_->actions()->register_action(
-        ID_ACTION_ACK,
-        []() -> rules::IAction* { return new ActionAck(); }
-        );
-    api_->actions()->register_action(
         ID_ACTION_CAPTURER,
         []() -> rules::IAction* { return new ActionCapturer(); }
         );
@@ -124,9 +120,7 @@ void Rules::player_turn()
 void Rules::spectator_turn()
 {
     champion_jouer_tour_();
-    // CHECK: j'ai pas compris comment ça marche ce truc
-    api_->actions()->add(
-            rules::IAction_sptr(new ActionAck(api_->player()->id)));
+    // No ack?
 }
 
 void Rules::start_of_turn()

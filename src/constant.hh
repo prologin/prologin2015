@@ -142,15 +142,5 @@ typedef struct champ {
 } champ;
 
 
-enum action_id {
-    ID_ACTION_ACK,
-    ID_ACTION_CAPTURER,
-    ID_ACTION_LIER,
-    ID_ACTION_DETRUIRE,
-    ID_ACTION_DEPLACER,
-    ID_ACTION_AJOUTER_BOUCLIER,
-    ID_ACTION_UTILISER_VIRUS,
-    ID_ACTION_UTILISER_TURBO
-};
 
 #endif // !CONSTANT_HH_
