@@ -10,8 +10,7 @@ GameState::GameState(Map* map, rules::Players_sptr players)
     , current_turn_(0)
     , graph_(map->num_portals())
     , portal_player_(map->num_portals(), -1)
-    , portal_energy_(map->num_portals(), ENERGIE_PORTAIL)
-      // , portal_shields_(map->num_portals(), 0)
+    , portal_shields_(map->num_portals(), 0)
 {
     int player_ordinal = 0;
     for (auto& p : players_->players)
@@ -38,8 +37,7 @@ GameState::GameState(const GameState& st)
     , current_turn_(st.current_turn_)
     , graph_(st.graph_)
     , portal_player_(st.portal_player_)
-    , portal_energy_(st.portal_energy_)
-    // , portal_shields_(st.portal_shields_)
+    , portal_shields_(st.portal_shields_)
     , player_info_(st.player_info_)
 {
     // I think that's the default copy constructor?
@@ -89,19 +87,9 @@ void GameState::increment_score(int player_id, int delta)
     *(player_info_.at(player_id).score) += delta;
 }
 
-int GameState::portal_energy(int portal_id) const
-{
-    return portal_energy_[portal_id];
-}
-
 int GameState::owner(int portal_id) const
 {
     return portal_player_[portal_id];
-}
-
-void GameState::increment_energy(int portal_id, int delta)
-{
-    portal_energy_[portal_id]++;
 }
 
 void GameState::neutralize(int portal_id)

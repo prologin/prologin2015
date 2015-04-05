@@ -43,11 +43,12 @@ public:
     const Map& map() const { return *map_; }
     Map& map() { return *map_; }
 
-    int portal_energy(int portal_id) const;
     int owner(int portal_id) const;
-    void increment_energy(int portal_id, int delta);
     void neutralize(int portal_id);
     void capture(int portal_id, int player_id);
+    
+    int num_shields(int portal_id);
+    void add_shield(int portal_id);
 
     int action_points(int player_id) const;
     int move_points(int player_id) const;
@@ -66,8 +67,7 @@ private:
     Graph graph_;
 
     std::vector<int> portal_player_;
-    // std::vector<int8_t> portal_shields_;
-    std::vector<int> portal_energy_;
+    std::vector<int8_t> portal_shields_;
 
     std::map<int, player_info> player_info_;
 };

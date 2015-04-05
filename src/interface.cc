@@ -282,14 +282,6 @@ extern "C" int api_portail_boucliers(position portail)
 }
 
 ///
-// Renvoie la quantité d'énergie restante sur un portail.
-//
-extern "C" int api_portail_energie(position portail)
-{
-  return api->portail_energie(portail);
-}
-
-///
 // Renvoie la liste de tous les liens dont le portail donné est une extrémité.
 //
 extern "C" std::vector<lien> api_liens_incidents_portail(position portail)

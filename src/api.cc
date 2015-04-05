@@ -211,15 +211,6 @@ int Api::portail_boucliers(position portail)
 }
 
 ///
-// Renvoie la quantité d'énergie restante sur un portail.
-//
-int Api::portail_energie(position portail)
-{
-  // TODO
-  abort();
-}
-
-///
 // Renvoie la liste de tous les liens dont le portail donné est une extrémité.
 //
 std::vector<lien> Api::liens_incidents_portail(position portail)

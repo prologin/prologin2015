@@ -110,11 +110,7 @@ public:
 // Renvoie le nombre de boucliers présents sur un portail.
 //
    int portail_boucliers(position portail);
-///
-// Renvoie la quantité d'énergie restante sur un portail.
 //
-   int portail_energie(position portail);
-///
 // Renvoie la liste de tous les liens dont le portail donné est une extrémité.
 //
    std::vector<lien> liens_incidents_portail(position portail);
