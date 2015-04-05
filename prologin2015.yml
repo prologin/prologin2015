@@ -32,14 +32,16 @@ constant:
     cst_comment: Nombre de points d'actions que coûte la création d'un lien
 
   -
-    cst_name: COUT_ATTAQUE
-    cst_val: 2
-    cst_comment: Nombre de points d'actions que coûte l'attaque
+    cst_name: COUT_DESTRUCTION
+    cst_val: 50
+    cst_comment: Nombre de points d'actions que coûte la destruction
+                 d'un portail de base.
 
   -
-    cst_name: COUT_BOUCLIER
-    cst_val: 10
-    cst_comment: Nombre de points d'actions que coûte l'attaque
+    cst_name: COUT_DESTRUCTION_BOUCLIER
+    cst_val: 20
+    cst_comment: Nombre de points d'actions supplémentaires que coûte
+                 l'attaque pour chaque bouclier présent.
 
   -
     cst_name: COUT_VIRUS
@@ -56,20 +58,10 @@ constant:
     cst_val: 1
     cst_comment: Nombre de points de déplacement donnés par le turbo
 
-  -
-    cst_name: ENERGIE_PORTAIL
-    cst_val: 100
-    cst_comment: L'énergie initiale d'un portal après sa capture
-
-  -
+ -
     cst_name: MAX_BOUCLIERS
     cst_val: 4
     cst_comment: Nombre maximum de boucliers sur un même portail.
-
-  -
-    cst_name: ENERGIE_BOUCLIER
-    cst_val: 20
-    cst_comment: Quantité d'énergie supplémentaire conférée à un portail par un bouclier.
 
   -
     cst_name: POINTS_CREATION_PORTAIL
@@ -153,12 +145,11 @@ function:
       - [portail, position, "Portail de destination du lien."]
 
   -
-    fct_name: attaquer
-    fct_summary: Attaque le portail où se trouve votre agent.
+    fct_name: detruire
+    fct_summary: Détruit le portail où se trouve votre agent.
     fct_ret_type: erreur
     fct_action: yes
-    fct_arg:
-      - [energie, int, "Quantité d'énergie à retrancher au portail visé."]
+    fct_arg: []
 
   -
     fct_name: deplacer
@@ -167,14 +158,6 @@ function:
     fct_action: yes
     fct_arg:
       - [dest, position, "Case de destination."]
-
-  -
-    fct_name: recharger
-    fct_summary: Recharge le portail sur la case passé en argument.
-    fct_ret_type: erreur
-    fct_action: yes
-    fct_arg:
-      - [portail, position, "Portail à recharger"]
 
   -
     fct_name: ajouter_bouclier
