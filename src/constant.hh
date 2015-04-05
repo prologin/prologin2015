@@ -143,6 +143,7 @@ typedef struct champ {
 
 
 enum action_id {
+    ID_ACTION_ACK,
     ID_ACTION_CAPTURER,
     ID_ACTION_LIER,
     ID_ACTION_DETRUIRE,
