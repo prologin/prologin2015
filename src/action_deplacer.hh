@@ -9,8 +9,7 @@
 class ActionDeplacer : public rules::Action<GameState>
 {
 public:
-    ActionDeplacer(position dest, int player_id) : dest_(dest)
-    , player_id_(player_id) {}
+    ActionDeplacer(position dest, int player_id) : dest_(dest), player_id_(player_id) {}
     ActionDeplacer() {} // for register_action()
 
     virtual int check(const GameState* st) const;
@@ -18,11 +17,11 @@ public:
 
     virtual void handle_buffer(utils::Buffer& buf)
     {
-       buf.handle(dest_);
-    buf.handle(player_id_);
+        buf.handle(dest_);
+        buf.handle(player_id_);
     }
 
-    uint32_t player_id() const { return player_id_ };
+    uint32_t player_id() const { return player_id_; };
     uint32_t id() const { return ID_ACTION_DEPLACER; }
 
 private:

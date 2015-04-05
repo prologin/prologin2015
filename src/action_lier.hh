@@ -9,8 +9,7 @@
 class ActionLier : public rules::Action<GameState>
 {
 public:
-    ActionLier(position portail, int player_id) : portail_(portail)
-    , player_id_(player_id) {}
+    ActionLier(position portail, int player_id) : portail_(portail), player_id_(player_id) {}
     ActionLier() {} // for register_action()
 
     virtual int check(const GameState* st) const;
@@ -18,11 +17,11 @@ public:
 
     virtual void handle_buffer(utils::Buffer& buf)
     {
-       buf.handle(portail_);
-    buf.handle(player_id_);
+        buf.handle(portail_);
+        buf.handle(player_id_);
     }
 
-    uint32_t player_id() const { return player_id_ };
+    uint32_t player_id() const { return player_id_; };
     uint32_t id() const { return ID_ACTION_LIER; }
 
 private:

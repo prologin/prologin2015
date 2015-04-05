@@ -17,10 +17,10 @@ public:
 
     virtual void handle_buffer(utils::Buffer& buf)
     {
-       buf.handle(player_id_);
+        buf.handle(player_id_);
     }
 
-    uint32_t player_id() const { return player_id_ };
+    uint32_t player_id() const { return player_id_; };
     uint32_t id() const { return ID_ACTION_DETRUIRE; }
 
 private:
