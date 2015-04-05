@@ -1,16 +1,4 @@
-// FIXME License notice
-
 #include "actions.hh"
-
-ActionDetruire::ActionDetruire(int player_id)
-    : player_id_(player_id)
-{
-}
-
-ActionDetruire::ActionDetruire()
-    : player_id_(-1)
-{
-}
 
 int ActionDetruire::check(const GameState* st) const
 {
@@ -30,11 +18,6 @@ int ActionDetruire::check(const GameState* st) const
     return OK;
 }
 
-void ActionDetruire::handle_buffer(utils::Buffer& buf)
-{
-    buf.handle(player_id_);
-}
-
 void ActionDetruire::apply_on(GameState* st) const
 {
     int portal_here = st->map().portal_id_maybe(st->player_pos(player_id_));
@@ -47,12 +30,3 @@ void ActionDetruire::apply_on(GameState* st) const
     st->neutralize(portal_here);
 }
 
-uint32_t ActionDetruire::player_id() const
-{
-    return player_id_;
-}
-
-uint32_t ActionDetruire::id() const
-{
-    return ID_ACTION_DETRUIRE;
-}

@@ -1,5 +1,3 @@
-// FIXME License notice
-
 #ifndef ACTION_DEPLACER_HH
 #define ACTION_DEPLACER_HH
 
@@ -11,15 +9,20 @@
 class ActionDeplacer : public rules::Action<GameState>
 {
 public:
-    ActionDeplacer(position dest, int player_id);
-    ActionDeplacer();
+    ActionDeplacer(position dest, int player_id) : dest_(dest), player_id_(player_id) {}
+    ActionDeplacer() {} // for register_action()
 
     virtual int check(const GameState* st) const;
-    virtual void handle_buffer(utils::Buffer& buf);
     virtual void apply_on(GameState* st) const;
 
-    uint32_t player_id() const;
-    uint32_t id() const;
+    virtual void handle_buffer(utils::Buffer& buf)
+    {
+        buf.handle(dest_);
+        buf.handle(player_id_);
+    }
+
+    uint32_t player_id() const { return player_id_; };
+    uint32_t id() const { return ID_ACTION_DEPLACER; }
 
 private:
     position dest_;
@@ -27,4 +30,3 @@ private:
 };
 
 #endif // !ACTION_DEPLACER_HH
-
