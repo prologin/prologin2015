@@ -44,14 +44,14 @@
 # define COUT_LIEN                 5
 
 ///
-// Nombre de points d'actions que coûte l'attaque
+// Nombre de points d'actions que coûte la destruction d'un portail de base.
 //
-# define COUT_ATTAQUE              2
+# define COUT_DESTRUCTION          50
 
 ///
-// Nombre de points d'actions que coûte l'attaque
+// Nombre de points d'actions supplémentaires que coûte l'attaque pour chaque bouclier présent.
 //
-# define COUT_BOUCLIER             10
+# define COUT_DESTRUCTION_BOUCLIER 20
 
 ///
 // Nombre de points d'actions que coûte l'utilisation d'un virus
@@ -59,19 +59,14 @@
 # define COUT_VIRUS                100
 
 ///
-// Nombre de points d'actions que coûte un turbo de vitesse
+// Nombre de points d'actions que coûte un turbo
 //
-# define COUT_TURBO        10
+# define COUT_TURBO                10
 
 ///
-// Nombre de points de déplacement donnés par le turbo de vitesse
+// Nombre de points de déplacement donnés par le turbo
 //
-# define GAIN_TURBO        1
-
-///
-// L'énergie initiale d'un portal après sa capture
-//
-# define ENERGIE_PORTAIL           100
+# define GAIN_TURBO                1
 
 ///
 // Nombre maximum de boucliers sur un même portail.
@@ -79,9 +74,19 @@
 # define MAX_BOUCLIERS             4
 
 ///
-// Quantité d'énergie supplémentaire conférée à un portail par un bouclier.
+// Nombre de points que rapporte la création d'un portail.
 //
-# define ENERGIE_BOUCLIER          20
+# define POINTS_CREATION_PORTAIL   3
+
+///
+// Nombre de points que rapporte la création d'un lien.
+//
+# define POINTS_CREATION_LIEN      5
+
+///
+// Constante de proportionnalité reliant l'aire d'un champ au nombre de points qu'il rapporte par tour.
+//
+# define POINTS_CHAMP              10
 
 ///
 // Erreurs possibles
@@ -92,9 +97,9 @@ typedef enum erreur {
   AUCUN_PORTAIL, /* <- La position spécifiée n'est pas un portail. */
   POSITION_INVALIDE, /* <- La position spécifiée est hors de la carte. */
   POSITION_ELOIGNEE, /* <- La destination est trop éloignée. */
-  PORTAIL_AMI, /* <- Le portail ne vous appartient pas, ou est neutre. */
-  PORTAIL_NEUTRE, /* <- Le portail ne vous appartient pas, ou est neutre. */
-  PORTAIL_ENNEMI, /* <- Le portail ne vous appartient pas, ou est neutre. */
+  PORTAIL_AMI, /* <- Le portail vous appartient. */
+  PORTAIL_NEUTRE, /* <- Le portail est neutre. */
+  PORTAIL_ENNEMI, /* <- Le portail ne vous appartient pas. */
   LIEN_INTERSECTION, /* <- Le lien croise un lien existant. */
   LIEN_CHAMP, /* <- Le lien se trouve dans un champ existant. */
   LIMITE_BOUCLIERS, /* <- Ce portail est équipé du nombre maximal de boucliers. */
@@ -112,7 +117,7 @@ typedef struct position {
 
 
 ///
-// Représente un lien
+// Représente un lien existant.
 //
 typedef struct lien {
   position extr1;  /* <- Première extrémité du lien. */
@@ -122,7 +127,7 @@ typedef struct lien {
 
 
 ///
-// Représente un champ de contrôle.
+// Représente un champ de contrôle existant.
 //
 typedef struct champ {
   position som1;  /* <- Premier sommet du champ. */
