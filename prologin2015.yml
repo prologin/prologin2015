@@ -32,14 +32,16 @@ constant:
     cst_comment: Nombre de points d'actions que coûte la création d'un lien
 
   -
-    cst_name: COUT_ATTAQUE
-    cst_val: 2
-    cst_comment: Nombre de points d'actions que coûte l'attaque
+    cst_name: COUT_DESTRUCTION
+    cst_val: 50
+    cst_comment: Nombre de points d'actions que coûte la destruction
+                 d'un portail de base.
 
   -
-    cst_name: COUT_BOUCLIER
-    cst_val: 10
-    cst_comment: Nombre de points d'actions que coûte l'attaque
+    cst_name: COUT_DESTRUCTION_BOUCLIER
+    cst_val: 20
+    cst_comment: Nombre de points d'actions supplémentaires que coûte
+                 l'attaque pour chaque bouclier présent.
 
   -
     cst_name: COUT_VIRUS
@@ -47,31 +49,35 @@ constant:
     cst_comment: Nombre de points d'actions que coûte l'utilisation d'un virus
 
   -
-    cst_name: COUT_BOOST_VITESSE
+    cst_name: COUT_TURBO
     cst_val: 10
-    cst_comment: Nombre de points d'actions que coûte un turbo de vitesse
+    cst_comment: Nombre de points d'actions que coûte un turbo
 
   -
-    cst_name: GAIN_BOOST_VITESSE
+    cst_name: GAIN_TURBO
     cst_val: 1
-    cst_comment: Nombre de points de déplacement donnés par le turbo de vitesse
+    cst_comment: Nombre de points de déplacement donnés par le turbo
 
-  -
-    cst_name: ENERGIE_PORTAIL
-    cst_val: 100
-    cst_comment: L'énergie initiale d'un portal après sa capture
-
-  -
+ -
     cst_name: MAX_BOUCLIERS
     cst_val: 4
     cst_comment: Nombre maximum de boucliers sur un même portail.
 
   -
-    cst_name: ENERGIE_BOUCLIER
-    cst_val: 20
-    cst_comment: Quantité d'énergie supplémentaire conférée à un portail par un bouclier.
+    cst_name: POINTS_CREATION_PORTAIL
+    cst_val: 3
+    cst_comment: Nombre de points que rapporte la création d'un portail.
 
+  -
+    cst_name: POINTS_CREATION_LIEN
+    cst_val: 5
+    cst_comment: Nombre de points que rapporte la création d'un lien.
 
+  -
+    cst_name: POINTS_CHAMP
+    cst_val: 10
+    cst_comment: Constante de proportionnalité reliant l'aire d'un champ
+                 au nombre de points qu'il rapporte par tour.
 
 enum:
   -
@@ -84,7 +90,9 @@ enum:
       - [aucun_portail, "La position spécifiée n'est pas un portail."]
       - [position_invalide, "La position spécifiée est hors de la carte."]
       - [position_eloignee, "La destination est trop éloignée."]
-      - [portail_ennemi, "Le portail ne vous appartient pas, ou est neutre."]
+      - [portail_ami, "Le portail vous appartient."]
+      - [portail_neutre, "Le portail est neutre."]
+      - [portail_ennemi, "Le portail ne vous appartient pas."]
       - [lien_intersection, "Le lien croise un lien existant."]
       - [lien_champ, "Le lien se trouve dans un champ existant."]
       - [limite_boucliers, "Ce portail est équipé du nombre maximal de
@@ -101,7 +109,7 @@ struct:
       - [y, int, "Coordonnée en Y"]
   -
     str_name: lien
-    str_summary: Représente un lien
+    str_summary: Représente un lien existant.
     str_tuple: no
     str_field:
       - [extr1, position, "Première extrémité du lien."]
@@ -109,7 +117,7 @@ struct:
       - [joueur, int, "Joueur possédant ce lien."]
   -
     str_name: champ
-    str_summary: Représente un champ de contrôle.
+    str_summary: Représente un champ de contrôle existant.
     str_tuple: no
     str_field:
       - [som1, position, "Premier sommet du champ."]
@@ -137,12 +145,11 @@ function:
       - [portail, position, "Portail de destination du lien."]
 
   -
-    fct_name: attaquer
-    fct_summary: Attaque le portail où se trouve votre agent.
+    fct_name: detruire
+    fct_summary: Détruit le portail où se trouve votre agent.
     fct_ret_type: erreur
     fct_action: yes
-    fct_arg:
-      - [energie, int, "Quantité d'énergie à retrancher au portail visé."]
+    fct_arg: []
 
   -
     fct_name: deplacer
@@ -151,14 +158,6 @@ function:
     fct_action: yes
     fct_arg:
       - [dest, position, "Case de destination."]
-
-  -
-    fct_name: recharger
-    fct_summary: Recharge le portail sur la case passé en argument.
-    fct_ret_type: erreur
-    fct_action: yes
-    fct_arg:
-      - [portail, position, "Portail à recharger"]
 
   -
     fct_name: ajouter_bouclier
@@ -177,7 +176,7 @@ function:
 
   -
     fct_name: utiliser_turbo
-    fct_summary: Utilise un turbo de vitesse.
+    fct_summary: Utilise un turbo.
     fct_ret_type: erreur
     fct_action: yes
     fct_arg: []
@@ -307,6 +306,37 @@ function:
     fct_ret_type: position array
     fct_arg: []
 
+# Algorithmes offerts gratuitement
+
+  -
+    fct_name: distance
+    fct_summary: Retourne la distance entre deux positions
+    fct_ret_type: int
+    fct_arg:
+      - [pos1, position, "Première position"]
+      - [pos2, position, "Seconde position"]
+  -
+    fct_name: score_triangle
+    fct_summary: Renvoie le nombre de points que rapporte(rait) chaque
+                 tour un champ existant ou hypothétique.
+    fct_ret_type: int
+    fct_arg:
+      - [som1, position, "Premier sommet du triangle."]
+      - [som2, position, "Deuxième sommet du triangle."]
+      - [som3, position, "Troisième sommet du triangle."]
+  -
+    fct_name: intersection_segments
+    fct_summary: Indique si deux segments se croisent.
+                 Cette fonction correspond exactement à la condition
+                 d'interférence entre liens, c'est-à-dire qu'elle renvoie
+                 ``false`` si l'intersection est une extrémité des
+                 deux segments.
+    fct_ret_type: bool
+    fct_arg:
+      - [a1, position, "Première extrémité du premier segment."]
+      - [a2, position, "Seconde extrémité du premier segment."]
+      - [b1, position, "Première extrémité du second segment."]
+      - [b2, position, "Seconde extrémité du second segment."]
 
 # Autre
   -
@@ -325,13 +355,6 @@ function:
     fct_ret_type: position
     fct_arg:
       - [id_joueur, int, "Numéro du joueur."]
-  -
-    fct_name: distance
-    fct_summary: Retourne la distance entre deux positions
-    fct_ret_type: int
-    fct_arg:
-      - [pos1, position, "Première position"]
-      - [pos2, position, "Seconde position"]
   -
     fct_name: score
     fct_summary: Retourne le score du joueur désigné par le numéro ``id_joueur``.
