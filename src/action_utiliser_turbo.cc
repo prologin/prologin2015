@@ -1,16 +1,4 @@
-// FIXME License notice
-
 #include "actions.hh"
-
-ActionUtiliserTurbo::ActionUtiliserTurbo(int player_id)
-    : player_id_(player_id)
-{
-}
-
-ActionUtiliserTurbo::ActionUtiliserTurbo()
-    : player_id_(-1)
-{
-}
 
 int ActionUtiliserTurbo::check(const GameState* st) const
 {
@@ -27,14 +15,3 @@ void ActionUtiliserTurbo::apply_on(GameState* st) const
 {
     // FIXME
 }
-
-uint32_t ActionUtiliserTurbo::player_id() const
-{
-    return player_id_;
-}
-
-uint32_t ActionUtiliserTurbo::id() const
-{
-    return ID_ACTION_UTILISER_TURBO;
-}
-

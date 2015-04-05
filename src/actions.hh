@@ -1,5 +1,3 @@
-// FIXME License notice
-
 #ifndef ACTIONS_HH
 #define ACTIONS_HH
 
