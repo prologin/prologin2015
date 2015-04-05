@@ -100,7 +100,18 @@ void GameState::neutralize(int portal_id)
 void GameState::capture(int portal_id, int player_id)
 {
     portal_player_[portal_id] = player_id;
-    // TODO reset energy and shields
+    // Don't forget to reset shields!
+    portal_shields_[portal_id] = 0;
+}
+
+int GameState::num_shields(int portal_id) const
+{
+    return portal_shields_[portal_id];
+}
+
+void GameState::add_shield(int portal_id)
+{
+    portal_shields_[portal_id]++;
 }
 
 int GameState::action_points(int player_id) const

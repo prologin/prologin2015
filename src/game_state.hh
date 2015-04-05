@@ -47,7 +47,7 @@ public:
     void neutralize(int portal_id);
     void capture(int portal_id, int player_id);
     
-    int num_shields(int portal_id);
+    int num_shields(int portal_id) const;
     void add_shield(int portal_id);
 
     int action_points(int player_id) const;

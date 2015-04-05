@@ -23,7 +23,7 @@ ActionLier::ActionLier()
 int ActionLier::check(const GameState* st) const
 {
     // Check action points
-    if (st->action_points(player_id_) < (COUT_LIEN)) return PA_INSUFFISANTS;
+    if (st->action_points(player_id_) < COUT_LIEN) return PA_INSUFFISANTS;
 
     // Check out of bounds
     if (portail_.x < 0 || portail_.y < 0 ||

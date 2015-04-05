@@ -54,6 +54,11 @@
 # define COUT_DESTRUCTION_BOUCLIER 20
 
 ///
+// Nombre de points d'actions que coûte la mise en place d'un bouclier.
+//
+# define COUT_BOUCLIER             10
+
+///
 // Nombre de points d'actions que coûte l'utilisation d'un virus
 //
 # define COUT_VIRUS                100
