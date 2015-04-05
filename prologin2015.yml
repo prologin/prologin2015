@@ -47,14 +47,14 @@ constant:
     cst_comment: Nombre de points d'actions que coûte l'utilisation d'un virus
 
   -
-    cst_name: COUT_TURBO_VITESSE
+    cst_name: COUT_TURBO
     cst_val: 10
-    cst_comment: Nombre de points d'actions que coûte un turbo de vitesse
+    cst_comment: Nombre de points d'actions que coûte un turbo
 
   -
-    cst_name: GAIN_TURBO_VITESSE
+    cst_name: GAIN_TURBO
     cst_val: 1
-    cst_comment: Nombre de points de déplacement donnés par le turbo de vitesse
+    cst_comment: Nombre de points de déplacement donnés par le turbo
 
   -
     cst_name: ENERGIE_PORTAIL
@@ -193,7 +193,7 @@ function:
 
   -
     fct_name: utiliser_turbo
-    fct_summary: Utilise un turbo de vitesse.
+    fct_summary: Utilise un turbo.
     fct_ret_type: erreur
     fct_action: yes
     fct_arg: []
