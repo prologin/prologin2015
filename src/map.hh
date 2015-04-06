@@ -52,7 +52,7 @@ private:
     std::array<position, NB_JOUEURS> start_positions_;
 
     // Get the index for "p" in portals_map_.
-    int index(const position& p) const
+    static int index(const position& p)
     {
         return p.x * TAILLE_TERRAIN + p.y;
     }
