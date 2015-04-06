@@ -20,20 +20,6 @@ Map::~Map()
 {
 }
 
-void Map::init_stupid_map()
-{
-    portals_list_ = {{10,10},{10,20},{20,10},{20,20}};
-    start_positions_[0] = {5,5};
-    start_positions_[1] = {25,25};
-    
-    int count = 0;
-    for (auto& pos : portals_list_)
-    {
-        portals_map_[index(pos)] = count;
-        count++;
-    }
-}
-
 int Map::load(std::istream& s)
 {
     INFO("Loading map");

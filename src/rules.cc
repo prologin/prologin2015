@@ -25,9 +25,8 @@ Rules::Rules(const rules::Options opt)
         champion_dll_ = nullptr;
 
     Map* map = new Map;
-    // std::ifstream ifs(opt.map_file);
-    // map->load(ifs);
-    map->init_stupid_map();
+    std::ifstream ifs(opt.map_file);
+    map->load(ifs);
 
     // Init gamestate
     GameState* game_state = new GameState(map, opt.players);

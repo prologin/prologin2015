@@ -16,7 +16,6 @@ public:
     Map();
     ~Map();
 
-    void init_stupid_map();
     int load(std::istream& s);
 
     // Return whether "p" identifies a valid position on this map.  As one
