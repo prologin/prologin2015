@@ -11,9 +11,14 @@ int ActionCapturer::check(const GameState* st) const
     int portal_here = st->map().portal_id_maybe(st->player_pos(player_id_));
     if (portal_here == -1) return AUCUN_PORTAIL;
 
-    if (st->owner(portal_here) == player_id_) return PORTAIL_AMI;
-    if (st->owner(portal_here) == player_id_) return PORTAIL_ENNEMI;
-    return OK;
+    // It isn't allowed to seize a portal that already belongs to someone:
+    // players have to "destroy" it first (see ActionDetruire).
+    if (st->owner(portal_here) == -1)
+        return OK;
+    else if (st->owner(portal_here) == player_id_)
+        return PORTAIL_AMI;
+    else
+        return PORTAIL_ENNEMI;
 }
 
 void ActionCapturer::apply_on(GameState* st) const
