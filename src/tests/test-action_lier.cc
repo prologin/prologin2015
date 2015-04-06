@@ -126,5 +126,6 @@ TEST_F(ActionTest, ActionLier_RegularOK)
 
         // Check that the link is created
         EXPECT_TRUE(st->graph().edge_exists(0,1));
+        st->graph().remove_edge(0,1);
     }
 }
