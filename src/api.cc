@@ -171,6 +171,8 @@ std::vector<position> Api::liste_portails()
 std::vector<lien> Api::liens_bloquants(position ext1, position ext2)
 {
   // TODO
+  (void) ext1;
+  (void) ext2;
   abort();
 }
 
@@ -180,6 +182,7 @@ std::vector<lien> Api::liens_bloquants(position ext1, position ext2)
 bool Api::case_dans_champ(position pos)
 {
   // TODO
+  (void) pos;
   abort();
 }
 
@@ -189,6 +192,7 @@ bool Api::case_dans_champ(position pos)
 std::vector<champ> Api::case_champs(position pos)
 {
   // TODO
+  (void) pos;
   abort();
 }
 
@@ -198,6 +202,7 @@ std::vector<champ> Api::case_champs(position pos)
 int Api::portail_joueur(position portail)
 {
   // TODO
+  (void) portail;
   abort();
 }
 
@@ -207,6 +212,7 @@ int Api::portail_joueur(position portail)
 int Api::portail_boucliers(position portail)
 {
   // TODO
+  (void) portail;
   abort();
 }
 
@@ -216,6 +222,7 @@ int Api::portail_boucliers(position portail)
 std::vector<lien> Api::liens_incidents_portail(position portail)
 {
   // TODO
+  (void) portail;
   abort();
 }
 
@@ -225,6 +232,7 @@ std::vector<lien> Api::liens_incidents_portail(position portail)
 std::vector<champ> Api::champs_incidents_portail(position portail)
 {
   // TODO
+  (void) portail;
   abort();
 }
 
@@ -234,6 +242,7 @@ std::vector<champ> Api::champs_incidents_portail(position portail)
 std::vector<champ> Api::champs_incidents_lien(lien lien)
 {
   // TODO
+  (void) lien;
   abort();
 }
 
@@ -279,6 +288,8 @@ std::vector<position> Api::hist_champs_crees()
 int Api::distance(position pos1, position pos2)
 {
   // TODO
+  (void) pos1;
+  (void) pos2;
   abort();
 }
 
@@ -288,6 +299,9 @@ int Api::distance(position pos1, position pos2)
 int Api::score_triangle(position som1, position som2, position som3)
 {
   // TODO
+  (void) som1;
+  (void) som2;
+  (void) som3;
   abort();
 }
 
@@ -297,6 +311,10 @@ int Api::score_triangle(position som1, position som2, position som3)
 bool Api::intersection_segments(position a1, position a2, position b1, position b2)
 {
   // TODO
+  (void) a1;
+  (void) a2;
+  (void) b1;
+  (void) b2;
   abort();
 }
 
@@ -324,6 +342,7 @@ int Api::adversaire()
 position Api::position_agent(int id_joueur)
 {
   // TODO
+  (void) id_joueur;
   abort();
 }
 
@@ -333,6 +352,7 @@ position Api::position_agent(int id_joueur)
 int Api::score(int id_joueur)
 {
   // TODO
+  (void) id_joueur;
   abort();
 }
 
