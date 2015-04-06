@@ -142,5 +142,5 @@ position Map::get_start_position(int i) const
 {
     if (0 <= i && i < 2)
         return start_positions_[i];
-    return { -1, -1 };
+    throw InvalidPlayer(i);
 }
