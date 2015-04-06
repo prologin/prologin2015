@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 
 #include "../constant.hh"
+#include "../errors.hh"
 #include "../map.hh"
 
 #include "test-helpers.hh"

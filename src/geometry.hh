@@ -6,6 +6,7 @@
 #include "constant.hh"
 
 #include <cstdlib>
+#include <string>
 
 inline bool operator==(const position& a, const position& b)
 {
@@ -48,6 +49,9 @@ bool segments_intersect(const position& a, const position& b,
 
 bool point_in_triangle(const position& a, const position& b, const position& c,
                        const position& p);
+
+// Build and return a human-readable string to represent a position.
+std::string position_str(const position &p);
 
 #endif /* !GEOMETRY_HH */
 

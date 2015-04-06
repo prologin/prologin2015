@@ -8,15 +8,8 @@
 #include <rules/player.hh>
 
 #include "constant.hh"
+#include "errors.hh"
 #include "map.hh"
-
-
-std::string position_str(const position &p)
-{
-    std::ostringstream s;
-    s << "(" << p.x << ", " << p.y << ")";
-    return s.str();
-}
 
 Map::Map()
 {

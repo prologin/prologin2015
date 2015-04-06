@@ -2,7 +2,6 @@
 # define MAP_HH_
 
 #include <array>
-#include <exception>
 #include <vector>
 
 #include "constant.hh"
@@ -10,27 +9,6 @@
 
 const int NOT_A_PORTAL_INT = -2;
 const int NB_JOUEURS = 2;
-
-// Build and return a human-readable string to represent a position.
-std::string position_str(const position &p);
-
-// Exception to raise when provided an invalid position.
-class InvalidPosition : public std::exception
-{
-public:
-    InvalidPosition(const position &p)
-    {
-        message_ = "Invalid position: " + position_str(p);
-    }
-
-    virtual const char* what() const noexcept
-    {
-        return message_.c_str();
-    }
-
-private:
-    std::string message_;
-};
 
 class Map
 {

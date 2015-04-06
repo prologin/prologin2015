@@ -22,6 +22,7 @@ def build(bld):
             src/action_utiliser_virus.cc
             src/api.cc
             src/entry.cc
+            src/errors.cc
             src/game_state.cc
             src/geometry.cc
             src/graph.cc

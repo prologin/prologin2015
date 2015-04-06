@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <sstream>
 
 #include "geometry.hh"
 
@@ -45,4 +46,9 @@ bool point_in_triangle(const position& a, const position& b, const position& c,
     return s > 0 && t > 0 && (s + t) < area_twice * sign;
 }
 
-
+std::string position_str(const position &p)
+{
+    std::ostringstream s;
+    s << "(" << p.x << ", " << p.y << ")";
+    return s.str();
+}
