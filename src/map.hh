@@ -44,7 +44,7 @@ public:
     // Return whether "p" identifies a valid position on this map.  As one
     // could expect, this is the only method that does not raise an
     // InvalidPosition when provided an invalid position.
-    bool valid_position(position p) const;
+    static bool valid_position(position p);
 
     // Return whether "p" contains a portal.
     bool is_portal(position p) const;

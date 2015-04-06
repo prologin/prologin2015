@@ -4,9 +4,7 @@
 
 int ActionDeplacer::check(const GameState* st) const
 {
-    // Check out of bounds
-    if (dest_.x < 0 || dest_.y < 0 ||
-        dest_.x >= TAILLE_TERRAIN || dest_.y >= TAILLE_TERRAIN)
+    if (!Map::valid_position(dest_))
         return POSITION_INVALIDE;
 
     int p = player_id_;

@@ -52,8 +52,8 @@ int Map::load(std::istream& s)
         s >> start_positions_[i].x >> start_positions_[i].y;
         INFO("Player %d starting position is x=%d, y=%d",
                 i, start_positions_[i].x, start_positions_[i].y);
-        if (!(this->valid_position((position){.x = start_positions_[i].x,
-                                              .y = start_positions_[i].y})))
+        if (!valid_position((position){.x = start_positions_[i].x,
+                                       .y = start_positions_[i].y}))
             switch(i) {
             case 0:
                 FATAL("starting position for first player is invalid");
@@ -115,7 +115,7 @@ int Map::load(std::istream& s)
     return 0;
 }
 
-bool Map::valid_position(position p) const
+bool Map::valid_position(position p)
 {
     return 0 <= p.x && p.x < TAILLE_TERRAIN &&
            0 <= p.y && p.y < TAILLE_TERRAIN;
