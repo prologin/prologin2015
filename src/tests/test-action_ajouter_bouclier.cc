@@ -44,3 +44,20 @@ TEST_F(ActionTest, ActionAjouterBouclier_NoPortal)
         EXPECT_NE(AUCUN_PORTAIL, action.check(st));
     }
 }
+
+// Test that action fails when on an ennemi portal
+TEST_F(ActionTest, ActionAjouterBouclier_EnnemiPortal)
+{
+    for (int player : {PLAYER_1, PLAYER_2})
+    {
+        set_points(st, player, 2 * COUT_BOUCLIER);
+        st->set_pos(player, st->portal_pos(0));
+        ActionAjouterBouclier action(player);
+
+        st->capture(0, st->get_opponent(player));
+        EXPECT_EQ(PORTAIL_ENNEMI, action.check(st));
+
+        st->capture(0, player);
+        EXPECT_NE(PORTAIL_ENNEMI, action.check(st));
+    }
+}
