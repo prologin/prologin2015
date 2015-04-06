@@ -24,6 +24,9 @@ struct player_info
 class GameState : public rules::GameState
 {
 public:
+    // Build a game state out of a map and some players. The ownership of "map"
+    // is transferred to the new GameState (i.e. the caller must not free it
+    // nor reference it anymore.
     GameState(Map* map, rules::Players_sptr players);
     GameState(const GameState& st);
     virtual rules::GameState* copy() const;
