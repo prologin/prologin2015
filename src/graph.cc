@@ -71,13 +71,17 @@ std::vector<itriple> Graph::triangles() const
               [this](int u, int v)
               { return adj_list_[u].size() > adj_list_[v].size(); });
 
+    // do a copy of the adjacency list, since we're going to mutate it
+    // and we want to respect const-correctness
+    auto adj_list_copy = adj_list_;
+ 
     std::vector<itriple> triangles;
     for (int v : degree_order)
     {
-        auto neighb_v = adj_list_[v];
+        auto& neighb_v = adj_list_copy[v];
         for (int u : neighb_v)
         {
-            auto neighb_u = adj_list_[u];
+            auto& neighb_u = adj_list_copy[u];
 
             // Ensures no duplication, and also crucial for the complexity
             neighb_u.erase(v);
@@ -94,46 +98,32 @@ std::vector<itriple> Graph::triangles() const
     }
 
     // Repair the destructive updates
-    for (int i = degree_order.size() - 1; i >= 0; --i)
-    {
-        int v = degree_order[i];
-        for (int u : adj_list_[v])
-        {
-            // TODO this operation is not const
-            //adj_list_[u].insert(v);
-        }
-    }
+    // for (int i = degree_order.size() - 1; i >= 0; --i)
+    // {
+    //     int v = degree_order[i];
+    //     for (int u : adj_list_[v])
+    //     {
+    //         adj_list_[u].insert(v);
+    //     }
+    // }
 
     return triangles;
 }
 
-// Inspired by, but cannot be used as a subroutine by,
-// the previous algorithm: deleted edges need to stay deleted
-// until the very end to ensure good performance.
+// Basically, enumerate edges between neighbours of v
 std::vector<ipair> Graph::incident_triangles(int v) const
 {
     std::vector<ipair> triangles;
 
-    auto neighb_v = adj_list_[v];
+    auto& neighb_v = adj_list_[v];
     for (int u : neighb_v)
     {
-        auto neighb_u = adj_list_[u];
-        neighb_u.erase(v);
-
-        for (int w : neighb_u)
+        auto& neighb_u = adj_list_[u];
+        for (auto p = neighb_u.upper_bound(u); p != neighb_u.end(); ++p)
         {
-            if (neighb_v.find(w) != neighb_v.end())
-            {
-                // TODO Ensure lexicographic order?
-                triangles.push_back(std::make_pair(u, w));
-            }
+            if (neighb_v.find(*p) != neighb_v.end())
+                triangles.push_back(std::make_pair(u, *p));
         }
-    }
-
-    for (int u : adj_list_[v])
-    {
-        // TODO this operation is not const
-        //adj_list_[u].insert(v);
     }
 
     return triangles;
@@ -143,10 +133,11 @@ std::vector<ipair> Graph::incident_triangles(int v) const
 std::vector<int> Graph::incident_triangles(ipair e) const
 {
     std::vector<int> inter;
-    // TODO this is incorrect: calling begin on an integer
-    //std::set_intersection(e.first.begin(), e.first.end(),
-    //                      e.second.begin(), e.second.end()
-    //                      std::back_inserter(inter));
+    auto& neighb_1 = adj_list_[e.first];
+    auto& neighb_2 = adj_list_[e.second];
+    std::set_intersection(neighb_1.begin(), neighb_1.end(),
+                          neighb_2.begin(), neighb_2.end(),
+                          std::back_inserter(inter));
     return inter;
 }
 
