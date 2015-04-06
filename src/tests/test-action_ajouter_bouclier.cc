@@ -78,3 +78,22 @@ TEST_F(ActionTest, ActionAjouterBouclier_EnnemiPortal)
         EXPECT_NE(PORTAIL_ENNEMI, action.check(st));
     }
 }
+
+// Test that action fails when already at maximum shield number
+TEST_F(ActionTest, ActionAjouterBouclier_ShieldLimit)
+{
+    for (int player : {PLAYER_1, PLAYER_2})
+    {
+        set_points(st, player, 2 * COUT_BOUCLIER);
+        st->set_pos(player, st->portal_pos(0));
+        st->capture(0, player);
+        ActionAjouterBouclier action(player);
+
+        for (int i = 0; i < MAX_BOUCLIERS; ++i)
+            st->add_shield(0);
+        EXPECT_EQ(LIMITE_BOUCLIERS, action.check(st));
+
+        st->capture(0, player); // Reset shield number
+        EXPECT_NE(LIMITE_BOUCLIERS, action.check(st));
+    }
+}
