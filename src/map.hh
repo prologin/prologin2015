@@ -62,8 +62,9 @@ public:
 private:
     // Array of cells: each cell at position (x, y) is at index:
     //     (x * TAILLE_TERRAIN + y)
-    // If the cell contains no portal, it holds -1.  It holds the portal ID
-    // otherwise.
+    // See the Map::index method, and please use it so that we never mix
+    // indices.  If the cell contains no portal, it holds -1.  It holds the
+    // portal ID otherwise.
     std::array<int, TAILLE_TERRAIN*TAILLE_TERRAIN> portals_map_;
 
     // Quick access to the list of all portals so we do not have to go through
@@ -72,6 +73,12 @@ private:
 
     // For each player, provides the initial unit position.
     std::array<position, NB_JOUEURS> start_positions_;
+
+    // Get the index for "p" in portals_map_.
+    int index(const position& p) const
+    {
+        return p.x * TAILLE_TERRAIN + p.y;
+    }
 };
 
 #endif // !MAP_HH_

@@ -36,7 +36,7 @@ void Map::init_stupid_map()
     int count = 0;
     for (auto& pos : portals_list_)
     {
-        portals_map_[pos.x*TAILLE_TERRAIN + pos.y] = count;
+        portals_map_[index(pos)] = count;
         count++;
     }
 }
@@ -82,7 +82,7 @@ int Map::load(std::istream& s)
             switch (line[x])
             {
             case 'X':
-                portals_map_[x*TAILLE_TERRAIN + y] = 0;
+                portals_map_[index({x, y})] = 0;
                 break;
             case '.':
                 break;
@@ -101,11 +101,12 @@ int Map::load(std::istream& s)
     {
         for (int y = 0; y < TAILLE_TERRAIN; ++y)
         {
-            if (portals_map_[x*TAILLE_TERRAIN + y] == 0)
+            const position p = {x, y};
+            if (portals_map_[index(p)] == 0)
             {
-                portals_map_[x*TAILLE_TERRAIN + y] = count;
+                portals_map_[index(p)] = count;
                 count++;
-                portals_list_.push_back({x, y});
+                portals_list_.push_back(p);
             }
         }
     }
@@ -124,14 +125,14 @@ int Map::portal_id_maybe(position p) const
 {
     if (!valid_position(p))
         throw InvalidPosition(p);
-    return portals_map_[p.x*TAILLE_TERRAIN + p.y];
+    return portals_map_[index(p)];
 }
 
 bool Map::is_portal(position p) const
 {
     if (!valid_position(p))
         throw InvalidPosition(p);
-    return portals_map_[p.x*TAILLE_TERRAIN+ p.y] != -1;
+    return portals_map_[index(p)] != -1;
 }
 
 const std::vector<position>& Map::get_portals() const
