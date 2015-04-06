@@ -33,3 +33,21 @@ TEST_F(ActionTest, ActionDetruire_TooFewActionPoints)
         }
     }
 }
+
+// Test that action fails when the player is not on a portal
+TEST_F(ActionTest, ActionDetruire_NoPortal)
+{
+    for (int player : {PLAYER_1, PLAYER_2})
+    {
+        set_points(st, player, 2 * COUT_DESTRUCTION);
+        st->capture(0, st->get_opponent(player));
+        ActionDetruire action(player);
+
+        st->set_pos(player, {0, 0});
+        EXPECT_EQ(AUCUN_PORTAIL, action.check(st));
+
+        st->set_pos(player, st->portal_pos(0));
+        EXPECT_NE(AUCUN_PORTAIL, action.check(st));
+    }
+}
+
