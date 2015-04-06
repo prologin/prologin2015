@@ -9,12 +9,12 @@
 #include <algorithm>
 
 const bool some_adj_matrix[6][6] = {
-    false, true,  false, true,  false, true,
-    true,  false, true,  true,  false, true,
-    false, true,  false, true,  false, false,
-    true,  true,  true,  false, true,  false,
-    false, false, false, true,  false, true,
-    true,  true,  false, false, true,  false
+    {false, true,  false, true,  false, true},
+    {true,  false, true,  true,  false, true},
+    {false, true,  false, true,  false, false},
+    {true,  true,  true,  false, true,  false},
+    {false, false, false, true,  false, true},
+    {true,  true,  false, false, true,  false}
 };
 
 // 5-----1
@@ -47,7 +47,7 @@ TEST(GraphTest, edges)
     Graph g = make_some_graph();
     auto edges = g.edges();
 
-    int num_edges = 0;
+    unsigned int num_edges = 0;
     for (int i = 0; i < 6; ++i)
         for (int j = 0; j < 6; ++j)
             if (some_adj_matrix[i][j])
@@ -103,7 +103,7 @@ TEST(GraphTest, remove_incident_edges)
 
     // Check number of edges deleted
     // (the correct number is determined manually by looking at the graph)
-    EXPECT_EQ(g2.edges().size() - g1.edges().size(), 5);
+    EXPECT_EQ((int)g2.edges().size() - (int)g1.edges().size(), 5);
 
     // Now check remove_incident_edges
     g2.remove_incident_edges(3);
