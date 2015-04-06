@@ -65,7 +65,7 @@ protected:
         utils::Logger::get().level() = utils::Logger::DEBUG_LEVEL;
 
         std::istringstream map_stream(some_map);
-        map = new Map();
+        Map* map = new Map();
         map->load(map_stream);
 
         /* Create two players (no spectator).  */
@@ -77,9 +77,6 @@ protected:
         });
 
         st = new GameState(map, players);
-        // Remember: the ownership of "map" is transferred to "st", so we don't
-        // want to double-free it!
-        map = nullptr;
     }
 
     virtual void TearDown()
@@ -87,7 +84,6 @@ protected:
         delete st;
     }
 
-    Map* map;
     GameState* st;
 
     const int PLAYER_1 = 0;
