@@ -84,3 +84,37 @@ TEST_F(ActionTest, ActionDetruire_NeutralPortal)
         EXPECT_NE(PORTAIL_NEUTRE, action.check(st));
     }
 }
+
+// Test that a regular action just does it job
+TEST_F(ActionTest, ActionDetruire_RegularOK)
+{
+    for (int player : {PLAYER_1, PLAYER_2})
+    {
+        for (int shields = 0; shields < MAX_BOUCLIERS; ++shields)
+        {
+            // Put the player in a correct state for destroying a portal
+            const int initial_AP = COUT_DESTRUCTION +
+                shields * COUT_DESTRUCTION_BOUCLIER + 1;
+            set_points(st, player, initial_AP);
+            set_points(st, st->get_opponent(player), initial_AP);
+            st->set_pos(player, st->portal_pos(0));
+            st->capture(0, st->get_opponent(player));
+            for (int i = 0; i < shields; ++i)
+                st->add_shield(0);
+            ActionDetruire action(player);
+
+            EXPECT_EQ(OK, action.check(st));
+            action.apply_on(st);
+
+            // Check that correct action points are consumed for correct player
+            EXPECT_EQ(initial_AP - COUT_DESTRUCTION -
+                      shields * COUT_DESTRUCTION_BOUCLIER,
+                      st->action_points(player));
+            EXPECT_EQ(initial_AP, st->action_points(st->get_opponent(player)));
+
+            // Check that portal is destroyed
+            EXPECT_EQ(-1, st->owner(0));
+            EXPECT_EQ(0, st->num_shields(0));
+        }
+    }
+}
