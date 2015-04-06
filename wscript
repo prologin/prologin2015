@@ -19,6 +19,7 @@ def build(bld):
             src/api.cc
             src/entry.cc
             src/game_state.cc
+            src/geometry.cc
             src/graph.cc
             src/interface.cc
             src/map.cc
