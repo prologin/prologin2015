@@ -45,6 +45,23 @@ TEST_F(ActionTest, ActionAjouterBouclier_NoPortal)
     }
 }
 
+// Test that action fails when on a neutral portal
+TEST_F(ActionTest, ActionAjouterBouclier_NeutralPortal)
+{
+    for (int player : {PLAYER_1, PLAYER_2})
+    {
+        set_points(st, player, 2 * COUT_BOUCLIER);
+        st->set_pos(player, st->portal_pos(0));
+        ActionAjouterBouclier action(player);
+
+        st->capture(0, -1);
+        EXPECT_EQ(PORTAIL_NEUTRE, action.check(st));
+
+        st->capture(0, player);
+        EXPECT_NE(PORTAIL_NEUTRE, action.check(st));
+    }
+}
+
 // Test that action fails when on an ennemi portal
 TEST_F(ActionTest, ActionAjouterBouclier_EnnemiPortal)
 {
