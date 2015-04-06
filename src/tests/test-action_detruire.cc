@@ -51,3 +51,19 @@ TEST_F(ActionTest, ActionDetruire_NoPortal)
     }
 }
 
+// Test that action fails when on an friendly portal
+TEST_F(ActionTest, ActionDetruire_FriendlyPortal)
+{
+    for (int player : {PLAYER_1, PLAYER_2})
+    {
+        set_points(st, player, 2 * COUT_DESTRUCTION);
+        st->set_pos(player, st->portal_pos(0));
+        ActionDetruire action(player);
+
+        st->capture(0, player);
+        EXPECT_EQ(PORTAIL_AMI, action.check(st));
+
+        st->capture(0, st->get_opponent(player));
+        EXPECT_NE(PORTAIL_AMI, action.check(st));
+    }
+}
