@@ -24,6 +24,9 @@ public:
     uint32_t id() const { return ID_ACTION_CAPTURER; }
 
 private:
+    // The player that is trying to seize a portal.  No need for a portal ID
+    // nor a portal position: players can only seize portals when they are on
+    // the same cell.
     int player_id_;
 };
 
