@@ -25,7 +25,9 @@ public:
     uint32_t id() const { return ID_ACTION_DEPLACER; }
 
 private:
+    // The move destination.
     position dest_;
+    // The player that is moving.
     int player_id_;
 };
 
