@@ -27,3 +27,20 @@ TEST_F(ActionTest, ActionAjouterBouclier_TooFewActionPoints)
         EXPECT_NE(PA_INSUFFISANTS, action.check(st));
     }
 }
+
+// Test that action do not work when the player is not on a portal
+TEST_F(ActionTest, ActionAjouterBouclier_NoPortal)
+{
+    for (int player : {PLAYER_1, PLAYER_2})
+    {
+        set_points(st, player, 2 * COUT_BOUCLIER);
+        st->capture(0, player);
+        ActionAjouterBouclier action(player);
+
+        st->set_pos(player, {0, 0});
+        EXPECT_EQ(AUCUN_PORTAIL, action.check(st));
+
+        st->set_pos(player, st->portal_pos(0));
+        EXPECT_NE(AUCUN_PORTAIL, action.check(st));
+    }
+}
