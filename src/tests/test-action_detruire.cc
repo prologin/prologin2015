@@ -4,12 +4,6 @@
 // All the tests below are methods coming from the ActionTest class (see
 // test-helpers.hh).  This is where the "st" GameState is coming from.
 
-// Set a given number of action points to a given player
-static inline void set_points(GameState* st, int player, int pts)
-{
-    st->decrement_action_points(player, st->action_points(player) - pts);
-}
-
 // Test that player has sufficient action points for the action
 TEST_F(ActionTest, ActionDetruire_TooFewActionPoints)
 {

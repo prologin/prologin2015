@@ -90,4 +90,11 @@ protected:
     const int PLAYER_2 = 1;
 };
 
+
+// Set a given number of action points to a given player
+static inline void set_points(GameState* st, int player, int pts)
+{
+    st->decrement_action_points(player, st->action_points(player) - pts);
+}
+
 #endif
