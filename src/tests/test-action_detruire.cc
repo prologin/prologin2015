@@ -67,3 +67,20 @@ TEST_F(ActionTest, ActionDetruire_FriendlyPortal)
         EXPECT_NE(PORTAIL_AMI, action.check(st));
     }
 }
+
+// Test that action fails when on a neutral portal
+TEST_F(ActionTest, ActionDetruire_NeutralPortal)
+{
+    for (int player : {PLAYER_1, PLAYER_2})
+    {
+        set_points(st, player, 2 * COUT_DESTRUCTION);
+        st->set_pos(player, st->portal_pos(0));
+        ActionDetruire action(player);
+
+        st->capture(0, -1);
+        EXPECT_EQ(PORTAIL_NEUTRE, action.check(st));
+
+        st->capture(0, st->get_opponent(player));
+        EXPECT_NE(PORTAIL_NEUTRE, action.check(st));
+    }
+}

@@ -13,7 +13,7 @@ int ActionDetruire::check(const GameState* st) const
         return PA_INSUFFISANTS;
 
     if (st->owner(portal_here) == player_id_) return PORTAIL_AMI;
-    if (st->owner(portal_here) == player_id_) return PORTAIL_NEUTRE;
+    if (st->owner(portal_here) == -1) return PORTAIL_NEUTRE;
 
     return OK;
 }
