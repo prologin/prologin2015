@@ -23,10 +23,12 @@ int ActionLier::check(const GameState* st) const
     int portal_there = st->map().portal_id_maybe(portail_);
     if (portal_there == -1) return AUCUN_PORTAIL;
 
-    if (st->owner(portal_here) == player_id_) return PORTAIL_ENNEMI;
     if (st->owner(portal_here) == -1) return PORTAIL_NEUTRE;
-    if (st->owner(portal_there) == player_id_) return PORTAIL_ENNEMI;
+    if (st->owner(portal_here) == st->get_opponent(player_id_))
+        return PORTAIL_ENNEMI;
     if (st->owner(portal_there) == -1) return PORTAIL_NEUTRE;
+    if (st->owner(portal_there) == st->get_opponent(player_id_))
+        return PORTAIL_ENNEMI;
 
     // TODO improve algorithmic efficiency
 

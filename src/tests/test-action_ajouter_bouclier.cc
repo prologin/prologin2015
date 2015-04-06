@@ -56,8 +56,8 @@ TEST_F(ActionTest, ActionAjouterBouclier_NeutralPortal)
     }
 }
 
-// Test that action fails when on an ennemi portal
-TEST_F(ActionTest, ActionAjouterBouclier_EnnemiPortal)
+// Test that action fails when on an enemy portal
+TEST_F(ActionTest, ActionAjouterBouclier_EnemyPortal)
 {
     for (int player : {PLAYER_1, PLAYER_2})
     {
