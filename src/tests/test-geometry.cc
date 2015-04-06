@@ -101,7 +101,3 @@ TEST(MapTest, point_in_triangle)
     // Idea for further testing: create a version of point_in_triangle
     // which returns the barycentric coordinates as a certificate
 }
-
-// TODO: it would be great testing map loading itself but the current
-// implementation uses FATAL, which is not test-friendly when it comes to
-// testing edge cases.

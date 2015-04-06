@@ -24,6 +24,11 @@ public:
     void remove_edge(ipair e);
     void remove_incident_edges(int v);
 
+    // overloaded versions for convenience
+    bool edge_exists(int u, int v) { return edge_exists(std::make_pair(u,v)); }
+    void add_edge(int u, int v) { add_edge(std::make_pair(u,v)); }
+    void remove_edge(int u, int v)  { add_edge(std::make_pair(u,v)); }
+
     const std::vector<std::set<int>>& adj_list() const {
         return adj_list_;
     }
