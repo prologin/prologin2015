@@ -2,6 +2,21 @@
 
 #include "graph.hh"
 
+// Size 3 sorting network
+itriple ordered_triple(int a, int b, int c)
+{
+    // b, c = min(b, c), max(b,c)
+    if (b > c)
+        std::swap(b,c);
+    // a, b = min(a, b), max(a, b)
+    if (a > b)
+        std::swap(a,b);
+    // a is now minimal, swap b and c if necessary
+    if (b > c)
+        std::swap(b,c);
+    return std::make_tuple(a, b, c);
+}
+
 Graph::Graph(int size)
     : adj_list_(size)
 {
@@ -90,22 +105,11 @@ std::vector<itriple> Graph::triangles() const
             {
                 if (neighb_v.find(w) != neighb_v.end())
                 {
-                    // TODO Ensure lexicographic order?
-                    triangles.push_back(std::make_tuple(u, v, w));
+                    triangles.push_back(ordered_triple(u, v, w));
                 }
             }
         }
     }
-
-    // Repair the destructive updates
-    // for (int i = degree_order.size() - 1; i >= 0; --i)
-    // {
-    //     int v = degree_order[i];
-    //     for (int u : adj_list_[v])
-    //     {
-    //         adj_list_[u].insert(v);
-    //     }
-    // }
 
     return triangles;
 }
