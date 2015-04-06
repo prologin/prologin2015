@@ -94,7 +94,7 @@ int GameState::owner(int portal_id) const
 
 void GameState::neutralize(int portal_id)
 {
-    portal_player_[portal_id] = -1;
+    capture(portal_id, -1);
 }
 
 void GameState::capture(int portal_id, int player_id)
