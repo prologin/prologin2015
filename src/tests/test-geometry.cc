@@ -63,6 +63,9 @@ TEST(GeometryTest, segments_intersect)
     EXPECT_FALSE(segments_intersect(d, f, e, f));
     EXPECT_TRUE(segments_intersect(d, f, e, d));
     EXPECT_TRUE(segments_intersect(d, e, e, f));
+
+    //E A non-degenerate segment should intersect itself
+    EXPECT_TRUE(segments_intersect(a, b, a, b));
 }
 
 TEST(MapTest, point_in_triangle)

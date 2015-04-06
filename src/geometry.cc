@@ -6,11 +6,11 @@
 // The two following functions are inspired from CLRS chapter 33
 // TODO: have fun with useless micro-optimizations
 
-// Test whether C \in [AB] when we know that A, B and C are collinear
+// Test whether C \in ]AB[ when we know that A, B and C are collinear
 inline bool on_segment(const position& a, const position& b, const position& c)
 {
-    return std::min(a.x, b.x) <= c.x && c.x <= std::max(a.x, b.x)
-        && std::min(a.y, b.y) <= c.y && c.y <= std::max(a.y, b.y);
+    return (std::min(a.x, b.x) < c.x && c.x < std::max(a.x, b.x))
+        || (std::min(a.y, b.y) < c.y && c.y < std::max(a.y, b.y));
 }
 
 bool segments_intersect(const position& a, const position& b,
@@ -21,12 +21,19 @@ bool segments_intersect(const position& a, const position& b,
     int d3 = determinant(a, b, a, c);
     int d4 = determinant(a, b, a, d);
 
+    // Distinct cases:
+    // * (AB) and (CD) are not parallel and ]AB[ intersects ]CD[
+    // * A \in ]CD[ and three similar cases
+    // * [AB] = [CD]
+
     // Cormen et al. write 'if (...) return true; else if ...' LOL
-    return (d1*d2 < 0 && d3*d4 < 0) // ]AB[ intersects ]CD[
-        || (d1 == 0 && on_segment(c, d, a) && a != c && a != d)
-        || (d2 == 0 && on_segment(c, d, b) && b != c && b != d)
-        || (d3 == 0 && on_segment(a, b, c) && c != a && c != b)
-        || (d4 == 0 && on_segment(a, b, d) && d != a && d != b);
+    return (d1*d2 < 0 && d3*d4 < 0) 
+        || (d1 == 0 && on_segment(c, d, a))
+        || (d2 == 0 && on_segment(c, d, b))
+        || (d3 == 0 && on_segment(a, b, c))
+        || (d4 == 0 && on_segment(a, b, d))
+        || (a == c && b == d)
+        || (a == d && b == c);
 }
 
 // Fast point-in-triangle testing taken from StackOverflow
