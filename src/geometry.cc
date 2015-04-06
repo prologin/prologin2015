@@ -13,10 +13,6 @@ inline bool on_segment(const position& a, const position& b, const position& c)
         && std::min(a.y, b.y) <= c.y && c.y <= std::max(a.y, b.y);
 }
 
-// Test the intersection of two segments,
-// more precisely, if one of the following conditions holds:
-// * [AB] intersects ]CD[
-// * ]AB[ intersects [CD]
 bool segments_intersect(const position& a, const position& b,
                         const position& c, const position& d)
 {
