@@ -20,7 +20,7 @@ int ActionAjouterBouclier::check(const GameState* st) const
 void ActionAjouterBouclier::apply_on(GameState* st) const
 {
     // Consume action points
-    st->decrement_action_points(player_id_, COUT_LIEN);
+    st->decrement_action_points(player_id_, COUT_BOUCLIER);
 
     int portal_here = st->map().portal_id_maybe(st->player_pos(player_id_));
     st->add_shield(portal_here);

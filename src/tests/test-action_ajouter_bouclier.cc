@@ -97,3 +97,28 @@ TEST_F(ActionTest, ActionAjouterBouclier_ShieldLimit)
         EXPECT_NE(LIMITE_BOUCLIERS, action.check(st));
     }
 }
+
+// Test that a regular action just does it job
+TEST_F(ActionTest, ActionAjouterBouclier_RegularOK)
+{
+    for (int player : {PLAYER_1, PLAYER_2})
+    {
+        // Put the player in a correct state for adding shield
+        const int initial_AP = COUT_BOUCLIER + 1;
+        set_points(st, player, initial_AP);
+        set_points(st, st->get_opponent(player), initial_AP);
+        st->set_pos(player, st->portal_pos(0));
+        st->capture(0, player);
+        ActionAjouterBouclier action(player);
+
+        EXPECT_EQ(OK, action.check(st));
+        action.apply_on(st);
+
+        // Check that correct action points are consumed for correct player
+        EXPECT_EQ(initial_AP - COUT_BOUCLIER, st->action_points(player));
+        EXPECT_EQ(initial_AP, st->action_points(st->get_opponent(player)));
+
+        // Check that a shield is added
+        EXPECT_EQ(1, st->num_shields(0));
+    }
+}
