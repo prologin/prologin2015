@@ -1,5 +1,6 @@
 #include <istream>
 #include <string>
+#include <sstream>
 #include <map>
 #include <array>
 
@@ -8,6 +9,14 @@
 
 #include "constant.hh"
 #include "map.hh"
+
+
+std::string position_str(const position &p)
+{
+    std::ostringstream s;
+    s << "(" << p.x << ", " << p.y << ")";
+    return s.str();
+}
 
 Map::Map()
 {
@@ -113,7 +122,16 @@ bool Map::valid_position(position p) const
 
 int Map::portal_id_maybe(position p) const
 {
+    if (!valid_position(p))
+        throw InvalidPosition(p);
     return portals_map_[p.x*TAILLE_TERRAIN + p.y];
+}
+
+bool Map::is_portal(position p) const
+{
+    if (!valid_position(p))
+        throw InvalidPosition(p);
+    return portals_map_[p.x*TAILLE_TERRAIN+ p.y] != -1;
 }
 
 const std::vector<position>& Map::get_portals() const
