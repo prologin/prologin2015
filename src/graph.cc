@@ -93,8 +93,7 @@ std::vector<itriple> Graph::triangles() const
     std::vector<itriple> triangles;
     for (int v : degree_order)
     {
-        auto& neighb_v = adj_list_copy[v];
-        for (int u : neighb_v)
+        for (int u : adj_list_copy[v])
         {
             auto& neighb_u = adj_list_copy[u];
 
@@ -103,7 +102,8 @@ std::vector<itriple> Graph::triangles() const
 
             for (int w : neighb_u)
             {
-                if (neighb_v.find(w) != neighb_v.end())
+                auto& neighb_w = adj_list_copy[w];
+                if (neighb_w.find(v) != neighb_w.end())
                 {
                     triangles.push_back(ordered_triple(u, v, w));
                 }
