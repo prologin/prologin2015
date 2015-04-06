@@ -1,4 +1,4 @@
-#include "actions.hh"
+#include "action_detruire.hh"
 
 int ActionDetruire::check(const GameState* st) const
 {
