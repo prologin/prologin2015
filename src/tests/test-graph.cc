@@ -25,6 +25,8 @@ const bool some_adj_matrix[6][6] = {
 // |  |* |
 // 4--3--2
 
+// TODO test on larger (randomized?) graphs
+
 Graph make_some_graph()
 {
     Graph g(6);
@@ -107,6 +109,63 @@ TEST(GraphTest, remove_incident_edges)
     g2.remove_incident_edges(3);
     g2.remove_incident_edges(4);
     EXPECT_EQ(g1.edges(), g2.edges());
+}
+
+TEST(GraphTest, triangles)
+{
+    Graph g = make_some_graph();
+
+    auto triangles = g.triangles();
+
+    std::map<itriple, int> triangle_count;
+
+    for (auto& t : triangles)
+    {
+        // Check that the triangle actually exists
+        EXPECT_TRUE(g.edge_exists(std::get<0>(t), std::get<1>(t)));
+        EXPECT_TRUE(g.edge_exists(std::get<1>(t), std::get<2>(t)));
+        EXPECT_TRUE(g.edge_exists(std::get<2>(t), std::get<0>(t)));
+
+        // The list should not contain duplicates
+        EXPECT_FALSE(triangle_count.find(t) != triangle_count.end());
+
+        triangle_count[t] = 0;
+    }
+
+    for (int v = 0; v < 6; ++v)
+    {
+        auto incident = g.incident_triangles(v);
+        for (auto& e : incident)
+        {
+            auto t = ordered_triple(v, e.first, e.second);
+            // .at() raises an exception if the triangle doesn't exist
+            // -> this serves as a verification that the triangles() method
+            //    is exhaustive
+            triangle_count.at(t)++;
+        }
+    }
+    // We expect each triangle to have been counted 3 times
+    for (auto& kv : triangle_count)
+    {
+        EXPECT_EQ(kv.second, 3);
+    }
+
+    // Now, do the same thing with triangles incident to edges
+    auto edges = g.edges();
+    
+    for (auto& e : edges)
+    {
+        auto incident = g.incident_triangles(e);
+        for (auto& v : incident)
+        {
+            auto t = ordered_triple(v, e.first, e.second);
+            triangle_count.at(t)++;
+        }
+    }
+    for (auto& kv : triangle_count)
+    {
+        EXPECT_EQ(kv.second, 6);
+    }
 }
 
 
