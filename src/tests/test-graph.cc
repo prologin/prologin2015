@@ -8,6 +8,19 @@
 
 #include <algorithm>
 
+// Test ordered_triple here, since it's in graph.cc
+
+TEST(GraphTest, ordered_triple)
+{
+    itriple t = std::make_tuple(0,1,2);
+    EXPECT_EQ(ordered_triple(0,1,2), t);
+    EXPECT_EQ(ordered_triple(1,0,2), t);
+    EXPECT_EQ(ordered_triple(0,2,1), t);
+    EXPECT_EQ(ordered_triple(2,1,0), t);
+    EXPECT_EQ(ordered_triple(1,2,0), t);
+    EXPECT_EQ(ordered_triple(2,0,1), t);
+}
+
 const bool some_adj_matrix[6][6] = {
     {false, true,  false, true,  false, true},
     {true,  false, true,  true,  false, true},
