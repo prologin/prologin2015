@@ -7,7 +7,7 @@ Graph::Graph(int size)
 {
 }
 
-Graph(const Graph& g)
+Graph::Graph(const Graph& g)
     : adj_list_(g.adj_list_)
 {
 }
@@ -16,7 +16,7 @@ Graph(const Graph& g)
 bool Graph::edge_exists(ipair e) const
 {
     auto s = adj_list_[e.first];
-    return s.find(x) != s.end(); // lolSTL lawlSTL LOLSTL
+    return s.find(e.second) != s.end(); // lolSTL lawlSTL LOLSTL
 }
 
 void Graph::add_edge(ipair e)
@@ -43,16 +43,17 @@ void Graph::remove_incident_edges(int v)
 std::vector<ipair> Graph::edges() const
 {
     std::vector<ipair> edges;
-    for (int i = 0; i < adj_list_.size(); ++i)
+    for (unsigned int i = 0; i < adj_list_.size(); ++i)
     {
         auto neighb = adj_list_[i];
         // Trick to eliminate duplicates: iterate only on elements higher than i
         // Consequence: the vertices of an edge are given in order
-        for (auto p = neigh.upper_bound(i); p != neighb.end(); ++p)
+        for (auto p = neighb.upper_bound(i); p != neighb.end(); ++p)
         {
             edges.push_back(std::make_pair(i, *p));
         }
     }
+    return edges;
 }
 
 // For planar graphs, this algorithm is *linear* in the number of edges!
@@ -62,18 +63,18 @@ std::vector<ipair> Graph::edges() const
 std::vector<itriple> Graph::triangles() const
 {
     std::vector<int> degree_order(adj_list_.size(), 0);
-    for (int i = 0; i < adj_list_.size(); ++i)
+    for (unsigned int i = 0; i < adj_list_.size(); ++i)
     {
         degree_order[i] = i;
     }
     std::sort(degree_order.begin(), degree_order.end(),
               [this](int u, int v)
-              { return adj_list_[u].size() > adj_list_[v].size() });
+              { return adj_list_[u].size() > adj_list_[v].size(); });
 
     std::vector<itriple> triangles;
     for (int v : degree_order)
     {
-        auto neighb_v = adj_list_[v]
+        auto neighb_v = adj_list_[v];
         for (int u : neighb_v)
         {
             auto neighb_u = adj_list_[u];
@@ -98,7 +99,8 @@ std::vector<itriple> Graph::triangles() const
         int v = degree_order[i];
         for (int u : adj_list_[v])
         {
-            adj_list_[u].insert(v);
+            // TODO this operation is not const
+            //adj_list_[u].insert(v);
         }
     }
 
@@ -130,7 +132,8 @@ std::vector<ipair> Graph::incident_triangles(int v) const
 
     for (int u : adj_list_[v])
     {
-        adj_list_[u].insert(v);
+        // TODO this operation is not const
+        //adj_list_[u].insert(v);
     }
 
     return triangles;
@@ -140,9 +143,10 @@ std::vector<ipair> Graph::incident_triangles(int v) const
 std::vector<int> Graph::incident_triangles(ipair e) const
 {
     std::vector<int> inter;
-    std::set_intersection(e.first.begin(), e.first.end(),
-                          e.second.begin(), e.second.end()
-                          std::back_inserter(inter));
+    // TODO this is incorrect: calling begin on an integer
+    //std::set_intersection(e.first.begin(), e.first.end(),
+    //                      e.second.begin(), e.second.end()
+    //                      std::back_inserter(inter));
     return inter;
 }
 

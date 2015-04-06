@@ -7,21 +7,11 @@
 #include <rules/player.hh>
 
 #include "constant.hh"
-#include "cell.hh"
 #include "map.hh"
 
 Map::Map()
 {
     portals_map_.fill(-1);
-}
-
-Map::Map(const Map& map)
-  : portals_map_(map.start_positions_),
-    islands_(map.islands_)
-{
-    // CHECK
-    // immutability means not having to do a deep copy of the vector, right?
-    // anyway, I don't think this will be called
 }
 
 Map::~Map()
@@ -76,7 +66,7 @@ int Map::load(std::istream& s)
         if (line.length() != (size_t) TAILLE_TERRAIN)
             FATAL("map: line %d is too short or too long "
                   "(is %d long, should be %d)",
-                    y + MAX_JOUEURS, line.length(), TAILLE_TERRAIN);
+                    y, line.length(), TAILLE_TERRAIN);
 
         for (int x = 0; x < TAILLE_TERRAIN; ++x)
         {
@@ -121,9 +111,8 @@ bool Map::valid_position(position p) const
            0 <= p.y && p.y < TAILLE_TERRAIN;
 }
 
-Map::portal_id_maybe(position p) const
+int Map::portal_id_maybe(position p) const
 {
-    
     return portals_map_[p.x*TAILLE_TERRAIN + p.y];
 }
 
@@ -132,7 +121,7 @@ const std::vector<position>& Map::get_portals() const
     return portals_list_;
 }
 
-int num_portals() const
+int Map::num_portals() const
 {
     return portals_list_.size();
 }

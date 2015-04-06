@@ -13,7 +13,6 @@ class Map
 {
 public:
     Map();
-    Map(const Map& map);
     ~Map();
 
     void init_stupid_map();
