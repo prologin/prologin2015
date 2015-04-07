@@ -100,8 +100,9 @@ void GameState::neutralize(int portal_id)
 void GameState::capture(int portal_id, int player_id)
 {
     portal_player_[portal_id] = player_id;
-    // Don't forget to reset shields!
+    // Don't forget to reset shields and remove incident links!
     portal_shields_[portal_id] = 0;
+    graph_.remove_incident_edges(portal_id);
 }
 
 int GameState::num_shields(int portal_id) const

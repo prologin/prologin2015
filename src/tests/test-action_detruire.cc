@@ -109,6 +109,8 @@ TEST_F(ActionTest, ActionDetruire_RegularOK)
             // Check that portal is destroyed
             EXPECT_EQ(-1, st->owner(0));
             EXPECT_EQ(0, st->num_shields(0));
+
+            // TODO Check that incident links are destroyed
         }
     }
 }
