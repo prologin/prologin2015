@@ -2,6 +2,7 @@
 
 #include "game_state.hh"
 #include "constant.hh"
+#include "geometry.hh"
 
 GameState::GameState(Map* map, rules::Players_sptr players)
     : rules::GameState()
@@ -104,6 +105,26 @@ void GameState::capture(int portal_id, int player_id)
     portal_shields_[portal_id] = 0;
     graph_.remove_incident_edges(portal_id);
 }
+
+int GameState::owner(const ipair& link) const
+{
+    return owner(link.first);
+}
+
+int GameState::owner(const itriple& field) const
+{
+    return owner(std::get<0>(field));
+}
+
+int GameState::field_area_x2(const itriple& field) const
+{
+    auto a = portal_pos(std::get<0>(field));
+    auto b = portal_pos(std::get<1>(field));
+    auto c = portal_pos(std::get<2>(field));
+
+    return abs(determinant(a, b, a, c));
+}
+
 
 int GameState::num_shields(int portal_id) const
 {

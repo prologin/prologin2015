@@ -26,6 +26,9 @@ void ActionCapturer::apply_on(GameState* st) const
     // Consume action points
     st->decrement_action_points(player_id_, COUT_CAPTURE);
 
+    // Score reward (TODO add test)
+    st->increment_score(player_id_, POINTS_CREATION_PORTAIL);
+
     int portal_here = st->map().portal_id_maybe(st->player_pos(player_id_));
     st->capture(portal_here, player_id_);
 }

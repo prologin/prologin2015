@@ -132,3 +132,17 @@ void Rules::end_of_turn()
     api_->game_state()->increment_turn();
 }
 
+// The only game-specific piece of code in this file
+void Rules::end_of_player_turn(uint32_t player_id)
+{
+    auto& st = *(api_->game_state());
+    int area_x2 = 0;
+    auto triangles = st.graph().triangles();
+    for (auto& t : triangles)
+    {
+        if (st.owner(t) == player_id)
+            area_x2 += st.field_area_x2(t);
+    }
+    st.increment_score(player_id, (POINTS_CHAMP/2) * area_x2);
+}
+

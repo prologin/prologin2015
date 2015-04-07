@@ -49,6 +49,11 @@ public:
     int owner(int portal_id) const;
     void neutralize(int portal_id);
     void capture(int portal_id, int player_id);
+
+    int owner(const ipair& link) const;
+    int owner(const itriple& field) const;
+
+    int field_area_x2(const itriple& field) const;
     
     int num_shields(int portal_id) const;
     void add_shield(int portal_id);
