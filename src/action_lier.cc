@@ -44,7 +44,9 @@ int ActionLier::check(const GameState* st) const
     }
     
     // If a link intersects a field, either it crosses the boundary
-    // or both is endpoints are in the field
+    // or *both* its endpoints are in the field.
+    // Therefore, we only have to check *one* of the endpoints:
+    // the omission of the other one is not an error.
 
     auto fields = st->graph().triangles();
     for (auto f : fields)
