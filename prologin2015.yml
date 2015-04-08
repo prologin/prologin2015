@@ -225,6 +225,16 @@ function:
       - [ext1, position, "Premier portail."]
       - [ext2, position, "Second portail."]
 
+  -
+    fct_name: champ_existe
+    fct_summary: "Renvoie un booléen indiquant si les 3 positions repèrent
+        bien 3 portails tous reliés entre eux."
+    fct_ret_type: bool
+    fct_arg:
+      - [som1, position, "Premier portail."]
+      - [som2, position, "Deuxième portail."]
+      - [som3, position, "Troisième portail."]
+
 
 # Spécifique à une case
 
