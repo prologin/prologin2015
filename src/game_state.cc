@@ -116,11 +116,33 @@ int GameState::owner(const itriple& field) const
     return owner(std::get<0>(field));
 }
 
+lien GameState::edge_to_link(const ipair& e) const
+{
+    return (lien) { .joueur = owner(e),
+                    .extr1 = portal_pos(e.first),
+                    .extr2 = portal_pos(e.second) };
+}
+
+champ GameState::triangle_to_field(const itriple& t) const
+{
+    champ c;
+    c.joueur = owner(t);
+    unpack_triangle_pos(t, c.som1, c.som2, c.som3);
+    return c;
+}
+
+void GameState::unpack_triangle_pos(const itriple& t,
+                         position& a, position& b, position& c) const
+{
+    a = portal_pos(std::get<0>(t));
+    b = portal_pos(std::get<1>(t));
+    c = portal_pos(std::get<2>(t));
+}
+
 int GameState::field_area_x2(const itriple& field) const
 {
-    auto a = portal_pos(std::get<0>(field));
-    auto b = portal_pos(std::get<1>(field));
-    auto c = portal_pos(std::get<2>(field));
+    position a, b, c;
+    unpack_triangle_pos(field, a, b, c);
 
     return abs(determinant(a, b, a, c));
 }

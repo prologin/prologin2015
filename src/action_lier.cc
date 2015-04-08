@@ -3,6 +3,7 @@
 #include "actions.hh"
 #include "geometry.hh"
 
+// TODO replace this macro with unpack_triangle_pos
 #define VERTEX(n,f) st->portal_pos(std::get<n>(f))
 
 int ActionLier::check(const GameState* st) const

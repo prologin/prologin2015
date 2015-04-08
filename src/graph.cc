@@ -2,6 +2,13 @@
 
 #include "graph.hh"
 
+ipair ordered_pair(int a, int b)
+{
+    if (a > b)
+        std::swap(a, b);
+    return std::make_pair(a,b);
+}
+
 // Size 3 sorting network
 itriple ordered_triple(int a, int b, int c)
 {

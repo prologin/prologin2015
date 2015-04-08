@@ -12,6 +12,7 @@
 
 typedef std::pair<int,int> ipair;
 typedef std::tuple<int,int,int> itriple;
+ipair ordered_pair(int a, int b);
 itriple ordered_triple(int a, int b, int c);
 
 class Graph

@@ -52,7 +52,11 @@ public:
 
     int owner(const ipair& link) const;
     int owner(const itriple& field) const;
+    lien edge_to_link(const ipair& e) const;
+    champ triangle_to_field(const itriple& t) const;
 
+    void unpack_triangle_pos(const itriple& t,
+                             position& a, position& b, position& c) const;
     int field_area_x2(const itriple& field) const;
     
     int num_shields(int portal_id) const;
