@@ -11,9 +11,12 @@
 */
 
 #include <stdlib.h>
+#include <algorithm>
 
 #include "api.hh"
 #include "actions.hh"
+
+#include "geometry.hh"
 
 // global used in interface.cc
 Api* api;
@@ -143,8 +146,14 @@ erreur Api::utiliser_turbo()
 //
 std::vector<lien> Api::liste_liens()
 {
-  // TODO
-  abort();
+    // TODO tester
+
+    auto edges = game_state_->graph().edges();
+    std::vector<lien> links; 
+    std::transform (edges.cbegin(), edges.cend(), links.begin(),
+                    [this](const ipair& e)
+                    { return game_state_->edge_to_link(e); });
+    return links;
 }
 
 ///
@@ -152,8 +161,14 @@ std::vector<lien> Api::liste_liens()
 //
 std::vector<champ> Api::liste_champs()
 {
-  // TODO
-  abort();
+    // TODO tester
+
+    auto triangles = game_state_->graph().triangles();
+    std::vector<champ> fields(triangles.size());
+    std::transform (triangles.cbegin(), triangles.cend(), fields.begin(),
+                    [this](const itriple& t)
+                    { return game_state_->triangle_to_field(t); });
+    return fields;
 }
 
 ///
@@ -161,8 +176,7 @@ std::vector<champ> Api::liste_champs()
 //
 std::vector<position> Api::liste_portails()
 {
-  // TODO
-  abort();
+    return game_state_->map().get_portals();
 }
 
 ///
@@ -170,10 +184,18 @@ std::vector<position> Api::liste_portails()
 //
 std::vector<lien> Api::liens_bloquants(position ext1, position ext2)
 {
-  // TODO
-  (void) ext1;
-  (void) ext2;
-  abort();
+    // TODO tester
+
+    auto edges = game_state_->graph().edges();
+    std::vector<lien> blocking_links;
+    for (const auto& e : edges)
+    {
+        if (segments_intersect(ext1, ext2,
+                               game_state_->portal_pos(e.first),
+                               game_state_->portal_pos(e.second)))
+            blocking_links.push_back(game_state_->edge_to_link(e));
+    }
+    return blocking_links;
 }
 
 ///
@@ -181,9 +203,15 @@ std::vector<lien> Api::liens_bloquants(position ext1, position ext2)
 //
 bool Api::case_dans_champ(position pos)
 {
-  // TODO
-  (void) pos;
-  abort();
+    // TODO tester
+
+    auto triangles = game_state_->graph().triangles();
+    return std::any_of(triangles.cbegin(), triangles.cend(),
+                       [this, &pos](const itriple& t) {
+                           position a, b, c;
+                           game_state_->unpack_triangle_pos(t, a, b, c);
+                           return point_in_triangle(a, b, c, pos);
+                       });
 }
 
 ///
@@ -191,9 +219,18 @@ bool Api::case_dans_champ(position pos)
 //
 std::vector<champ> Api::case_champs(position pos)
 {
-  // TODO
-  (void) pos;
-  abort();
+    // TODO tester
+
+    auto triangles = game_state_->graph().triangles();
+    std::vector<champ> result;
+    position a, b, c;
+    for (const auto& t : triangles)
+    {
+        game_state_->unpack_triangle_pos(t, a, b, c);
+        if (point_in_triangle(a, b, c, pos))
+            result.push_back(game_state_->triangle_to_field(t));
+    }
+    return result;
 }
 
 ///
@@ -201,9 +238,12 @@ std::vector<champ> Api::case_champs(position pos)
 //
 int Api::portail_joueur(position portail)
 {
-  // TODO
-  (void) portail;
-  abort();
+    // TODO tester
+
+    int portal_id = game_state_->map().portal_id_maybe(portail);
+    if (portal_id == -1)
+        return -2;
+    return game_state_->owner(portal_id);
 }
 
 ///
@@ -211,9 +251,13 @@ int Api::portail_joueur(position portail)
 //
 int Api::portail_boucliers(position portail)
 {
-  // TODO
-  (void) portail;
-  abort();
+    // TODO tester
+
+    int portal_id = game_state_->map().portal_id_maybe(portail);
+    if (portal_id == -1)
+        return -2; // CHECK do we use this convention
+
+    return game_state_->num_shields(portal_id);
 }
 
 ///
@@ -221,9 +265,22 @@ int Api::portail_boucliers(position portail)
 //
 std::vector<lien> Api::liens_incidents_portail(position portail)
 {
-  // TODO
-  (void) portail;
-  abort();
+    // TODO tester
+
+    std::vector<lien> incident_links;
+
+    int portal_id = game_state_->map().portal_id_maybe(portail);
+    if (portal_id != -1) // TODO agree on the wanted behavior in that case
+    {
+        auto& neighbors = game_state_->graph().adj_list()[portal_id];
+        for (int v : neighbors)
+        {
+            auto e = ordered_pair(portal_id, v);
+            incident_links.push_back(game_state_->edge_to_link(e));
+        }
+    }
+
+    return incident_links; // empty if not a portal
 }
 
 ///
@@ -231,9 +288,22 @@ std::vector<lien> Api::liens_incidents_portail(position portail)
 //
 std::vector<champ> Api::champs_incidents_portail(position portail)
 {
-  // TODO
-  (void) portail;
-  abort();
+    // TODO tester
+
+    std::vector<champ> incident_fields;
+
+    int portal_id = game_state_->map().portal_id_maybe(portail);
+    if (portal_id != -1) // TODO agree on the wanted behavior in that case
+    {
+        auto neighbor_edges = game_state_->graph().incident_triangles(portal_id);
+        for (auto& e : neighbor_edges)
+        {
+            auto t = ordered_triple(portal_id, e.first, e.second);
+            incident_fields.push_back(game_state_->triangle_to_field(t));
+        }
+    }
+
+    return incident_fields; // empty if not a portal
 }
 
 ///
@@ -241,9 +311,25 @@ std::vector<champ> Api::champs_incidents_portail(position portail)
 //
 std::vector<champ> Api::champs_incidents_lien(lien lien)
 {
-  // TODO
-  (void) lien;
-  abort();
+    // TODO tester
+
+    std::vector<champ> incident_fields;
+
+    int u = game_state_->map().portal_id_maybe(lien.extr1);
+    int v = game_state_->map().portal_id_maybe(lien.extr2);
+    if (u != -1 && v != -1)
+    {
+        // fix me this line spills over the 80th column :p
+        auto third_vertices = game_state_->graph().incident_triangles(std::make_pair(u,v));
+        for (int w : third_vertices)
+        {
+            auto t = ordered_triple(u, v, w);
+            incident_fields.push_back(game_state_->triangle_to_field(t));
+        }
+    }
+
+    return incident_fields; // empty if not a portal
+
 }
 
 ///
@@ -287,10 +373,7 @@ std::vector<position> Api::hist_champs_crees()
 //
 int Api::distance(position pos1, position pos2)
 {
-  // TODO
-  (void) pos1;
-  (void) pos2;
-  abort();
+    return l1_distance(pos1, pos2);
 }
 
 ///
@@ -298,11 +381,7 @@ int Api::distance(position pos1, position pos2)
 //
 int Api::score_triangle(position som1, position som2, position som3)
 {
-  // TODO
-  (void) som1;
-  (void) som2;
-  (void) som3;
-  abort();
+    return (POINTS_CHAMP/2) * abs(determinant(som1, som2, som1, som3));
 }
 
 ///
@@ -310,12 +389,7 @@ int Api::score_triangle(position som1, position som2, position som3)
 //
 bool Api::intersection_segments(position a1, position a2, position b1, position b2)
 {
-  // TODO
-  (void) a1;
-  (void) a2;
-  (void) b1;
-  (void) b2;
-  abort();
+    return segments_intersect(a1, a2, b1, b2);
 }
 
 ///
@@ -323,8 +397,7 @@ bool Api::intersection_segments(position a1, position a2, position b1, position 
 //
 int Api::moi()
 {
-  // TODO
-  abort();
+    return player_->id;
 }
 
 ///
@@ -332,8 +405,7 @@ int Api::moi()
 //
 int Api::adversaire()
 {
-  // TODO
-  abort();
+    return game_state_->get_opponent(player_->id);
 }
 
 ///
@@ -341,9 +413,7 @@ int Api::adversaire()
 //
 position Api::position_agent(int id_joueur)
 {
-  // TODO
-  (void) id_joueur;
-  abort();
+    return game_state_->player_pos(id_joueur);
 }
 
 ///
@@ -351,9 +421,7 @@ position Api::position_agent(int id_joueur)
 //
 int Api::score(int id_joueur)
 {
-  // TODO
-  (void) id_joueur;
-  abort();
+    return game_state_->get_score(id_joueur);
 }
 
 ///
@@ -361,8 +429,7 @@ int Api::score(int id_joueur)
 //
 int Api::tour_actuel()
 {
-  // TODO
-  abort();
+    return game_state_->get_current_turn();
 }
 
 ///
@@ -370,8 +437,14 @@ int Api::tour_actuel()
 //
 bool Api::annuler()
 {
-  // TODO
-  abort();
+    // CHECK
+    if (!game_state_->can_cancel())
+        return false;
+
+    actions_.cancel();
+    game_state_ = rules::cancel(game_state_);
+
+    return true;
 }
 
 ///
