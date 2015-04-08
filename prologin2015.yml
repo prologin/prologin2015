@@ -217,19 +217,9 @@ function:
 
   -
     fct_name: lien_joueur
-    fct_summary: "Renvoie le numéro du joueur ayant créé le lien donné,
+    fct_summary: "Renvoie le numéro du joueur contrôlant le lien donné,
         -1 si le lien n'existe pas. Vous pouvez utiliser cette fonction
         pour vérifier si deux portails sont reliés."
-    fct_ret_type: int
-    fct_arg:
-      - [ext1, position, "Premier portail."]
-      - [ext2, position, "Second portail."]
-
-  -
-    fct_name: champ_joueur
-    fct_summary: "Renvoie le numéro du joueur contrôlant le champ donné,
-        -1 si les trois portails donnés ne constituent pas les sommets d'un champ.
-        Vous pouvez utiliser cette fonction pour vérifier si un champ existe."
     fct_ret_type: int
     fct_arg:
       - [ext1, position, "Premier portail."]
