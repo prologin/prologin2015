@@ -21,6 +21,7 @@ def build(bld):
             src/action_utiliser_turbo.cc
             src/action_utiliser_virus.cc
             src/api.cc
+            src/dumper.cc
             src/entry.cc
             src/errors.cc
             src/game_state.cc

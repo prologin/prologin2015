@@ -14,8 +14,9 @@
 #include <algorithm>
 
 #include "api.hh"
-#include "actions.hh"
 
+#include "actions.hh"
+#include "dumper.hh"
 #include "geometry.hh"
 
 // global used in interface.cc
@@ -445,6 +446,16 @@ bool Api::annuler()
     game_state_ = rules::cancel(game_state_);
 
     return true;
+}
+
+///
+// Retourne un dump JSON de l'état complet du jeu.
+//
+char *Api::get_dump()
+{
+    if (player_->type != rules::SPECTATOR)
+        return NULL;
+    return dump_game_state(*game_state_, actions_);
 }
 
 ///

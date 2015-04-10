@@ -409,6 +409,11 @@ extern "C" bool api_annuler()
   return api->annuler();
 }
 
+extern "C" char *api_get_dump()
+{
+  return api->get_dump();
+}
+
 ///
 // Affiche le contenu d'une valeur de type erreur
 //

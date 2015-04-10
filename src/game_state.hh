@@ -37,6 +37,7 @@ public:
 
     bool is_finished() const;
 
+    rules::Players_sptr get_players() const { return players_; }
     int get_opponent(int player_id) const;
     int get_score(int player_id) const;
     void increment_score(int player_id, int delta);

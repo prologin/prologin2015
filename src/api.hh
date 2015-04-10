@@ -34,7 +34,7 @@ public:
 
     const rules::Player_sptr player() const { return player_; }
     void player_set(rules::Player_sptr player) { player_ = player; }
-        
+
     rules::Actions* actions() { return &actions_; }
 
     const GameState* game_state() const { return game_state_; }
@@ -174,6 +174,10 @@ public:
 // Annule la dernière action. Renvoie ``false`` quand il n'y a pas d'action à annuler ce tour-ci.
 //
    bool annuler();
+///
+// Retourne un dump JSON de l'état complet du jeu.
+//
+   char *get_dump();
 ///
 // Affiche le contenu d'une valeur de type erreur
 //
