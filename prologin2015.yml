@@ -254,13 +254,6 @@ function:
       - [portail, position, "Position du portail."]
 
   -
-    fct_name: portail_energie
-    fct_summary: Renvoie la quantité d'énergie restante sur un portail.
-    fct_ret_type: int
-    fct_arg:
-      - [portail, position, "Position du portail."]
-
-  -
     fct_name: liens_incidents_portail
     fct_summary: "Renvoie la liste de tous les liens dont le portail donné est
         une extrémité."
