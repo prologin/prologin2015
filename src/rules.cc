@@ -140,7 +140,7 @@ void Rules::end_of_player_turn(uint32_t player_id)
     auto triangles = st.graph().triangles();
     for (auto& t : triangles)
     {
-        if (st.owner(t) == player_id)
+        if (st.owner(t) == static_cast<int>(player_id))
             area_x2 += st.field_area_x2(t);
     }
     st.increment_score(player_id, (POINTS_CHAMP/2) * area_x2);

@@ -118,9 +118,9 @@ int GameState::owner(const itriple& field) const
 
 lien GameState::edge_to_link(const ipair& e) const
 {
-    return (lien) { .joueur = owner(e),
-                    .extr1 = portal_pos(e.first),
-                    .extr2 = portal_pos(e.second) };
+    return (lien) { .extr1 = portal_pos(e.first),
+                    .extr2 = portal_pos(e.second),
+                    .joueur = owner(e) };
 }
 
 champ GameState::triangle_to_field(const itriple& t) const
