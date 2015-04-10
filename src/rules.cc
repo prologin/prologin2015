@@ -135,6 +135,12 @@ void Rules::end_of_turn()
 // The only game-specific piece of code in this file
 void Rules::end_of_player_turn(uint32_t player_id)
 {
+    // Don't try anything if this player is actually a spectator: spectators
+    // are not supposed to change the game state themselves.
+    if (api_->player() == nullptr
+            || api_->player()->type != rules::PLAYER)
+        return;
+
     auto& st = *(api_->game_state());
     int area_x2 = 0;
     auto triangles = st.graph().triangles();
