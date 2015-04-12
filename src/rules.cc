@@ -88,7 +88,7 @@ bool Rules::is_finished()
 
 void Rules::at_start()
 {
-    api_->game_state()->increment_turn();
+    api_->game_state()->go_next_turn();
 }
 
 void Rules::at_client_start()
@@ -129,7 +129,7 @@ void Rules::start_of_turn()
 
 void Rules::end_of_turn()
 {
-    api_->game_state()->increment_turn();
+    api_->game_state()->go_next_turn();
 }
 
 // The only game-specific piece of code in this file

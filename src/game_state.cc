@@ -60,9 +60,16 @@ int GameState::get_current_turn() const
     return current_turn_;
 }
 
-void GameState::increment_turn()
+void GameState::go_next_turn()
 {
-    current_turn_++;
+    ++current_turn_;
+    for (auto& player : player_info_)
+    {
+        player_info& pi = player.second;
+        pi.action_points = NB_POINTS_ACTION;
+        pi.move_points = NB_POINTS_DEPLACEMENT;
+        // TODO: update the score
+    }
 }
 
 bool GameState::is_finished() const

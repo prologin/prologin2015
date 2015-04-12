@@ -45,10 +45,9 @@ public:
 
     // Return the current turn number.
     int get_current_turn() const;
-    // Increment the current turn number.  This just increments the "turn"
-    // counter. On the other hand, it does not currently reset other counters
-    // such as players' action/move points.
-    void increment_turn();
+    // Go to the next turn: increment the current turn number, reset
+    // action/move points and update scores.
+    void go_next_turn();
 
     // Return false when it's still time for players to play, true otherwise.
     bool is_finished() const;
