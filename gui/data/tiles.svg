@@ -17,8 +17,8 @@
    inkscape:version="0.91 r13725"
    sodipodi:docname="portal.svg"
    inkscape:export-filename="/home/pmderodat/prologin/prologin2015/gui/data/player2.png"
-   inkscape:export-xdpi="90"
-   inkscape:export-ydpi="90">
+   inkscape:export-xdpi="25.4"
+   inkscape:export-ydpi="25.4">
   <defs
      id="defs4" />
   <sodipodi:namedview
@@ -29,7 +29,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="10.195278"
-     inkscape:cx="9.366519"
+     inkscape:cx="7.8952496"
      inkscape:cy="29.698457"
      inkscape:document-units="px"
      inkscape:current-layer="layer4"
@@ -79,7 +79,7 @@
      style="display:none">
     <path
        style="fill:#bfbfbf;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 4.0214696,3.5800897 13.0452564,0 C 17.007596,10.52462 14.671381,15.04026 10.691224,17.80236 6.3232827,14.96228 4.198945,11.0367 4.0214696,3.5800897 Z"
+       d="m 4.008273,3.5577904 23.067708,0 C 26.971422,15.802132 22.840332,23.763943 15.802288,28.633977 8.0785305,23.626452 4.3220998,16.705013 4.008273,3.5577904 Z"
        id="path4181"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cccc" />
@@ -90,8 +90,8 @@
      inkscape:label="Player1"
      style="display:none">
     <path
-       style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;fill:#ff80ff;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:0.94188952;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate"
-       d="m 13.094147,37.94754 a 5.7901732,5.6516608 0 0 0 -5.7917893,5.6533 5.7901732,5.6516608 0 0 0 3.0746053,4.9891 c -0.5525276,7.0816 -1.3793338,13.759 -5.2921643,15.9207 l -0.1921623,3.7663 16.4030196,0 -0.192171,-3.7663 c -3.913548,-2.1621 -4.743483,-8.8414 -5.296007,-15.9243 a 5.7901732,5.6516608 0 0 0 3.074606,-4.9855 5.7901732,5.6516608 0 0 0 -5.787944,-5.6533 z"
+       style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;fill:#ff80ff;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate"
+       d="m 12.982214,30.882494 a 7.232382,7.0235625 0 0 0 -7.2344,7.0256 7.232382,7.0235625 0 0 0 3.840424,6.20017 C 8.8980875,52.908873 7.8653415,61.207166 2.9779083,63.893604 l -0.2400258,4.680543 20.4886615,0 -0.240036,-4.680543 C 18.098178,61.206669 17.061524,52.906015 16.371378,44.10379 a 7.232382,7.0235625 0 0 0 3.840425,-6.195696 7.232382,7.0235625 0 0 0 -7.229597,-7.0256 z"
        id="path4171"
        inkscape:connector-curvature="0" />
   </g>
@@ -102,8 +102,8 @@
      style="display:inline">
     <path
        inkscape:connector-curvature="0"
-       id="path4179"
-       d="m 58.409244,37.94754 a 5.7901732,5.6516608 0 0 0 -5.791789,5.6533 5.7901732,5.6516608 0 0 0 3.074605,4.9891 c -0.552528,7.0816 -1.379334,13.759 -5.292164,15.9207 l -0.192163,3.7663 16.40302,0 -0.192171,-3.7663 c -3.913548,-2.1621 -4.743483,-8.8414 -5.296007,-15.9243 a 5.7901732,5.6516608 0 0 0 3.074606,-4.9855 5.7901732,5.6516608 0 0 0 -5.787944,-5.6533 z"
-       style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;fill:#ff80ff;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:0.94188952;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate" />
+       id="path4237"
+       d="m 58.101142,30.882494 a 7.232382,7.0235625 0 0 0 -7.2344,7.0256 7.232382,7.0235625 0 0 0 3.840424,6.20017 c -0.690151,8.800609 -1.722897,17.098902 -6.61033,19.78534 l -0.240026,4.680543 20.488662,0 -0.240036,-4.680543 C 63.217106,61.206669 62.180452,52.906015 61.490306,44.10379 a 7.232382,7.0235625 0 0 0 3.840425,-6.195696 7.232382,7.0235625 0 0 0 -7.229597,-7.0256 z"
+       style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;fill:#ff80ff;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate" />
   </g>
 </svg>
