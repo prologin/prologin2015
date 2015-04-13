@@ -98,12 +98,11 @@ enum:
       - [position_eloignee, "La destination est trop éloignée."]
       - [portail_ami, "Le portail vous appartient."]
       - [portail_neutre, "Le portail est neutre."]
-      - [portail_ennemi, "Le portail ne vous appartient pas."]
+      - [portail_ennemi, "Le portail appartient à votre adversaire."]
       - [lien_intersection, "Le lien croise un lien existant."]
       - [lien_champ, "Le lien se trouve dans un champ existant."]
       - [limite_boucliers, "Ce portail est équipé du nombre maximal de
                             boucliers."]
-      - [valeur_invalide, "La valeur donnée est invalide."]
 
 struct:
   -
@@ -151,8 +150,8 @@ function:
       - [portail, position, "Portail de destination du lien."]
 
   -
-    fct_name: detruire
-    fct_summary: Détruit le portail où se trouve votre agent.
+    fct_name: neutraliser
+    fct_summary: Neutralise le portail où se trouve votre agent.
     fct_ret_type: erreur
     fct_action: yes
     fct_arg: []
@@ -216,6 +215,27 @@ function:
       - [ext1, position, "Première extrémité du segment."]
       - [ext2, position, "Seconde extrémité du segment."]
 
+  -
+    fct_name: lien_joueur
+    fct_summary: "Renvoie le numéro du joueur contrôlant le lien donné,
+        -1 si le lien n'existe pas. Vous pouvez utiliser cette fonction
+        pour vérifier si deux portails sont reliés."
+    fct_ret_type: int
+    fct_arg:
+      - [ext1, position, "Premier portail."]
+      - [ext2, position, "Second portail."]
+
+  -
+    fct_name: champ_existe
+    fct_summary: "Renvoie un booléen indiquant si les 3 positions repèrent
+        bien 3 portails tous reliés entre eux."
+    fct_ret_type: bool
+    fct_arg:
+      - [som1, position, "Premier portail."]
+      - [som2, position, "Deuxième portail."]
+      - [som3, position, "Troisième portail."]
+
+
 # Spécifique à une case
 
   -
@@ -228,10 +248,9 @@ function:
 
   -
     fct_name: case_champs
-    fct_summary: Renvoie la liste des champs dans lesquels la case ``pos`` se
-        trouve. Si la case est un portail, le résultat de
-        ``champs_incidents_portail`` sera inclus dans (mais pas forcément égal
-        à) celui de ``case_champs``.
+    fct_summary: Renvoie la liste des champs à l'intérieur desquels ``pos``
+        se trouve. Si la case est un portail, le résultat de ``case_champs``
+        sera disjoint de celui de ``champs_incidents_portail``.
     fct_ret_type: champ array
     fct_arg:
       - [pos, position, "Position de la case."]
