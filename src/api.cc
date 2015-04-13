@@ -210,13 +210,26 @@ int Api::lien_joueur(position ext1, position ext2)
 {
     // TODO tester
 
-    auto triangles = game_state_->graph().triangles();
-    return std::any_of(triangles.cbegin(), triangles.cend(),
-                       [this, &pos](const itriple& t) {
-                           position a, b, c;
-                           game_state_->unpack_triangle_pos(t, a, b, c);
-                           return point_in_triangle(a, b, c, pos);
-                       });
+    const Map& map = game_state_->map();
+    const int portal1 = map.portal_id_maybe(ext1);
+    const int portal2 = map.portal_id_maybe(ext2);
+
+    // If any of the two cells does not hold a portal, then there can be no
+    // link between "ext1" and "ext2".
+    if (portal1 == -1 || portal2 == -1)
+        return -1;
+
+    // Return the owner of any portal for the potential edge that link the two
+    // portals.
+    for (const auto& edge : game_state_->graph().edges())
+    {
+        if ((edge.first == portal1 && edge.second == portal2)
+             || (edge.first == portal2 && edge.second == portal1))
+        {
+            return game_state_->owner(portal1);
+        }
+    }
+    return -1;
 }
 
 ///
@@ -227,16 +240,15 @@ bool Api::champ_existe(position som1, position som2, position som3)
 {
     // TODO tester
 
-    auto triangles = game_state_->graph().triangles();
-    std::vector<champ> result;
-    position a, b, c;
-    for (const auto& t : triangles)
-    {
-        game_state_->unpack_triangle_pos(t, a, b, c);
-        if (point_in_triangle(a, b, c, pos))
-            result.push_back(game_state_->triangle_to_field(t));
-    }
-    return result;
+    int owner1, owner2;
+
+    owner1 = lien_joueur(som1, som2);
+    if (owner1 == -1)
+        return false;
+    owner2 = lien_joueur(som2, som3);
+    if (owner2 == -1)
+        return false;
+    return lien_joueur(som1, som3) != -1;
 }
 
 ///
@@ -246,10 +258,13 @@ bool Api::case_dans_champ(position pos)
 {
     // TODO tester
 
-    int portal_id = game_state_->map().portal_id_maybe(portail);
-    if (portal_id == -1)
-        return -2;
-    return game_state_->owner(portal_id);
+    auto triangles = game_state_->graph().triangles();
+    return std::any_of(triangles.cbegin(), triangles.cend(),
+                       [this, &pos](const itriple& t) {
+                           position a, b, c;
+                           game_state_->unpack_triangle_pos(t, a, b, c);
+                           return point_in_triangle(a, b, c, pos);
+                       });
 }
 
 ///
@@ -260,12 +275,7 @@ bool Api::case_dans_champ(position pos)
 std::vector<champ> Api::case_champs(position pos)
 {
     // TODO tester
-
-    int portal_id = game_state_->map().portal_id_maybe(portail);
-    if (portal_id == -1)
-        return -2; // CHECK do we use this convention
-
-    return game_state_->num_shields(portal_id);
+  abort();
 }
 ///
 // Renvoie le numéro du joueur correspondant au portail donné, -1 si le portail
