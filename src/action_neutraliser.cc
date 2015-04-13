@@ -1,6 +1,6 @@
-#include "action_detruire.hh"
+#include "actions.hh"
 
-int ActionDetruire::check(const GameState* st) const
+int ActionNeutraliser::check(const GameState* st) const
 {
     // Check that the agent's current position is a portal
     int portal_here = st->map().portal_id_maybe(st->player_pos(player_id_));
@@ -18,7 +18,7 @@ int ActionDetruire::check(const GameState* st) const
     return OK;
 }
 
-void ActionDetruire::apply_on(GameState* st) const
+void ActionNeutraliser::apply_on(GameState* st) const
 {
     int portal_here = st->map().portal_id_maybe(st->player_pos(player_id_));
 
