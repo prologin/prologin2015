@@ -22,11 +22,10 @@ typedef enum erreur {
   POSITION_ELOIGNEE, /* <- La destination est trop éloignée. */
   PORTAIL_AMI, /* <- Le portail vous appartient. */
   PORTAIL_NEUTRE, /* <- Le portail est neutre. */
-  PORTAIL_ENNEMI, /* <- Le portail ne vous appartient pas. */
+  PORTAIL_ENNEMI, /* <- Le portail appartient à votre adversaire. */
   LIEN_INTERSECTION, /* <- Le lien croise un lien existant. */
   LIEN_CHAMP, /* <- Le lien se trouve dans un champ existant. */
   LIMITE_BOUCLIERS, /* <- Ce portail est équipé du nombre maximal de boucliers. */
-  VALEUR_INVALIDE, /* <- La valeur donnée est invalide. */
 } erreur;
 
 
@@ -74,9 +73,9 @@ erreur api_capturer();
 erreur api_lier(position portail);
 
 ///
-// Détruit le portail où se trouve votre agent.
+// Neutralise le portail où se trouve votre agent.
 //
-erreur api_detruire();
+erreur api_neutraliser();
 
 ///
 // Déplace votre agent sur la case passée en argument.
@@ -119,12 +118,22 @@ std::vector<position> api_liste_portails();
 std::vector<lien> api_liens_bloquants(position ext1, position ext2);
 
 ///
+// Renvoie le numéro du joueur contrôlant le lien donné, -1 si le lien n'existe pas. Vous pouvez utiliser cette fonction pour vérifier si deux portails sont reliés.
+//
+int api_lien_joueur(position ext1, position ext2);
+
+///
+// Renvoie un booléen indiquant si les 3 positions repèrent bien 3 portails tous reliés entre eux.
+//
+bool api_champ_existe(position som1, position som2, position som3);
+
+///
 // Renvoie un booléen indiquant si la case ``pos`` se trouve dans un champ.
 //
 bool api_case_dans_champ(position pos);
 
 ///
-// Renvoie la liste des champs dans lesquels la case ``pos`` se trouve. Si la case est un portail, le résultat de ``champs_incidents_portail`` sera inclus dans (mais pas forcément égal à) celui de ``case_champs``.
+// Renvoie la liste des champs à l'intérieur desquels ``pos`` se trouve. Si la case est un portail, le résultat de ``case_champs`` sera disjoint de celui de ``champs_incidents_portail``.
 //
 std::vector<champ> api_case_champs(position pos);
 
