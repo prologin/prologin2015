@@ -47,7 +47,8 @@ erreur Api::capturer()
 }
 
 ///
-// Crée un lien entre le portail où se trouve votre agent et le portail de destination donné en argument.
+// Crée un lien entre le portail où se trouve votre agent et le portail de
+// destination donné en argument.
 //
 erreur Api::lier(position portail)
 {
@@ -181,7 +182,8 @@ std::vector<position> Api::liste_portails()
 }
 
 ///
-// Renvoie la liste de tous les liens existants qui croisent un segment, entravant la création d'un lien.
+// Renvoie la liste de tous les liens existants qui croisent un segment,
+// entravant la création d'un lien.
 //
 std::vector<lien> Api::liens_bloquants(position ext1, position ext2)
 {
@@ -200,7 +202,9 @@ std::vector<lien> Api::liens_bloquants(position ext1, position ext2)
 }
 
 ///
-// Renvoie le numéro du joueur contrôlant le lien donné, -1 si le lien n'existe pas. Vous pouvez utiliser cette fonction pour vérifier si deux portails sont reliés.
+// Renvoie le numéro du joueur contrôlant le lien donné, -1 si le lien n'existe
+// pas. Vous pouvez utiliser cette fonction pour vérifier si deux portails sont
+// reliés.
 //
 int Api::lien_joueur(position ext1, position ext2)
 {
@@ -216,7 +220,8 @@ int Api::lien_joueur(position ext1, position ext2)
 }
 
 ///
-// Renvoie un booléen indiquant si les 3 positions repèrent bien 3 portails tous reliés entre eux.
+// Renvoie un booléen indiquant si les 3 positions repèrent bien 3 portails
+// tous reliés entre eux.
 //
 bool Api::champ_existe(position som1, position som2, position som3)
 {
@@ -248,7 +253,9 @@ bool Api::case_dans_champ(position pos)
 }
 
 ///
-// Renvoie la liste des champs à l'intérieur desquels ``pos`` se trouve. Si la case est un portail, le résultat de ``case_champs`` sera disjoint de celui de ``champs_incidents_portail``.
+// Renvoie la liste des champs à l'intérieur desquels ``pos`` se trouve. Si la
+// case est un portail, le résultat de ``case_champs`` sera disjoint de celui
+// de ``champs_incidents_portail``.
 //
 std::vector<champ> Api::case_champs(position pos)
 {
@@ -261,7 +268,9 @@ std::vector<champ> Api::case_champs(position pos)
     return game_state_->num_shields(portal_id);
 }
 ///
-// Renvoie le numéro du joueur correspondant au portail donné, -1 si le portail est neutre, -2 si la case n'est pas un portail. Vous pouvez utiliser cette fonction pour vérifier qu'une case donnée est bien un portail.
+// Renvoie le numéro du joueur correspondant au portail donné, -1 si le portail
+// est neutre, -2 si la case n'est pas un portail. Vous pouvez utiliser cette
+// fonction pour vérifier qu'une case donnée est bien un portail.
 //
 int Api::portail_joueur(position portail)
 {
@@ -313,7 +322,8 @@ std::vector<champ> Api::champs_incidents_portail(position portail)
     int portal_id = game_state_->map().portal_id_maybe(portail);
     if (portal_id != -1) // TODO agree on the wanted behavior in that case
     {
-        auto neighbor_edges = game_state_->graph().incident_triangles(portal_id);
+        auto neighbor_edges
+          = game_state_->graph().incident_triangles(portal_id);
         for (auto& e : neighbor_edges)
         {
             auto t = ordered_triple(portal_id, e.first, e.second);
@@ -338,7 +348,8 @@ std::vector<champ> Api::champs_incidents_lien(lien lien)
     if (u != -1 && v != -1)
     {
         // fix me this line spills over the 80th column :p
-        auto third_vertices = game_state_->graph().incident_triangles(std::make_pair(u,v));
+        auto third_vertices
+          = game_state_->graph().incident_triangles(std::make_pair(u,v));
         for (int w : third_vertices)
         {
             auto t = ordered_triple(u, v, w);
@@ -360,7 +371,8 @@ std::vector<position> Api::hist_portails_captures()
 }
 
 ///
-// Renvoie la liste des portails détruits par votre adversaire au dernier tour. Cela inclut toutes les utilisations de virus.
+// Renvoie la liste des portails détruits par votre adversaire au dernier tour.
+// Cela inclut toutes les utilisations de virus.
 //
 std::vector<position> Api::hist_portails_detruits()
 {
@@ -395,7 +407,8 @@ int Api::distance(position pos1, position pos2)
 }
 
 ///
-// Renvoie le nombre de points que rapporte(rait) chaque tour un champ existant ou hypothétique.
+// Renvoie le nombre de points que rapporte(rait) chaque tour un champ existant
+// ou hypothétique.
 //
 int Api::score_triangle(position som1, position som2, position som3)
 {
@@ -403,9 +416,12 @@ int Api::score_triangle(position som1, position som2, position som3)
 }
 
 ///
-// Indique si deux segments se croisent. Cette fonction correspond exactement à la condition d'interférence entre liens, c'est-à-dire qu'elle renvoie ``false`` si l'intersection est une extrémité des deux segments.
+// Indique si deux segments se croisent. Cette fonction correspond exactement à
+// la condition d'interférence entre liens, c'est-à-dire qu'elle renvoie
+// ``false`` si l'intersection est une extrémité des deux segments.
 //
-bool Api::intersection_segments(position a1, position a2, position b1, position b2)
+bool Api::intersection_segments(position a1, position a2,
+                                position b1, position b2)
 {
     return segments_intersect(a1, a2, b1, b2);
 }
@@ -427,7 +443,8 @@ int Api::adversaire()
 }
 
 ///
-// Indique la position de l'agent du joueur désigné par le numéro ``id_joueur``.
+// Indique la position de l'agent du joueur désigné par le numéro
+// ``id_joueur``.
 //
 position Api::position_agent(int id_joueur)
 {
@@ -451,7 +468,8 @@ int Api::tour_actuel()
 }
 
 ///
-// Annule la dernière action. Renvoie ``false`` quand il n'y a pas d'action à annuler ce tour-ci.
+// Annule la dernière action. Renvoie ``false`` quand il n'y a pas d'action à
+// annuler ce tour-ci.
 //
 bool Api::annuler()
 {
