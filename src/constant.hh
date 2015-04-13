@@ -44,14 +44,14 @@
 # define COUT_LIEN                 5
 
 ///
-// Nombre de points d'actions que coûte la destruction d'un portail de base.
+// Nombre de points d'actions que coûte la neutralisation d'un portail de base.
 //
-# define COUT_DESTRUCTION          50
+# define COUT_NEUTRALISATION       50
 
 ///
 // Nombre de points d'actions supplémentaires que coûte l'attaque pour chaque bouclier présent.
 //
-# define COUT_DESTRUCTION_BOUCLIER 20
+# define COUT_NEUTRALISATION_BOUCLIER 20
 
 ///
 // Nombre de points d'actions que coûte la mise en place d'un bouclier.

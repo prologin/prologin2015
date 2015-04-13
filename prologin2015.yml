@@ -32,13 +32,13 @@ constant:
     cst_comment: Nombre de points d'actions que coûte la création d'un lien
 
   -
-    cst_name: COUT_DESTRUCTION
+    cst_name: COUT_NEUTRALISATION
     cst_val: 50
-    cst_comment: Nombre de points d'actions que coûte la destruction
+    cst_comment: Nombre de points d'actions que coûte la neutralisation
                  d'un portail de base.
 
   -
-    cst_name: COUT_DESTRUCTION_BOUCLIER
+    cst_name: COUT_NEUTRALISATION_BOUCLIER
     cst_val: 20
     cst_comment: Nombre de points d'actions supplémentaires que coûte
                  l'attaque pour chaque bouclier présent.
