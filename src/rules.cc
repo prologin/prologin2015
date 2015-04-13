@@ -31,8 +31,8 @@ Rules::Rules(const rules::Options opt)
         []() -> rules::IAction* { return new ActionLier(); }
         );
     api_->actions()->register_action(
-        ID_ACTION_DETRUIRE,
-        []() -> rules::IAction* { return new ActionDetruire(); }
+        ID_ACTION_NEUTRALISER,
+        []() -> rules::IAction* { return new ActionNeutraliser(); }
         );
     api_->actions()->register_action(
         ID_ACTION_DEPLACER,

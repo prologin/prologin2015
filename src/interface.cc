@@ -74,7 +74,6 @@ std::string convert_to_string(erreur in){
     case LIEN_INTERSECTION: return "\"lien_intersection\"";
     case LIEN_CHAMP: return "\"lien_champ\"";
     case LIMITE_BOUCLIERS: return "\"limite_boucliers\"";
-    case VALEUR_INVALIDE: return "\"valeur_invalide\"";
   }
   return "bad value";
 }
@@ -178,11 +177,11 @@ extern "C" erreur api_lier(position portail)
 }
 
 ///
-// Détruit le portail où se trouve votre agent.
+// Neutralise le portail où se trouve votre agent.
 //
-extern "C" erreur api_detruire()
+extern "C" erreur api_neutraliser()
 {
-  return api->detruire();
+  return api->neutraliser();
 }
 
 ///
@@ -250,6 +249,22 @@ extern "C" std::vector<lien> api_liens_bloquants(position ext1, position ext2)
 }
 
 ///
+// Renvoie le numéro du joueur contrôlant le lien donné, -1 si le lien n'existe pas. Vous pouvez utiliser cette fonction pour vérifier si deux portails sont reliés.
+//
+extern "C" int api_lien_joueur(position ext1, position ext2)
+{
+  return api->lien_joueur(ext1, ext2);
+}
+
+///
+// Renvoie un booléen indiquant si les 3 positions repèrent bien 3 portails tous reliés entre eux.
+//
+extern "C" bool api_champ_existe(position som1, position som2, position som3)
+{
+  return api->champ_existe(som1, som2, som3);
+}
+
+///
 // Renvoie un booléen indiquant si la case ``pos`` se trouve dans un champ.
 //
 extern "C" bool api_case_dans_champ(position pos)
@@ -258,7 +273,7 @@ extern "C" bool api_case_dans_champ(position pos)
 }
 
 ///
-// Renvoie la liste des champs dans lesquels la case ``pos`` se trouve. Si la case est un portail, le résultat de ``champs_incidents_portail`` sera inclus dans (mais pas forcément égal à) celui de ``case_champs``.
+// Renvoie la liste des champs à l'intérieur desquels ``pos`` se trouve. Si la case est un portail, le résultat de ``case_champs`` sera disjoint de celui de ``champs_incidents_portail``.
 //
 extern "C" std::vector<champ> api_case_champs(position pos)
 {
@@ -279,14 +294,6 @@ extern "C" int api_portail_joueur(position portail)
 extern "C" int api_portail_boucliers(position portail)
 {
   return api->portail_boucliers(portail);
-}
-
-///
-// Renvoie la quantité d'énergie restante sur un portail.
-//
-extern "C" int api_portail_energie(position portail)
-{
-  return api->portail_energie(portail);
 }
 
 ///
@@ -434,7 +441,6 @@ std::ostream& operator<<(std::ostream& os, erreur v)
   case LIEN_INTERSECTION: os << "LIEN_INTERSECTION"; break;
   case LIEN_CHAMP: os << "LIEN_CHAMP"; break;
   case LIMITE_BOUCLIERS: os << "LIMITE_BOUCLIERS"; break;
-  case VALEUR_INVALIDE: os << "VALEUR_INVALIDE"; break;
   }
   return os;
 }

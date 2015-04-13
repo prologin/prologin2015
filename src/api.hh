@@ -59,9 +59,9 @@ public:
 //
    erreur lier(position portail);
 ///
-// Détruit le portail où se trouve votre agent.
+// Neutralise le portail où se trouve votre agent.
 //
-   erreur detruire();
+   erreur neutraliser();
 ///
 // Déplace votre agent sur la case passée en argument.
 //
@@ -95,11 +95,19 @@ public:
 //
    std::vector<lien> liens_bloquants(position ext1, position ext2);
 ///
+// Renvoie le numéro du joueur contrôlant le lien donné, -1 si le lien n'existe pas. Vous pouvez utiliser cette fonction pour vérifier si deux portails sont reliés.
+//
+   int lien_joueur(position ext1, position ext2);
+///
+// Renvoie un booléen indiquant si les 3 positions repèrent bien 3 portails tous reliés entre eux.
+//
+   bool champ_existe(position som1, position som2, position som3);
+///
 // Renvoie un booléen indiquant si la case ``pos`` se trouve dans un champ.
 //
    bool case_dans_champ(position pos);
 ///
-// Renvoie la liste des champs dans lesquels la case ``pos`` se trouve. Si la case est un portail, le résultat de ``champs_incidents_portail`` sera inclus dans (mais pas forcément égal à) celui de ``case_champs``.
+// Renvoie la liste des champs à l'intérieur desquels ``pos`` se trouve. Si la case est un portail, le résultat de ``case_champs`` sera disjoint de celui de ``champs_incidents_portail``.
 //
    std::vector<champ> case_champs(position pos);
 ///
@@ -110,10 +118,6 @@ public:
 // Renvoie le nombre de boucliers présents sur un portail.
 //
    int portail_boucliers(position portail);
-///
-// Renvoie la quantité d'énergie restante sur un portail.
-//
-   int portail_energie(position portail);
 ///
 // Renvoie la liste de tous les liens dont le portail donné est une extrémité.
 //

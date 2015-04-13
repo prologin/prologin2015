@@ -54,6 +54,11 @@
 # define COUT_DESTRUCTION_BOUCLIER 20
 
 ///
+// Nombre de points d'actions que coûte la mise en place d'un bouclier.
+//
+# define COUT_BOUCLIER             10
+
+///
 // Nombre de points d'actions que coûte l'utilisation d'un virus
 //
 # define COUT_VIRUS                100
@@ -99,11 +104,10 @@ typedef enum erreur {
   POSITION_ELOIGNEE, /* <- La destination est trop éloignée. */
   PORTAIL_AMI, /* <- Le portail vous appartient. */
   PORTAIL_NEUTRE, /* <- Le portail est neutre. */
-  PORTAIL_ENNEMI, /* <- Le portail ne vous appartient pas. */
+  PORTAIL_ENNEMI, /* <- Le portail appartient à votre adversaire. */
   LIEN_INTERSECTION, /* <- Le lien croise un lien existant. */
   LIEN_CHAMP, /* <- Le lien se trouve dans un champ existant. */
   LIMITE_BOUCLIERS, /* <- Ce portail est équipé du nombre maximal de boucliers. */
-  VALEUR_INVALIDE, /* <- La valeur donnée est invalide. */
 } erreur;
 
 
