@@ -8,7 +8,7 @@ int ActionNeutraliser::check(const GameState* st) const
 
     // Check action points
     int n = st->num_shields(portal_here);
-    int cost = COUT_DESTRUCTION + n * COUT_DESTRUCTION_BOUCLIER;
+    int cost = COUT_NEUTRALISATION + n * COUT_NEUTRALISATION_BOUCLIER;
     if (st->action_points(player_id_) < cost)
         return PA_INSUFFISANTS;
 
@@ -24,7 +24,7 @@ void ActionNeutraliser::apply_on(GameState* st) const
 
     // Consume action points
     int n = st->num_shields(portal_here);
-    int cost = COUT_DESTRUCTION + n * COUT_DESTRUCTION_BOUCLIER;
+    int cost = COUT_NEUTRALISATION + n * COUT_NEUTRALISATION_BOUCLIER;
     st->decrement_action_points(player_id_, cost);
 
     st->neutralize(portal_here);
