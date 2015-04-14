@@ -168,9 +168,9 @@ std::vector<champ> api_champs_incidents_lien(lien lien);
 std::vector<position> api_hist_portails_captures();
 
 ///
-// Renvoie la liste des portails détruits par votre adversaire au dernier tour. Cela inclut toutes les utilisations de virus.
+// Renvoie la liste des portails neutralisés par votre adversaire au dernier tour. Cela inclut toutes les utilisations de virus.
 //
-std::vector<position> api_hist_portails_detruits();
+std::vector<position> api_hist_portails_neutralises();
 
 ///
 // Renvoie la liste des liens créés par votre adversaire au dernier tour.

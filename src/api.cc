@@ -381,10 +381,10 @@ std::vector<position> Api::hist_portails_captures()
 }
 
 ///
-// Renvoie la liste des portails détruits par votre adversaire au dernier tour.
-// Cela inclut toutes les utilisations de virus.
+// Renvoie la liste des portails neutralisés par votre adversaire au dernier
+// tour. Cela inclut toutes les utilisations de virus.
 //
-std::vector<position> Api::hist_portails_detruits()
+std::vector<position> Api::hist_portails_neutralises()
 {
   // TODO
   abort();

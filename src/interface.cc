@@ -329,11 +329,11 @@ extern "C" std::vector<position> api_hist_portails_captures()
 }
 
 ///
-// Renvoie la liste des portails détruits par votre adversaire au dernier tour. Cela inclut toutes les utilisations de virus.
+// Renvoie la liste des portails neutralisés par votre adversaire au dernier tour. Cela inclut toutes les utilisations de virus.
 //
-extern "C" std::vector<position> api_hist_portails_detruits()
+extern "C" std::vector<position> api_hist_portails_neutralises()
 {
-  return api->hist_portails_detruits();
+  return api->hist_portails_neutralises();
 }
 
 ///

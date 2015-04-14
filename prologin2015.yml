@@ -306,9 +306,10 @@ function:
     fct_ret_type: position array
     fct_arg: []
   -
-    fct_name: hist_portails_detruits
-    fct_summary: "Renvoie la liste des portails détruits par votre adversaire
-        au dernier tour. Cela inclut toutes les utilisations de virus."
+    fct_name: hist_portails_neutralises
+    fct_summary: "Renvoie la liste des portails neutralisés par votre
+        adversaire au dernier tour. Cela inclut toutes les utilisations de
+        virus."
     fct_ret_type: position array
     fct_arg: []
   -
