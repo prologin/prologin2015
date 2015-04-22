@@ -218,8 +218,9 @@ function:
   -
     fct_name: lien_joueur
     fct_summary: "Renvoie le numéro du joueur contrôlant le lien donné,
-        -1 si le lien n'existe pas. Vous pouvez utiliser cette fonction
-        pour vérifier si deux portails sont reliés."
+        -1 si le lien n'existe pas (mais les deux positions sont bien des
+        portails). Vous pouvez utiliser cette fonction pour vérifier si
+        deux portails sont reliés."
     fct_ret_type: int
     fct_arg:
       - [ext1, position, "Premier portail."]
@@ -289,12 +290,14 @@ function:
       - [portail, position, "Position du portail."]
 
   -
-    fct_name: champs_incidents_lien
+    fct_name: champs_incidents_segment
     fct_summary: "Renvoie la liste de tous les champs dont le lien donné est un
-        côté."
+        côté. Si le segment n'est pas un lien présent, renvoie la liste de tous les
+        champs que la création du lien ferait apparaître."
     fct_ret_type: champ array
     fct_arg:
-      - [lien, lien, "Structure décrivant le lien."]
+      - [ext1, position, "Première extrémité du segment."]
+      - [ext2, position, "Seconde extrémité du segment."]
 
 
 # Historique (actions de l'adversaire le tour précédent)
