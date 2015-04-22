@@ -13,9 +13,6 @@
 #include "map.hh"
 #include "graph.hh"
 
-
-// Additionnal information for players to complete Stechec player data
-// structures.
 struct player_info
 {
     // Action an move points still available for the player for the current
@@ -92,8 +89,8 @@ public:
     // Helper to unpack triangles into portals.
     void unpack_triangle_pos(const itriple& t,
                              position& a, position& b, position& c) const;
-    // TODO: I guess this computes twice the number of cells covered by some
-    // field?
+    // Computes the area of the triangle spanned by a field,
+    // multiplied by a factor of 2 to ensure that it is an integer
     int field_area_x2(const itriple& field) const;
 
     // Return the number of shieleds associated to "portal_id".
