@@ -125,7 +125,7 @@ TEST_F(ActionTest, ActionLier_RegularOK)
         EXPECT_EQ(initial_AP, st->action_points(st->get_opponent(player)));
 
         // Check that the link is created
-        EXPECT_TRUE(st->graph().edge_exists(0,1));
-        st->graph().remove_edge(0,1);
+        EXPECT_TRUE(st->graph().edge_exists({0,1}));
+        st->graph().remove_edge({0,1});
     }
 }

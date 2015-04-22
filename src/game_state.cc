@@ -115,6 +115,8 @@ void GameState::capture(int portal_id, int player_id)
 
 int GameState::owner(const ipair& link) const
 {
+    // TODO check that the two endpoints have the same owner
+    // and raise error if the invariant is broken
     return owner(link.first);
 }
 

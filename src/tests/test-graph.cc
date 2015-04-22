@@ -45,13 +45,13 @@ Graph make_some_graph()
     Graph g(6);
     for (int i = 0; i < 6; ++i)
     {
-        g.add_edge(i, (i+1) % 6);
+        g.add_edge({i, (i+1) % 6});
     }
-    g.add_edge(5,1);
-    g.add_edge(0,3);
-    g.add_edge(1,3);
+    g.add_edge({5,1});
+    g.add_edge({0,3});
+    g.add_edge({1,3});
     // redundant add_edge juste to see what it does
-    g.add_edge(2,1);
+    g.add_edge({2,1});
     return g;
 }
 
@@ -106,12 +106,12 @@ TEST(GraphTest, remove_incident_edges)
     // Delete incident edges semi-manually
     for (int u : g1.adj_list()[4])
     {
-        EXPECT_TRUE(g1.edge_exists(4,u));
-        g1.remove_edge(4,u);
+        EXPECT_TRUE(g1.edge_exists({4,u}));
+        g1.remove_edge({4,u});
     }
     for (int u : g1.adj_list()[3])
     {
-        g1.remove_edge(3,u);
+        g1.remove_edge({3,u});
     }
 
     // Check number of edges deleted
@@ -135,9 +135,9 @@ TEST(GraphTest, triangles)
     for (auto& t : triangles)
     {
         // Check that the triangle actually exists
-        EXPECT_TRUE(g.edge_exists(std::get<0>(t), std::get<1>(t)));
-        EXPECT_TRUE(g.edge_exists(std::get<1>(t), std::get<2>(t)));
-        EXPECT_TRUE(g.edge_exists(std::get<2>(t), std::get<0>(t)));
+        EXPECT_TRUE(g.edge_exists({std::get<0>(t), std::get<1>(t)}));
+        EXPECT_TRUE(g.edge_exists({std::get<1>(t), std::get<2>(t)}));
+        EXPECT_TRUE(g.edge_exists({std::get<2>(t), std::get<0>(t)}));
 
         // The list should not contain duplicates
         EXPECT_FALSE(triangle_count.find(t) != triangle_count.end());
