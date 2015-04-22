@@ -98,7 +98,7 @@ public:
 
     // Return the number of shieleds associated to "portal_id".
     int num_shields(int portal_id) const;
-    // Increment the of shields associated to "portal_id".
+    // Increment the number of shields associated to "portal_id".
     void add_shield(int portal_id);
 
     // Return the number of action points still available for "player_id" for
