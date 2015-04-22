@@ -1,5 +1,5 @@
 rules: libprologin2015.so
-map: dummy_map.txt
+map: ../maps/dummy_map.txt
 verbose: 5
 clients:
     - champion.so
