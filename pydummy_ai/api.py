@@ -19,11 +19,11 @@ COUT_CAPTURE = 5
 # Nombre de points d'actions que coûte la création d'un lien
 COUT_LIEN = 5
 
-# Nombre de points d'actions que coûte la destruction d'un portail de base.
-COUT_DESTRUCTION = 50
+# Nombre de points d'actions que coûte la neutralisation d'un portail de base.
+COUT_NEUTRALISATION = 50
 
 # Nombre de points d'actions supplémentaires que coûte l'attaque pour chaque bouclier présent.
-COUT_DESTRUCTION_BOUCLIER = 20
+COUT_NEUTRALISATION_BOUCLIER = 20
 
 # Nombre de points d'actions que coûte la mise en place d'un bouclier.
 COUT_BOUCLIER = 10
@@ -61,11 +61,10 @@ class erreur(IntEnum):
     POSITION_ELOIGNEE = 4  # <- La destination est trop éloignée.
     PORTAIL_AMI = 5  # <- Le portail vous appartient.
     PORTAIL_NEUTRE = 6  # <- Le portail est neutre.
-    PORTAIL_ENNEMI = 7  # <- Le portail ne vous appartient pas.
+    PORTAIL_ENNEMI = 7  # <- Le portail appartient à votre adversaire.
     LIEN_INTERSECTION = 8  # <- Le lien croise un lien existant.
     LIEN_CHAMP = 9  # <- Le lien se trouve dans un champ existant.
     LIMITE_BOUCLIERS = 10  # <- Ce portail est équipé du nombre maximal de boucliers.
-    VALEUR_INVALIDE = 11  # <- La valeur donnée est invalide.
 
 
 from collections import namedtuple

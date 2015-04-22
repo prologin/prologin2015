@@ -118,7 +118,7 @@ std::vector<position> api_liste_portails();
 std::vector<lien> api_liens_bloquants(position ext1, position ext2);
 
 ///
-// Renvoie le numéro du joueur contrôlant le lien donné, -1 si le lien n'existe pas. Vous pouvez utiliser cette fonction pour vérifier si deux portails sont reliés.
+// Renvoie le numéro du joueur contrôlant le lien donné, -1 si le lien n'existe pas (mais les deux positions sont bien des portails). Vous pouvez utiliser cette fonction pour vérifier si deux portails sont reliés.
 //
 int api_lien_joueur(position ext1, position ext2);
 
@@ -158,9 +158,9 @@ std::vector<lien> api_liens_incidents_portail(position portail);
 std::vector<champ> api_champs_incidents_portail(position portail);
 
 ///
-// Renvoie la liste de tous les champs dont le lien donné est un côté.
+// Renvoie la liste de tous les champs dont le lien donné est un côté. Si le segment n'est pas un lien présent, renvoie la liste de tous les champs que la création du lien ferait apparaître.
 //
-std::vector<champ> api_champs_incidents_lien(lien lien);
+std::vector<champ> api_champs_incidents_segment(position ext1, position ext2);
 
 ///
 // Renvoie la liste des portails capturés par votre adversaire au dernier tour.

@@ -405,7 +405,7 @@ return cxx2lang_array(api_liens_bloquants(lang2cxx<PyObject*, position>(a0), lan
 }
 
 ///
-// Renvoie le numéro du joueur contrôlant le lien donné, -1 si le lien n'existe pas. Vous pouvez utiliser cette fonction pour vérifier si deux portails sont reliés.
+// Renvoie le numéro du joueur contrôlant le lien donné, -1 si le lien n'existe pas (mais les deux positions sont bien des portails). Vous pouvez utiliser cette fonction pour vérifier si deux portails sont reliés.
 //
 static PyObject* p_lien_joueur(PyObject* self, PyObject* args)
 {
@@ -528,17 +528,18 @@ return cxx2lang_array(api_champs_incidents_portail(lang2cxx<PyObject*, position>
 }
 
 ///
-// Renvoie la liste de tous les champs dont le lien donné est un côté.
+// Renvoie la liste de tous les champs dont le lien donné est un côté. Si le segment n'est pas un lien présent, renvoie la liste de tous les champs que la création du lien ferait apparaître.
 //
-static PyObject* p_champs_incidents_lien(PyObject* self, PyObject* args)
+static PyObject* p_champs_incidents_segment(PyObject* self, PyObject* args)
 {
   (void)self;
 PyObject* a0;
-  if (!PyArg_ParseTuple(args, "O", &a0)) {
+PyObject* a1;
+  if (!PyArg_ParseTuple(args, "OO", &a0, &a1)) {
     return NULL;
   }
     try {
-return cxx2lang_array(api_champs_incidents_lien(lang2cxx<PyObject*, lien>(a0)));
+return cxx2lang_array(api_champs_incidents_segment(lang2cxx<PyObject*, position>(a0), lang2cxx<PyObject*, position>(a1)));
   } catch (...) { return NULL; }
 }
 
@@ -808,7 +809,7 @@ api_afficher_champ(lang2cxx<PyObject*, champ>(a0));
 ** Api functions to register.
 */
 static PyMethodDef api_callback[] = {
-  {"capturer", p_capturer, METH_VARARGS, "capturer"},  {"lier", p_lier, METH_VARARGS, "lier"},  {"neutraliser", p_neutraliser, METH_VARARGS, "neutraliser"},  {"deplacer", p_deplacer, METH_VARARGS, "deplacer"},  {"ajouter_bouclier", p_ajouter_bouclier, METH_VARARGS, "ajouter_bouclier"},  {"utiliser_virus", p_utiliser_virus, METH_VARARGS, "utiliser_virus"},  {"utiliser_turbo", p_utiliser_turbo, METH_VARARGS, "utiliser_turbo"},  {"liste_liens", p_liste_liens, METH_VARARGS, "liste_liens"},  {"liste_champs", p_liste_champs, METH_VARARGS, "liste_champs"},  {"liste_portails", p_liste_portails, METH_VARARGS, "liste_portails"},  {"liens_bloquants", p_liens_bloquants, METH_VARARGS, "liens_bloquants"},  {"lien_joueur", p_lien_joueur, METH_VARARGS, "lien_joueur"},  {"champ_existe", p_champ_existe, METH_VARARGS, "champ_existe"},  {"case_dans_champ", p_case_dans_champ, METH_VARARGS, "case_dans_champ"},  {"case_champs", p_case_champs, METH_VARARGS, "case_champs"},  {"portail_joueur", p_portail_joueur, METH_VARARGS, "portail_joueur"},  {"portail_boucliers", p_portail_boucliers, METH_VARARGS, "portail_boucliers"},  {"liens_incidents_portail", p_liens_incidents_portail, METH_VARARGS, "liens_incidents_portail"},  {"champs_incidents_portail", p_champs_incidents_portail, METH_VARARGS, "champs_incidents_portail"},  {"champs_incidents_lien", p_champs_incidents_lien, METH_VARARGS, "champs_incidents_lien"},  {"hist_portails_captures", p_hist_portails_captures, METH_VARARGS, "hist_portails_captures"},  {"hist_portails_neutralises", p_hist_portails_neutralises, METH_VARARGS, "hist_portails_neutralises"},  {"hist_liens_crees", p_hist_liens_crees, METH_VARARGS, "hist_liens_crees"},  {"hist_champs_crees", p_hist_champs_crees, METH_VARARGS, "hist_champs_crees"},  {"distance", p_distance, METH_VARARGS, "distance"},  {"score_triangle", p_score_triangle, METH_VARARGS, "score_triangle"},  {"intersection_segments", p_intersection_segments, METH_VARARGS, "intersection_segments"},  {"moi", p_moi, METH_VARARGS, "moi"},  {"adversaire", p_adversaire, METH_VARARGS, "adversaire"},  {"position_agent", p_position_agent, METH_VARARGS, "position_agent"},  {"score", p_score, METH_VARARGS, "score"},  {"tour_actuel", p_tour_actuel, METH_VARARGS, "tour_actuel"},  {"annuler", p_annuler, METH_VARARGS, "annuler"},  {"afficher_erreur", p_afficher_erreur, METH_VARARGS, "afficher_erreur"},  {"afficher_position", p_afficher_position, METH_VARARGS, "afficher_position"},  {"afficher_lien", p_afficher_lien, METH_VARARGS, "afficher_lien"},  {"afficher_champ", p_afficher_champ, METH_VARARGS, "afficher_champ"},  {NULL, NULL, 0, NULL}
+  {"capturer", p_capturer, METH_VARARGS, "capturer"},  {"lier", p_lier, METH_VARARGS, "lier"},  {"neutraliser", p_neutraliser, METH_VARARGS, "neutraliser"},  {"deplacer", p_deplacer, METH_VARARGS, "deplacer"},  {"ajouter_bouclier", p_ajouter_bouclier, METH_VARARGS, "ajouter_bouclier"},  {"utiliser_virus", p_utiliser_virus, METH_VARARGS, "utiliser_virus"},  {"utiliser_turbo", p_utiliser_turbo, METH_VARARGS, "utiliser_turbo"},  {"liste_liens", p_liste_liens, METH_VARARGS, "liste_liens"},  {"liste_champs", p_liste_champs, METH_VARARGS, "liste_champs"},  {"liste_portails", p_liste_portails, METH_VARARGS, "liste_portails"},  {"liens_bloquants", p_liens_bloquants, METH_VARARGS, "liens_bloquants"},  {"lien_joueur", p_lien_joueur, METH_VARARGS, "lien_joueur"},  {"champ_existe", p_champ_existe, METH_VARARGS, "champ_existe"},  {"case_dans_champ", p_case_dans_champ, METH_VARARGS, "case_dans_champ"},  {"case_champs", p_case_champs, METH_VARARGS, "case_champs"},  {"portail_joueur", p_portail_joueur, METH_VARARGS, "portail_joueur"},  {"portail_boucliers", p_portail_boucliers, METH_VARARGS, "portail_boucliers"},  {"liens_incidents_portail", p_liens_incidents_portail, METH_VARARGS, "liens_incidents_portail"},  {"champs_incidents_portail", p_champs_incidents_portail, METH_VARARGS, "champs_incidents_portail"},  {"champs_incidents_segment", p_champs_incidents_segment, METH_VARARGS, "champs_incidents_segment"},  {"hist_portails_captures", p_hist_portails_captures, METH_VARARGS, "hist_portails_captures"},  {"hist_portails_neutralises", p_hist_portails_neutralises, METH_VARARGS, "hist_portails_neutralises"},  {"hist_liens_crees", p_hist_liens_crees, METH_VARARGS, "hist_liens_crees"},  {"hist_champs_crees", p_hist_champs_crees, METH_VARARGS, "hist_champs_crees"},  {"distance", p_distance, METH_VARARGS, "distance"},  {"score_triangle", p_score_triangle, METH_VARARGS, "score_triangle"},  {"intersection_segments", p_intersection_segments, METH_VARARGS, "intersection_segments"},  {"moi", p_moi, METH_VARARGS, "moi"},  {"adversaire", p_adversaire, METH_VARARGS, "adversaire"},  {"position_agent", p_position_agent, METH_VARARGS, "position_agent"},  {"score", p_score, METH_VARARGS, "score"},  {"tour_actuel", p_tour_actuel, METH_VARARGS, "tour_actuel"},  {"annuler", p_annuler, METH_VARARGS, "annuler"},  {"afficher_erreur", p_afficher_erreur, METH_VARARGS, "afficher_erreur"},  {"afficher_position", p_afficher_position, METH_VARARGS, "afficher_position"},  {"afficher_lien", p_afficher_lien, METH_VARARGS, "afficher_lien"},  {"afficher_champ", p_afficher_champ, METH_VARARGS, "afficher_champ"},  {NULL, NULL, 0, NULL}
 };
 
 PyMODINIT_FUNC PyInit__api()
