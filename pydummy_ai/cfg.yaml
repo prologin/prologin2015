@@ -2,7 +2,7 @@ rules: libprologin2015.so
 map: ../maps/dummy_map.txt
 verbose: 5
 clients:
-    - champion.so
-    - champion.so
+    - ./champion.so
+    - ./champion.so
 spectators:
     - ../dumper/dumper.so
