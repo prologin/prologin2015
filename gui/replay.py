@@ -18,9 +18,6 @@ settings.load(sys.argv[1:])
 filename = settings.options.file
 
 
-print(filename)
-
-
 if filename.endswith('.gz'):
     dump_file = gzip.open(filename, 'rt')
 else:

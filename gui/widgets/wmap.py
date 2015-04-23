@@ -18,7 +18,6 @@ class MapWidget(BaseWidget):
     FONT_SIZE = 8
 
     def __init__(self, x, y):
-        print('Map: w={}'.format(self.WIDTH))
         super(MapWidget, self).__init__(x, y, self.WIDTH, self.HEIGHT)
 
         # initializations
