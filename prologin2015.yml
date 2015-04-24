@@ -3,7 +3,7 @@ name: prologin2015
 constant:
   -
     cst_name: TAILLE_TERRAIN
-    cst_val: 40
+    cst_val: 30
     cst_comment: Taille du terrain (longueur et largeur)
 
   -
@@ -13,50 +13,50 @@ constant:
 
   -
     cst_name: NB_POINTS_DEPLACEMENT
-    cst_val: 8
+    cst_val: 6
     cst_comment: Nombre de points de déplacements par tour
 
   -
     cst_name: NB_POINTS_ACTION
-    cst_val: 200
+    cst_val: 42
     cst_comment: Nombre de points d'action à chaque tour
 
   -
     cst_name: COUT_CAPTURE
-    cst_val: 5
+    cst_val: 1
     cst_comment: Nombre de points d'actions que coûte la capture d'un portail
 
   -
     cst_name: COUT_LIEN
-    cst_val: 5
+    cst_val: 1
     cst_comment: Nombre de points d'actions que coûte la création d'un lien
 
   -
     cst_name: COUT_NEUTRALISATION
-    cst_val: 50
+    cst_val: 10
     cst_comment: Nombre de points d'actions que coûte la neutralisation
                  d'un portail de base.
 
   -
     cst_name: COUT_NEUTRALISATION_BOUCLIER
-    cst_val: 20
+    cst_val: 4
     cst_comment: Nombre de points d'actions supplémentaires que coûte
                  l'attaque pour chaque bouclier présent.
 
   -
     cst_name: COUT_BOUCLIER
-    cst_val: 10
+    cst_val: 2
     cst_comment: Nombre de points d'actions que coûte la mise en place
                  d'un bouclier.
 
   -
     cst_name: COUT_VIRUS
-    cst_val: 100
+    cst_val: 20
     cst_comment: Nombre de points d'actions que coûte l'utilisation d'un virus
 
   -
     cst_name: COUT_TURBO
-    cst_val: 10
+    cst_val: 6
     cst_comment: Nombre de points d'actions que coûte un turbo
 
   -
@@ -310,9 +310,8 @@ function:
     fct_arg: []
   -
     fct_name: hist_portails_neutralises
-    fct_summary: "Renvoie la liste des portails neutralisés par votre
-        adversaire au dernier tour. Cela inclut toutes les utilisations de
-        virus."
+    fct_summary: "Renvoie la liste des portails neutralisés par votre adversaire
+        au dernier tour. Cela inclut toutes les utilisations de virus."
     fct_ret_type: position array
     fct_arg: []
   -

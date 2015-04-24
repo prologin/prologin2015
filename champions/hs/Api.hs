@@ -65,37 +65,37 @@ import CApi
 
 -- | Taille du terrain (longueur et largeur)
 taille_terrain  :: Int
-taille_terrain = 40
+taille_terrain = 30
 -- | Nombre de tours à jouer avant la fin de la partie
 nb_tours  :: Int
 nb_tours = 100
 -- | Nombre de points de déplacements par tour
 nb_points_deplacement  :: Int
-nb_points_deplacement = 8
+nb_points_deplacement = 6
 -- | Nombre de points d'action à chaque tour
 nb_points_action  :: Int
-nb_points_action = 200
+nb_points_action = 42
 -- | Nombre de points d'actions que coûte la capture d'un portail
 cout_capture  :: Int
-cout_capture = 5
+cout_capture = 1
 -- | Nombre de points d'actions que coûte la création d'un lien
 cout_lien  :: Int
-cout_lien = 5
+cout_lien = 1
 -- | Nombre de points d'actions que coûte la neutralisation d'un portail de base.
 cout_neutralisation  :: Int
-cout_neutralisation = 50
+cout_neutralisation = 10
 -- | Nombre de points d'actions supplémentaires que coûte l'attaque pour chaque bouclier présent.
 cout_neutralisation_bouclier  :: Int
-cout_neutralisation_bouclier = 20
+cout_neutralisation_bouclier = 4
 -- | Nombre de points d'actions que coûte la mise en place d'un bouclier.
 cout_bouclier  :: Int
-cout_bouclier = 10
+cout_bouclier = 2
 -- | Nombre de points d'actions que coûte l'utilisation d'un virus
 cout_virus  :: Int
-cout_virus = 100
+cout_virus = 20
 -- | Nombre de points d'actions que coûte un turbo
 cout_turbo  :: Int
-cout_turbo = 10
+cout_turbo = 6
 -- | Nombre de points de déplacement donnés par le turbo
 gain_turbo  :: Int
 gain_turbo = 1

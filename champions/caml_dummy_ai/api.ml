@@ -7,7 +7,7 @@
 (*
 ** Taille du terrain (longueur et largeur)
 *)
-let taille_terrain = 40
+let taille_terrain = 30
 
 (*
 ** Nombre de tours à jouer avant la fin de la partie
@@ -17,47 +17,47 @@ let nb_tours = 100
 (*
 ** Nombre de points de déplacements par tour
 *)
-let nb_points_deplacement = 8
+let nb_points_deplacement = 6
 
 (*
 ** Nombre de points d'action à chaque tour
 *)
-let nb_points_action = 200
+let nb_points_action = 42
 
 (*
 ** Nombre de points d'actions que coûte la capture d'un portail
 *)
-let cout_capture = 5
+let cout_capture = 1
 
 (*
 ** Nombre de points d'actions que coûte la création d'un lien
 *)
-let cout_lien = 5
+let cout_lien = 1
 
 (*
 ** Nombre de points d'actions que coûte la neutralisation d'un portail de base.
 *)
-let cout_neutralisation = 50
+let cout_neutralisation = 10
 
 (*
 ** Nombre de points d'actions supplémentaires que coûte l'attaque pour chaque bouclier présent.
 *)
-let cout_neutralisation_bouclier = 20
+let cout_neutralisation_bouclier = 4
 
 (*
 ** Nombre de points d'actions que coûte la mise en place d'un bouclier.
 *)
-let cout_bouclier = 10
+let cout_bouclier = 2
 
 (*
 ** Nombre de points d'actions que coûte l'utilisation d'un virus
 *)
-let cout_virus = 100
+let cout_virus = 20
 
 (*
 ** Nombre de points d'actions que coûte un turbo
 *)
-let cout_turbo = 10
+let cout_turbo = 6
 
 (*
 ** Nombre de points de déplacement donnés par le turbo

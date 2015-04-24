@@ -18,7 +18,7 @@ TEST_F(ActionTest, Deplacer_InvalidPos)
 // Test that ActionDeplacer does not accept too big moves.
 TEST_F(ActionTest, Deplacer_TooBigMove)
 {
-    ActionDeplacer act({39, 39}, PLAYER_1);
+    ActionDeplacer act({TAILLE_TERRAIN-1, TAILLE_TERRAIN-1}, PLAYER_1);
 
     EXPECT_EQ(POSITION_ELOIGNEE, act.check(st));
 }
