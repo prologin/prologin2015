@@ -16,7 +16,7 @@
 ///
 // Taille du terrain (longueur et largeur)
 //
-# define TAILLE_TERRAIN            40
+# define TAILLE_TERRAIN            30
 
 ///
 // Nombre de tours à jouer avant la fin de la partie
@@ -26,47 +26,47 @@
 ///
 // Nombre de points de déplacements par tour
 //
-# define NB_POINTS_DEPLACEMENT     8
+# define NB_POINTS_DEPLACEMENT     6
 
 ///
 // Nombre de points d'action à chaque tour
 //
-# define NB_POINTS_ACTION          200
+# define NB_POINTS_ACTION          42
 
 ///
 // Nombre de points d'actions que coûte la capture d'un portail
 //
-# define COUT_CAPTURE              5
+# define COUT_CAPTURE              1
 
 ///
 // Nombre de points d'actions que coûte la création d'un lien
 //
-# define COUT_LIEN                 5
+# define COUT_LIEN                 1
 
 ///
 // Nombre de points d'actions que coûte la neutralisation d'un portail de base.
 //
-# define COUT_NEUTRALISATION       50
+# define COUT_NEUTRALISATION       10
 
 ///
 // Nombre de points d'actions supplémentaires que coûte l'attaque pour chaque bouclier présent.
 //
-# define COUT_NEUTRALISATION_BOUCLIER 20
+# define COUT_NEUTRALISATION_BOUCLIER 4
 
 ///
 // Nombre de points d'actions que coûte la mise en place d'un bouclier.
 //
-# define COUT_BOUCLIER             10
+# define COUT_BOUCLIER             2
 
 ///
 // Nombre de points d'actions que coûte l'utilisation d'un virus
 //
-# define COUT_VIRUS                100
+# define COUT_VIRUS                20
 
 ///
 // Nombre de points d'actions que coûte un turbo
 //
-# define COUT_TURBO                10
+# define COUT_TURBO                6
 
 ///
 // Nombre de points de déplacement donnés par le turbo
