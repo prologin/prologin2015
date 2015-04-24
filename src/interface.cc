@@ -112,13 +112,13 @@ std::string convert_to_string(std::vector<position> in){
 std::string convert_to_string(lien in){
   std::string extr1 = convert_to_string(in.extr1);
   std::string extr2 = convert_to_string(in.extr2);
-  std::string joueur = convert_to_string(in.joueur);
+  std::string joueur_l = convert_to_string(in.joueur_l);
   std::string out = "{";
   out += "extr1:" + extr1;
   out += ", ";
   out += "extr2:" + extr2;
   out += ", ";
-  out += "joueur:" + joueur;
+  out += "joueur_l:" + joueur_l;
   return out + "}";
 }
 
@@ -137,7 +137,7 @@ std::string convert_to_string(champ in){
   std::string som1 = convert_to_string(in.som1);
   std::string som2 = convert_to_string(in.som2);
   std::string som3 = convert_to_string(in.som3);
-  std::string joueur = convert_to_string(in.joueur);
+  std::string joueur_c = convert_to_string(in.joueur_c);
   std::string out = "{";
   out += "som1:" + som1;
   out += ", ";
@@ -145,7 +145,7 @@ std::string convert_to_string(champ in){
   out += ", ";
   out += "som3:" + som3;
   out += ", ";
-  out += "joueur:" + joueur;
+  out += "joueur_c:" + joueur_c;
   return out + "}";
 }
 
@@ -249,11 +249,11 @@ extern "C" std::vector<lien> api_liens_bloquants(position ext1, position ext2)
 }
 
 ///
-// Renvoie le numéro du joueur contrôlant le lien donné, -1 si le lien n'existe pas (mais les deux positions sont bien des portails). Vous pouvez utiliser cette fonction pour vérifier si deux portails sont reliés.
+// Prend les positions de deux portails, et renvoie un booléen indiquant s'ils sont reliés. Le résultat est `false` lorsque l'une des deux positions ne repère pas un portail.
 //
-extern "C" int api_lien_joueur(position ext1, position ext2)
+extern "C" bool api_lien_existe(position ext1, position ext2)
 {
-  return api->lien_joueur(ext1, ext2);
+  return api->lien_existe(ext1, ext2);
 }
 
 ///
@@ -289,7 +289,7 @@ extern "C" int api_portail_joueur(position portail)
 }
 
 ///
-// Renvoie le nombre de boucliers présents sur un portail.
+// Renvoie le nombre de boucliers présents sur un portail (-2 si la case n'est pas un portail).
 //
 extern "C" int api_portail_boucliers(position portail)
 {
@@ -476,7 +476,7 @@ std::ostream& operator<<(std::ostream& os, lien v)
   os << ", ";
   os << "extr2" << "=" << v.extr2;
   os << ", ";
-  os << "joueur" << "=" << v.joueur;
+  os << "joueur_l" << "=" << v.joueur_l;
   os << " }";
   return os;
 }
@@ -497,7 +497,7 @@ std::ostream& operator<<(std::ostream& os, champ v)
   os << ", ";
   os << "som3" << "=" << v.som3;
   os << ", ";
-  os << "joueur" << "=" << v.joueur;
+  os << "joueur_c" << "=" << v.joueur_c;
   os << " }";
   return os;
 }

@@ -95,9 +95,9 @@ public:
 //
    std::vector<lien> liens_bloquants(position ext1, position ext2);
 ///
-// Renvoie le numéro du joueur contrôlant le lien donné, -1 si le lien n'existe pas (mais les deux positions sont bien des portails). Vous pouvez utiliser cette fonction pour vérifier si deux portails sont reliés.
+// Prend les positions de deux portails, et renvoie un booléen indiquant s'ils sont reliés. Le résultat est `false` lorsque l'une des deux positions ne repère pas un portail.
 //
-   int lien_joueur(position ext1, position ext2);
+   bool lien_existe(position ext1, position ext2);
 ///
 // Renvoie un booléen indiquant si les 3 positions repèrent bien 3 portails tous reliés entre eux.
 //
@@ -115,7 +115,7 @@ public:
 //
    int portail_joueur(position portail);
 ///
-// Renvoie le nombre de boucliers présents sur un portail.
+// Renvoie le nombre de boucliers présents sur un portail (-2 si la case n'est pas un portail).
 //
    int portail_boucliers(position portail);
 ///
