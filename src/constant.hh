@@ -126,7 +126,7 @@ typedef struct position {
 typedef struct lien {
   position extr1;  /* <- Première extrémité du lien. */
   position extr2;  /* <- Seconde extrémité du lien. */
-  int joueur;  /* <- Joueur possédant ce lien. */
+  int joueur_l;  /* <- Joueur possédant ce lien. */
 } lien;
 
 
@@ -137,7 +137,7 @@ typedef struct champ {
   position som1;  /* <- Premier sommet du champ. */
   position som2;  /* <- Deuxième sommet du champ. */
   position som3;  /* <- Troisième sommet du champ. */
-  int joueur;  /* <- Joueur possédant ce champ. */
+  int joueur_c;  /* <- Joueur possédant ce champ. */
 } champ;
 
 

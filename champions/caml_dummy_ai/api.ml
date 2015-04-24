@@ -112,7 +112,7 @@ type position = (int * int)
 type lien = {
   extr1 : position ; (* <- Première extrémité du lien. *)
   extr2 : position ; (* <- Seconde extrémité du lien. *)
-  joueur : int ; (* <- Joueur possédant ce lien. *)
+  joueur_l : int ; (* <- Joueur possédant ce lien. *)
 }
 
 (*
@@ -122,7 +122,7 @@ type champ = {
   som1 : position ; (* <- Premier sommet du champ. *)
   som2 : position ; (* <- Deuxième sommet du champ. *)
   som3 : position ; (* <- Troisième sommet du champ. *)
-  joueur : int ; (* <- Joueur possédant ce champ. *)
+  joueur_c : int ; (* <- Joueur possédant ce champ. *)
 }
 
 (*
@@ -170,9 +170,9 @@ external liste_portails : unit -> position array = "ml_liste_portails"
 *)
 external liens_bloquants : position -> position -> lien array = "ml_liens_bloquants"
 (*
-** Renvoie le numéro du joueur contrôlant le lien donné, -1 si le lien n'existe pas (mais les deux positions sont bien des portails). Vous pouvez utiliser cette fonction pour vérifier si deux portails sont reliés.
+** Prend les positions de deux portails, et renvoie un booléen indiquant s'ils sont reliés. Le résultat est `false` lorsque l'une des deux positions ne repère pas un portail.
 *)
-external lien_joueur : position -> position -> int = "ml_lien_joueur"
+external lien_existe : position -> position -> bool = "ml_lien_existe"
 (*
 ** Renvoie un booléen indiquant si les 3 positions repèrent bien 3 portails tous reliés entre eux.
 *)
@@ -190,7 +190,7 @@ external case_champs : position -> champ array = "ml_case_champs"
 *)
 external portail_joueur : position -> int = "ml_portail_joueur"
 (*
-** Renvoie le nombre de boucliers présents sur un portail.
+** Renvoie le nombre de boucliers présents sur un portail (-2 si la case n'est pas un portail).
 *)
 external portail_boucliers : position -> int = "ml_portail_boucliers"
 (*

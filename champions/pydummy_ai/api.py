@@ -75,7 +75,7 @@ from collections import namedtuple
 lien = namedtuple("lien",
     'extr1 ' # <- Première extrémité du lien.
     'extr2 ' # <- Seconde extrémité du lien.
-    'joueur ' # <- Joueur possédant ce lien.
+    'joueur_l ' # <- Joueur possédant ce lien.
 )
 
 
@@ -84,7 +84,7 @@ champ = namedtuple("champ",
     'som1 ' # <- Premier sommet du champ.
     'som2 ' # <- Deuxième sommet du champ.
     'som3 ' # <- Troisième sommet du champ.
-    'joueur ' # <- Joueur possédant ce champ.
+    'joueur_c ' # <- Joueur possédant ce champ.
 )
 
 

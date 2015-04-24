@@ -202,11 +202,11 @@ std::vector<lien> Api::liens_bloquants(position ext1, position ext2)
 }
 
 ///
-// Renvoie le numéro du joueur contrôlant le lien donné, -1 si le lien n'existe
-// pas (mais les deux positions sont bien des portails). Vous pouvez utiliser
-// cette fonction pour vérifier si deux portails sont reliés.
+// Prend les positions de deux portails, et renvoie un booléen
+// indiquant s'ils sont reliés. Le résultat est `false` lorsque l'une
+// des deux positions ne repère pas un portail.
 //
-int Api::lien_joueur(position ext1, position ext2)
+bool Api::lien_existe(position ext1, position ext2)
 {
     // TODO tester
 
@@ -214,15 +214,8 @@ int Api::lien_joueur(position ext1, position ext2)
     const int u = map.portal_id_maybe(ext1);
     const int v = map.portal_id_maybe(ext2);
 
-    // CHECK convention here
-    if (u == -1 || v == -1)
-        return -2;
-
-    // no link
-    if (!game_state_->graph().edge_exists({u, v}))
-        return -1;
-
-    return game_state_->owner({u,v});
+    if (u == -1 || v == -1) return false;
+    return game_state_->graph().edge_exists({u, v});
 }
 
 ///
@@ -297,7 +290,8 @@ int Api::portail_joueur(position portail)
 }
 
 ///
-// Renvoie le nombre de boucliers présents sur un portail.
+// Renvoie le nombre de boucliers présents sur un portail (-2 si la
+// case n'est pas un portail).
 //
 int Api::portail_boucliers(position portail)
 {

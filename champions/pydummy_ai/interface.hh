@@ -44,7 +44,7 @@ typedef struct position {
 typedef struct lien {
   position extr1;  /* <- Première extrémité du lien. */
   position extr2;  /* <- Seconde extrémité du lien. */
-  int joueur;  /* <- Joueur possédant ce lien. */
+  int joueur_l;  /* <- Joueur possédant ce lien. */
 } lien;
 
 
@@ -55,7 +55,7 @@ typedef struct champ {
   position som1;  /* <- Premier sommet du champ. */
   position som2;  /* <- Deuxième sommet du champ. */
   position som3;  /* <- Troisième sommet du champ. */
-  int joueur;  /* <- Joueur possédant ce champ. */
+  int joueur_c;  /* <- Joueur possédant ce champ. */
 } champ;
 
 
@@ -118,9 +118,9 @@ std::vector<position> api_liste_portails();
 std::vector<lien> api_liens_bloquants(position ext1, position ext2);
 
 ///
-// Renvoie le numéro du joueur contrôlant le lien donné, -1 si le lien n'existe pas (mais les deux positions sont bien des portails). Vous pouvez utiliser cette fonction pour vérifier si deux portails sont reliés.
+// Prend les positions de deux portails, et renvoie un booléen indiquant s'ils sont reliés. Le résultat est `false` lorsque l'une des deux positions ne repère pas un portail.
 //
-int api_lien_joueur(position ext1, position ext2);
+bool api_lien_existe(position ext1, position ext2);
 
 ///
 // Renvoie un booléen indiquant si les 3 positions repèrent bien 3 portails tous reliés entre eux.
@@ -143,7 +143,7 @@ std::vector<champ> api_case_champs(position pos);
 int api_portail_joueur(position portail);
 
 ///
-// Renvoie le nombre de boucliers présents sur un portail.
+// Renvoie le nombre de boucliers présents sur un portail (-2 si la case n'est pas un portail).
 //
 int api_portail_boucliers(position portail);
 

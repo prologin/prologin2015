@@ -130,7 +130,7 @@ __internal__cxx__lien lang2cxx<lien, __internal__cxx__lien>(lien in)
   __internal__cxx__lien out;
   out.extr1 = lang2cxx<position, __internal__cxx__position >(in.extr1);
   out.extr2 = lang2cxx<position, __internal__cxx__position >(in.extr2);
-  out.joueur = lang2cxx<int, int >(in.joueur);
+  out.joueur_l = lang2cxx<int, int >(in.joueur_l);
   return out;
 }
 
@@ -140,7 +140,7 @@ lien cxx2lang<lien, __internal__cxx__lien>(__internal__cxx__lien in)
   lien out;
   out.extr1 = cxx2lang<position, __internal__cxx__position >(in.extr1);
   out.extr2 = cxx2lang<position, __internal__cxx__position >(in.extr2);
-  out.joueur = cxx2lang<int, int >(in.joueur);
+  out.joueur_l = cxx2lang<int, int >(in.joueur_l);
   return out;
 }
 
@@ -150,7 +150,7 @@ __internal__cxx__lien lang2cxx<lien*, __internal__cxx__lien>(lien* in)
   __internal__cxx__lien out;
   out.extr1 = lang2cxx<position, __internal__cxx__position >(in->extr1);
   out.extr2 = lang2cxx<position, __internal__cxx__position >(in->extr2);
-  out.joueur = lang2cxx<int, int >(in->joueur);
+  out.joueur_l = lang2cxx<int, int >(in->joueur_l);
   return out;
 }
 
@@ -160,7 +160,7 @@ lien* cxx2lang<lien*, __internal__cxx__lien>(__internal__cxx__lien in)
   static lien out;
   out.extr1 = cxx2lang<position, __internal__cxx__position >(in.extr1);
   out.extr2 = cxx2lang<position, __internal__cxx__position >(in.extr2);
-  out.joueur = cxx2lang<int, int >(in.joueur);
+  out.joueur_l = cxx2lang<int, int >(in.joueur_l);
   return &out;
 }
 
@@ -171,7 +171,7 @@ __internal__cxx__champ lang2cxx<champ, __internal__cxx__champ>(champ in)
   out.som1 = lang2cxx<position, __internal__cxx__position >(in.som1);
   out.som2 = lang2cxx<position, __internal__cxx__position >(in.som2);
   out.som3 = lang2cxx<position, __internal__cxx__position >(in.som3);
-  out.joueur = lang2cxx<int, int >(in.joueur);
+  out.joueur_c = lang2cxx<int, int >(in.joueur_c);
   return out;
 }
 
@@ -182,7 +182,7 @@ champ cxx2lang<champ, __internal__cxx__champ>(__internal__cxx__champ in)
   out.som1 = cxx2lang<position, __internal__cxx__position >(in.som1);
   out.som2 = cxx2lang<position, __internal__cxx__position >(in.som2);
   out.som3 = cxx2lang<position, __internal__cxx__position >(in.som3);
-  out.joueur = cxx2lang<int, int >(in.joueur);
+  out.joueur_c = cxx2lang<int, int >(in.joueur_c);
   return out;
 }
 
@@ -193,7 +193,7 @@ __internal__cxx__champ lang2cxx<champ*, __internal__cxx__champ>(champ* in)
   out.som1 = lang2cxx<position, __internal__cxx__position >(in->som1);
   out.som2 = lang2cxx<position, __internal__cxx__position >(in->som2);
   out.som3 = lang2cxx<position, __internal__cxx__position >(in->som3);
-  out.joueur = lang2cxx<int, int >(in->joueur);
+  out.joueur_c = lang2cxx<int, int >(in->joueur_c);
   return out;
 }
 
@@ -204,7 +204,7 @@ champ* cxx2lang<champ*, __internal__cxx__champ>(__internal__cxx__champ in)
   out.som1 = cxx2lang<position, __internal__cxx__position >(in.som1);
   out.som2 = cxx2lang<position, __internal__cxx__position >(in.som2);
   out.som3 = cxx2lang<position, __internal__cxx__position >(in.som3);
-  out.joueur = cxx2lang<int, int >(in.joueur);
+  out.joueur_c = cxx2lang<int, int >(in.joueur_c);
   return &out;
 }
 
@@ -263,9 +263,9 @@ extern "C" lien_array* hs_liens_bloquants(position* ext1, position* ext2)
   return cxx2lang_array_ptr<lien, lien_array, __internal__cxx__lien >(api_liens_bloquants(lang2cxx<position*, __internal__cxx__position >(ext1), lang2cxx<position*, __internal__cxx__position >(ext2)));
 }
 
-extern "C" int hs_lien_joueur(position* ext1, position* ext2)
+extern "C" bool hs_lien_existe(position* ext1, position* ext2)
 {
-  return cxx2lang<int, int >(api_lien_joueur(lang2cxx<position*, __internal__cxx__position >(ext1), lang2cxx<position*, __internal__cxx__position >(ext2)));
+  return cxx2lang<bool, bool >(api_lien_existe(lang2cxx<position*, __internal__cxx__position >(ext1), lang2cxx<position*, __internal__cxx__position >(ext2)));
 }
 
 extern "C" bool hs_champ_existe(position* som1, position* som2, position* som3)

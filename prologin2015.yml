@@ -119,7 +119,7 @@ struct:
     str_field:
       - [extr1, position, "Première extrémité du lien."]
       - [extr2, position, "Seconde extrémité du lien."]
-      - [joueur, int, "Joueur possédant ce lien."]
+      - [joueur_l, int, "Joueur possédant ce lien."]
   -
     str_name: champ
     str_summary: Représente un champ de contrôle existant.
@@ -128,7 +128,7 @@ struct:
       - [som1, position, "Premier sommet du champ."]
       - [som2, position, "Deuxième sommet du champ."]
       - [som3, position, "Troisième sommet du champ."]
-      - [joueur, int, "Joueur possédant ce champ."]
+      - [joueur_c, int, "Joueur possédant ce champ."]
 
 function:
 
@@ -216,12 +216,11 @@ function:
       - [ext2, position, "Seconde extrémité du segment."]
 
   -
-    fct_name: lien_joueur
-    fct_summary: "Renvoie le numéro du joueur contrôlant le lien donné,
-        -1 si le lien n'existe pas (mais les deux positions sont bien des
-        portails). Vous pouvez utiliser cette fonction pour vérifier si
-        deux portails sont reliés."
-    fct_ret_type: int
+    fct_name: lien_existe
+    fct_summary: "Prend les positions de deux portails, et renvoie un booléen
+                  indiquant s'ils sont reliés. Le résultat est `false` lorsque
+                  l'une des deux positions ne repère pas un portail."
+    fct_ret_type: bool
     fct_arg:
       - [ext1, position, "Premier portail."]
       - [ext2, position, "Second portail."]
@@ -268,7 +267,8 @@ function:
 
   -
     fct_name: portail_boucliers
-    fct_summary: Renvoie le nombre de boucliers présents sur un portail.
+    fct_summary: "Renvoie le nombre de boucliers présents sur un portail
+                  (-2 si la case n'est pas un portail)."
     fct_ret_type: int
     fct_arg:
       - [portail, position, "Position du portail."]

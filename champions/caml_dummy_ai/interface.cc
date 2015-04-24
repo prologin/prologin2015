@@ -151,7 +151,7 @@ value cxx2lang<value, lien>(lien in)
   out = caml_alloc(3, 0);
   caml_initialize(&Field(out, 0), cxx2lang<value, position>(in.extr1));
   caml_initialize(&Field(out, 1), cxx2lang<value, position>(in.extr2));
-  caml_initialize(&Field(out, 2), cxx2lang<value, int>(in.joueur));
+  caml_initialize(&Field(out, 2), cxx2lang<value, int>(in.joueur_l));
   CAMLreturn(out);
 }
 
@@ -162,7 +162,7 @@ lien lang2cxx<value, lien>(value in)
   lien out;
   out.extr1 = lang2cxx<value, position>(Field(in, 0));
   out.extr2 = lang2cxx<value, position>(Field(in, 1));
-  out.joueur = lang2cxx<value, int>(Field(in, 2));
+  out.joueur_l = lang2cxx<value, int>(Field(in, 2));
   CAMLreturnT(lien, out);
 }
 
@@ -178,7 +178,7 @@ value cxx2lang<value, champ>(champ in)
   caml_initialize(&Field(out, 0), cxx2lang<value, position>(in.som1));
   caml_initialize(&Field(out, 1), cxx2lang<value, position>(in.som2));
   caml_initialize(&Field(out, 2), cxx2lang<value, position>(in.som3));
-  caml_initialize(&Field(out, 3), cxx2lang<value, int>(in.joueur));
+  caml_initialize(&Field(out, 3), cxx2lang<value, int>(in.joueur_c));
   CAMLreturn(out);
 }
 
@@ -190,7 +190,7 @@ champ lang2cxx<value, champ>(value in)
   out.som1 = lang2cxx<value, position>(Field(in, 0));
   out.som2 = lang2cxx<value, position>(Field(in, 1));
   out.som3 = lang2cxx<value, position>(Field(in, 2));
-  out.joueur = lang2cxx<value, int>(Field(in, 3));
+  out.joueur_c = lang2cxx<value, int>(Field(in, 3));
   CAMLreturnT(champ, out);
 }
 
@@ -321,13 +321,13 @@ extern "C" value ml_liens_bloquants(value ext1, value ext2)
 }
 
 ///
-// Renvoie le numéro du joueur contrôlant le lien donné, -1 si le lien n'existe pas (mais les deux positions sont bien des portails). Vous pouvez utiliser cette fonction pour vérifier si deux portails sont reliés.
+// Prend les positions de deux portails, et renvoie un booléen indiquant s'ils sont reliés. Le résultat est `false` lorsque l'une des deux positions ne repère pas un portail.
 //
-extern "C" value ml_lien_joueur(value ext1, value ext2)
+extern "C" value ml_lien_existe(value ext1, value ext2)
 {
   CAMLparam0();
   CAMLxparam2(ext1, ext2);
-  CAMLreturn((cxx2lang<value, int>(api_lien_joueur(lang2cxx<value, position>(ext1), lang2cxx<value, position>(ext2)))));
+  CAMLreturn((cxx2lang<value, bool>(api_lien_existe(lang2cxx<value, position>(ext1), lang2cxx<value, position>(ext2)))));
 }
 
 ///
@@ -371,7 +371,7 @@ extern "C" value ml_portail_joueur(value portail)
 }
 
 ///
-// Renvoie le nombre de boucliers présents sur un portail.
+// Renvoie le nombre de boucliers présents sur un portail (-2 si la case n'est pas un portail).
 //
 extern "C" value ml_portail_boucliers(value portail)
 {

@@ -129,13 +129,13 @@ lien GameState::edge_to_link(const ipair& e) const
 {
     return (lien) { .extr1 = portal_pos(e.first),
                     .extr2 = portal_pos(e.second),
-                    .joueur = owner(e) };
+                    .joueur_l = owner(e) };
 }
 
 champ GameState::triangle_to_field(const itriple& t) const
 {
     champ c;
-    c.joueur = owner(t);
+    c.joueur_c = owner(t);
     unpack_triangle_pos(t, c.som1, c.som2, c.som3);
     return c;
 }

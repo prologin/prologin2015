@@ -17,7 +17,7 @@ module Api ( Erreur(..)
            , liste_champs
            , liste_portails
            , liens_bloquants
-           , lien_joueur
+           , lien_existe
            , champ_existe
            , case_dans_champ
            , case_champs

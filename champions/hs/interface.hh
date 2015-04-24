@@ -15,13 +15,13 @@ typedef struct __internal__cxx__position {
 typedef struct __internal__cxx__lien {
   __internal__cxx__position extr1;
   __internal__cxx__position extr2;
-  int joueur;
+  int joueur_l;
 } __internal__cxx__lien;
 typedef struct __internal__cxx__champ {
   __internal__cxx__position som1;
   __internal__cxx__position som2;
   __internal__cxx__position som3;
-  int joueur;
+  int joueur_c;
 } __internal__cxx__champ;
 extern "C" erreur api_capturer(void);
 extern "C" erreur api_lier(__internal__cxx__position portail);
@@ -34,7 +34,7 @@ extern "C" std::vector<__internal__cxx__lien> api_liste_liens(void);
 extern "C" std::vector<__internal__cxx__champ> api_liste_champs(void);
 extern "C" std::vector<__internal__cxx__position> api_liste_portails(void);
 extern "C" std::vector<__internal__cxx__lien> api_liens_bloquants(__internal__cxx__position ext1, __internal__cxx__position ext2);
-extern "C" int api_lien_joueur(__internal__cxx__position ext1, __internal__cxx__position ext2);
+extern "C" bool api_lien_existe(__internal__cxx__position ext1, __internal__cxx__position ext2);
 extern "C" bool api_champ_existe(__internal__cxx__position som1, __internal__cxx__position som2, __internal__cxx__position som3);
 extern "C" bool api_case_dans_champ(__internal__cxx__position pos);
 extern "C" std::vector<__internal__cxx__champ> api_case_champs(__internal__cxx__position pos);

@@ -132,13 +132,13 @@ instance ApiStorable Position where
 data Lien = Lien {
       extr1 :: Position -- ^ Première extrémité du lien.
   ,   extr2 :: Position -- ^ Seconde extrémité du lien.
-  ,   joueur :: Int -- ^ Joueur possédant ce lien.
+  ,   joueur_l :: Int -- ^ Joueur possédant ce lien.
 }
   deriving(Show, Eq)
 data CLien = CLien {
       cextr1 :: CPosition -- ^ Première extrémité du lien.
   ,   cextr2 :: CPosition -- ^ Seconde extrémité du lien.
-  ,   cjoueur :: CInt -- ^ Joueur possédant ce lien.
+  ,   cjoueur_l :: CInt -- ^ Joueur possédant ce lien.
 }
 instance Storable CLien where
   sizeOf    _ = (#size lien)
@@ -148,51 +148,51 @@ instance Storable CLien where
   peek ptr = do
     aextr1 <- (#peek lien, extr1) ptr
     aextr2 <- (#peek lien, extr2) ptr
-    ajoueur <- (#peek lien, joueur) ptr
-    return $ CLien aextr1 aextr2 ajoueur
+    ajoueur_l <- (#peek lien, joueur_l) ptr
+    return $ CLien aextr1 aextr2 ajoueur_l
   {-# INLINE peek #-}
-  poke ptr (CLien aextr1 aextr2 ajoueur) = do
+  poke ptr (CLien aextr1 aextr2 ajoueur_l) = do
     (#poke lien, extr1) ptr aextr1
     (#poke lien, extr2) ptr aextr2
-    (#poke lien, joueur) ptr ajoueur
+    (#poke lien, joueur_l) ptr ajoueur_l
   {-# INLINE poke #-}
 instance ApiStorable Lien where
   type ApiStorableType Lien = Ptr CLien
-  toStorable (Lien aextr1 aextr2 ajoueur) f = toStorableBase aextr1 $ \aextr1' ->  toStorableBase aextr2 $ \aextr2' ->  toStorableBase ajoueur $ \ajoueur' ->  do
+  toStorable (Lien aextr1 aextr2 ajoueur_l) f = toStorableBase aextr1 $ \aextr1' ->  toStorableBase aextr2 $ \aextr2' ->  toStorableBase ajoueur_l $ \ajoueur_l' ->  do
     alloca $ \ptr -> do
-      poke ptr $ CLien aextr1' aextr2' ajoueur'
+      poke ptr $ CLien aextr1' aextr2' ajoueur_l'
       f ptr
   {-# INLINE toStorable #-}
   unStorable ptr = do
-    (CLien aextr1' aextr2' ajoueur') <- peek ptr
+    (CLien aextr1' aextr2' ajoueur_l') <- peek ptr
     aextr1 <- unStorableBase aextr1'
     aextr2 <- unStorableBase aextr2'
-    ajoueur <- unStorableBase ajoueur'
-    return $ Lien aextr1 aextr2 ajoueur
+    ajoueur_l <- unStorableBase ajoueur_l'
+    return $ Lien aextr1 aextr2 ajoueur_l
   {-# INLINE unStorable #-}
   type ApiStorableBaseType Lien = CLien
-  toStorableBase (Lien aextr1 aextr2 ajoueur) f =
-    toStorableBase aextr1 $ \aextr1' ->  toStorableBase aextr2 $ \aextr2' ->  toStorableBase ajoueur $ \ajoueur' ->  f (CLien aextr1' aextr2' ajoueur')
+  toStorableBase (Lien aextr1 aextr2 ajoueur_l) f =
+    toStorableBase aextr1 $ \aextr1' ->  toStorableBase aextr2 $ \aextr2' ->  toStorableBase ajoueur_l $ \ajoueur_l' ->  f (CLien aextr1' aextr2' ajoueur_l')
   {-# INLINE toStorableBase #-}
-  unStorableBase (CLien aextr1' aextr2' ajoueur') = do
+  unStorableBase (CLien aextr1' aextr2' ajoueur_l') = do
     aextr1 <- unStorableBase aextr1'
     aextr2 <- unStorableBase aextr2'
-    ajoueur <- unStorableBase ajoueur'
-    return $ Lien aextr1 aextr2 ajoueur
+    ajoueur_l <- unStorableBase ajoueur_l'
+    return $ Lien aextr1 aextr2 ajoueur_l
   {-# INLINE unStorableBase #-}
 -- | Représente un champ de contrôle existant.
 data Champ = Champ {
       som1 :: Position -- ^ Premier sommet du champ.
   ,   som2 :: Position -- ^ Deuxième sommet du champ.
   ,   som3 :: Position -- ^ Troisième sommet du champ.
-  ,   joueur :: Int -- ^ Joueur possédant ce champ.
+  ,   joueur_c :: Int -- ^ Joueur possédant ce champ.
 }
   deriving(Show, Eq)
 data CChamp = CChamp {
       csom1 :: CPosition -- ^ Premier sommet du champ.
   ,   csom2 :: CPosition -- ^ Deuxième sommet du champ.
   ,   csom3 :: CPosition -- ^ Troisième sommet du champ.
-  ,   cjoueur :: CInt -- ^ Joueur possédant ce champ.
+  ,   cjoueur_c :: CInt -- ^ Joueur possédant ce champ.
 }
 instance Storable CChamp where
   sizeOf    _ = (#size champ)
@@ -203,40 +203,40 @@ instance Storable CChamp where
     asom1 <- (#peek champ, som1) ptr
     asom2 <- (#peek champ, som2) ptr
     asom3 <- (#peek champ, som3) ptr
-    ajoueur <- (#peek champ, joueur) ptr
-    return $ CChamp asom1 asom2 asom3 ajoueur
+    ajoueur_c <- (#peek champ, joueur_c) ptr
+    return $ CChamp asom1 asom2 asom3 ajoueur_c
   {-# INLINE peek #-}
-  poke ptr (CChamp asom1 asom2 asom3 ajoueur) = do
+  poke ptr (CChamp asom1 asom2 asom3 ajoueur_c) = do
     (#poke champ, som1) ptr asom1
     (#poke champ, som2) ptr asom2
     (#poke champ, som3) ptr asom3
-    (#poke champ, joueur) ptr ajoueur
+    (#poke champ, joueur_c) ptr ajoueur_c
   {-# INLINE poke #-}
 instance ApiStorable Champ where
   type ApiStorableType Champ = Ptr CChamp
-  toStorable (Champ asom1 asom2 asom3 ajoueur) f = toStorableBase asom1 $ \asom1' ->  toStorableBase asom2 $ \asom2' ->  toStorableBase asom3 $ \asom3' ->  toStorableBase ajoueur $ \ajoueur' ->  do
+  toStorable (Champ asom1 asom2 asom3 ajoueur_c) f = toStorableBase asom1 $ \asom1' ->  toStorableBase asom2 $ \asom2' ->  toStorableBase asom3 $ \asom3' ->  toStorableBase ajoueur_c $ \ajoueur_c' ->  do
     alloca $ \ptr -> do
-      poke ptr $ CChamp asom1' asom2' asom3' ajoueur'
+      poke ptr $ CChamp asom1' asom2' asom3' ajoueur_c'
       f ptr
   {-# INLINE toStorable #-}
   unStorable ptr = do
-    (CChamp asom1' asom2' asom3' ajoueur') <- peek ptr
+    (CChamp asom1' asom2' asom3' ajoueur_c') <- peek ptr
     asom1 <- unStorableBase asom1'
     asom2 <- unStorableBase asom2'
     asom3 <- unStorableBase asom3'
-    ajoueur <- unStorableBase ajoueur'
-    return $ Champ asom1 asom2 asom3 ajoueur
+    ajoueur_c <- unStorableBase ajoueur_c'
+    return $ Champ asom1 asom2 asom3 ajoueur_c
   {-# INLINE unStorable #-}
   type ApiStorableBaseType Champ = CChamp
-  toStorableBase (Champ asom1 asom2 asom3 ajoueur) f =
-    toStorableBase asom1 $ \asom1' ->  toStorableBase asom2 $ \asom2' ->  toStorableBase asom3 $ \asom3' ->  toStorableBase ajoueur $ \ajoueur' ->  f (CChamp asom1' asom2' asom3' ajoueur')
+  toStorableBase (Champ asom1 asom2 asom3 ajoueur_c) f =
+    toStorableBase asom1 $ \asom1' ->  toStorableBase asom2 $ \asom2' ->  toStorableBase asom3 $ \asom3' ->  toStorableBase ajoueur_c $ \ajoueur_c' ->  f (CChamp asom1' asom2' asom3' ajoueur_c')
   {-# INLINE toStorableBase #-}
-  unStorableBase (CChamp asom1' asom2' asom3' ajoueur') = do
+  unStorableBase (CChamp asom1' asom2' asom3' ajoueur_c') = do
     asom1 <- unStorableBase asom1'
     asom2 <- unStorableBase asom2'
     asom3 <- unStorableBase asom3'
-    ajoueur <- unStorableBase ajoueur'
-    return $ Champ asom1 asom2 asom3 ajoueur
+    ajoueur_c <- unStorableBase ajoueur_c'
+    return $ Champ asom1 asom2 asom3 ajoueur_c
   {-# INLINE unStorableBase #-}
 data CLien_array = CLien_array { cLien_arrayPtr :: Ptr CLien, cLien_arraySize :: CSize }
 
@@ -439,12 +439,12 @@ liens_bloquants ext1 ext2 = toStorable ext1 $ \ext1' ->  toStorable ext2 $ \ext2
 
 foreign import ccall
   hs_liens_bloquants :: (ApiStorableType Position) -> (ApiStorableType Position) ->  IO (ApiStorableType [Lien])
--- | Renvoie le numéro du joueur contrôlant le lien donné, -1 si le lien n'existe pas (mais les deux positions sont bien des portails). Vous pouvez utiliser cette fonction pour vérifier si deux portails sont reliés.
-lien_joueur :: Position ->  Position -> IO Int
-lien_joueur ext1 ext2 = toStorable ext1 $ \ext1' ->  toStorable ext2 $ \ext2' ->  (hs_lien_joueur ext1' ext2') >>= unStorable
+-- | Prend les positions de deux portails, et renvoie un booléen indiquant s'ils sont reliés. Le résultat est `false` lorsque l'une des deux positions ne repère pas un portail.
+lien_existe :: Position ->  Position -> IO Bool
+lien_existe ext1 ext2 = toStorable ext1 $ \ext1' ->  toStorable ext2 $ \ext2' ->  (hs_lien_existe ext1' ext2') >>= unStorable
 
 foreign import ccall
-  hs_lien_joueur :: (ApiStorableType Position) -> (ApiStorableType Position) ->  IO (ApiStorableType Int)
+  hs_lien_existe :: (ApiStorableType Position) -> (ApiStorableType Position) ->  IO (ApiStorableType Bool)
 -- | Renvoie un booléen indiquant si les 3 positions repèrent bien 3 portails tous reliés entre eux.
 champ_existe :: Position ->  Position ->  Position -> IO Bool
 champ_existe som1 som2 som3 = toStorable som1 $ \som1' ->  toStorable som2 $ \som2' ->  toStorable som3 $ \som3' ->  (hs_champ_existe som1' som2' som3') >>= unStorable
@@ -469,7 +469,7 @@ portail_joueur portail = toStorable portail $ \portail' ->  (hs_portail_joueur p
 
 foreign import ccall
   hs_portail_joueur :: (ApiStorableType Position) ->  IO (ApiStorableType Int)
--- | Renvoie le nombre de boucliers présents sur un portail.
+-- | Renvoie le nombre de boucliers présents sur un portail (-2 si la case n'est pas un portail).
 portail_boucliers :: Position -> IO Int
 portail_boucliers portail = toStorable portail $ \portail' ->  (hs_portail_boucliers portail') >>= unStorable
 
