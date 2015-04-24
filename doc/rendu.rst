@@ -21,4 +21,3 @@ N'oubliez pas de rendre votre champion.tgz (et non pas votre champion.so)
 obtenu en tapant "make tar".
 
 Le rendu fermera à 00:42.
-
