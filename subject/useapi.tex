@@ -71,6 +71,19 @@ fonctionACompleter = do
       sont publics.}
 \end{itemize}
 
+\subsection{OCaml}
+
+\begin{itemize}
+\item{L'API est fournie par le fichier \texttt{api.ml}, qui est \texttt{open}
+      par défaut par le fichier à compléter ;}
+\item{Les énumérations sont représentées par des types sommes avec des
+      constructeurs sans paramètres. Seule la première lettre des noms des
+      constructeurs est en majuscule ;}
+\item{Les structures sont représentées par des records, sauf pour la structure
+      \texttt{position} qui est représentée par un couple \texttt{int * int} ;}
+\item{Les tableaux sont représentés par des \texttt{array} Caml classiques.}
+\end{itemize}
+
 \subsection{PHP}
 
 \begin{itemize}
@@ -108,18 +121,5 @@ Les différences par rapport à Python 3 sont les suivantes :
 \item{les constantes des énumérations sont représentées par de simples entiers
       ;}
 \item{les gens dans la rue vous jettent des tomates et crient au scandale.}
-\end{itemize}
-
-\subsection{OCaml}
-
-\begin{itemize}
-\item{L'API est fournie par le fichier \texttt{api.ml}, qui est \texttt{open}
-      par défaut par le fichier à compléter ;}
-\item{Les énumérations sont représentées par des types sommes avec des
-      constructeurs sans paramètres. Seule la première lettre des noms des
-      constructeurs est en majuscule ;}
-\item{Les structures sont représentées par des records, sauf pour la structure
-      \texttt{position} qui est représentée par un couple \texttt{int * int} ;}
-\item{Les tableaux sont représentés par des \texttt{array} Caml classiques.}
 \end{itemize}
 
