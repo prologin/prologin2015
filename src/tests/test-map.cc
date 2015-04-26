@@ -42,7 +42,7 @@ TEST(MapTest, valid_position)
 TEST(MapTest, getters)
 {
     const position invalid_pos = {0, TAILLE_TERRAIN};
-    bool exception_throwed = false;
+    bool exception_thrown = false;
     Map m;
     std::istringstream map_stream(some_map);
 
@@ -52,26 +52,26 @@ TEST(MapTest, getters)
     catch (const InvalidPosition& exc)
     {
         // Invalid positions make it raise an exception: all is fine.
-        exception_throwed = true;
+        exception_thrown = true;
     }
-    EXPECT_TRUE(exception_throwed);
+    EXPECT_TRUE(exception_thrown);
 
-    exception_throwed = false;
+    exception_thrown = false;
     try { m.portal_id_maybe(invalid_pos); }
     catch (const InvalidPosition& exc)
     {
-        exception_throwed = true;
+        exception_thrown = true;
     }
-    EXPECT_TRUE(exception_throwed);
+    EXPECT_TRUE(exception_thrown);
 
     // Likewise for invalid players.
-    exception_throwed = false;
+    exception_thrown = false;
     try { m.get_start_position(-1); }
     catch (const InvalidPlayer& exc)
     {
-        exception_throwed = true;
+        exception_thrown = true;
     }
-    EXPECT_TRUE(exception_throwed);
+    EXPECT_TRUE(exception_thrown);
 
 
     // Now, test the getters themselves.
