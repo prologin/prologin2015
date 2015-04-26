@@ -191,12 +191,17 @@ std::vector<lien> Api::liens_bloquants(position ext1, position ext2)
 
     auto edges = game_state_->graph().edges();
     std::vector<lien> blocking_links;
-    for (const auto& e : edges)
+
+    // if degenerate segment, return empty vector
+    if (ext1 != ext2)
     {
-        if (segments_intersect(ext1, ext2,
-                               game_state_->portal_pos(e.first),
-                               game_state_->portal_pos(e.second)))
-            blocking_links.push_back(game_state_->edge_to_link(e));
+        for (const auto& e : edges)
+        {
+            if (segments_intersect(ext1, ext2,
+                                   game_state_->portal_pos(e.first),
+                                   game_state_->portal_pos(e.second)))
+                blocking_links.push_back(game_state_->edge_to_link(e));
+        }
     }
     return blocking_links;
 }
@@ -214,7 +219,7 @@ bool Api::lien_existe(position ext1, position ext2)
     const int u = map.portal_id_maybe(ext1);
     const int v = map.portal_id_maybe(ext2);
 
-    if (u == -1 || v == -1) return false;
+    if (u == -1 || v == -1 || u == v) return false;
     return game_state_->graph().edge_exists({u, v});
 }
 
@@ -231,7 +236,7 @@ bool Api::champ_existe(position som1, position som2, position som3)
     const int v = map.portal_id_maybe(som2);
     const int w = map.portal_id_maybe(som3);
 
-    if (u == -1 || v == -1 || w == -1)
+    if (u == -1 || v == -1 || w == -1 || u == v || v == w || w == u)
         return false;
 
     return game_state_->graph().edge_exists({u, v})
@@ -350,7 +355,9 @@ std::vector<champ> Api::champs_incidents_portail(position portail)
 }
 
 ///
-// Renvoie la liste de tous les champs dont le lien donné est un côté. Si le segment n'est pas un lien présent, renvoie la liste de tous les champs que la création du lien ferait apparaître.
+// Renvoie la liste de tous les champs dont le lien donné est un
+// côté. Si le segment n'est pas un lien présent, renvoie la liste de
+// tous les champs que la création du lien ferait apparaître.
 //
 std::vector<champ> Api::champs_incidents_segment(position ext1, position ext2)
 {
@@ -360,9 +367,9 @@ std::vector<champ> Api::champs_incidents_segment(position ext1, position ext2)
 
     int u = game_state_->map().portal_id_maybe(ext1);
     int v = game_state_->map().portal_id_maybe(ext2);
-    if (u != -1 && v != -1)
+    // condition: both portals exist and are distinct
+    if (u != -1 && v != -1 && u != v)
     {
-        // fix me this line spills over the 80th column :p
         auto third_vertices
           = game_state_->graph().incident_triangles(std::make_pair(u,v));
         for (int w : third_vertices)
@@ -373,7 +380,6 @@ std::vector<champ> Api::champs_incidents_segment(position ext1, position ext2)
     }
 
     return incident_fields; // empty if not a portal
-
 }
 
 ///

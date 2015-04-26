@@ -24,6 +24,9 @@ int ActionLier::check(const GameState* st) const
     int portal_there = st->map().portal_id_maybe(portail_);
     if (portal_there == -1) return AUCUN_PORTAIL;
 
+    // Check that the two portals are distinct
+    if (portal_here == portal_there) return LIEN_DEGENERE;
+
     if (st->owner(portal_here) == -1) return PORTAIL_NEUTRE;
     if (st->owner(portal_here) == st->get_opponent(player_id_))
         return PORTAIL_ENNEMI;
