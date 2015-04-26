@@ -39,13 +39,17 @@ TEST_F(ActionTest, Capturer_TooFewActionPoints)
     // First move the player on a cell that contains a portal and remove enough
     // actions point.
     st->set_pos(PLAYER_1, {1, 1});
-    st->decrement_action_points(PLAYER_1, NB_POINTS_ACTION - 1);
-    ASSERT_TRUE(COUT_CAPTURE > 1);
-    EXPECT_EQ(1, st->action_points(PLAYER_1));
-    EXPECT_EQ(PA_INSUFFISANTS, act.check(st));
+    
+    // since capture now costs 1, the following is obsolete
+    // st->decrement_action_points(PLAYER_1, NB_POINTS_ACTION - 1);
+    // ASSERT_TRUE(COUT_CAPTURE > 1);
+    // st->decrement_action_points(PLAYER_1, NB_POINTS_ACTION);
+    // EXPECT_EQ(1, st->action_points(PLAYER_1));
+    // EXPECT_EQ(PA_INSUFFISANTS, act.check(st));
 
     // Likewise with no action point at all.
-    st->decrement_action_points(PLAYER_1, 1);
+    // st->decrement_action_points(PLAYER_1, 1);
+    st->decrement_action_points(PLAYER_1, NB_POINTS_ACTION);
     EXPECT_EQ(0, st->action_points(PLAYER_1));
     EXPECT_EQ(PA_INSUFFISANTS, act.check(st));
 }
