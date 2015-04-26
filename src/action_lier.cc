@@ -2,6 +2,7 @@
 
 #include "actions.hh"
 #include "geometry.hh"
+#include "errors.hh"
 
 // TODO replace this macro with unpack_triangle_pos
 #define VERTEX(n,f) st->portal_pos(std::get<n>(f))
@@ -12,17 +13,16 @@ int ActionLier::check(const GameState* st) const
     if (st->action_points(player_id_) < COUT_LIEN) return PA_INSUFFISANTS;
 
     // Check out of bounds
-    if (portail_.x < 0 || portail_.y < 0 ||
-        portail_.x >= TAILLE_TERRAIN || portail_.y >= TAILLE_TERRAIN)
-        return POSITION_INVALIDE;
+    try {
+
+    // Check that the given position is a portal
+    // (raises an exception if OOB)
+    int portal_there = st->map().portal_id_maybe(portail_);
+    if (portal_there == -1) return AUCUN_PORTAIL;
 
     // Check that the agent's current position is a portal
     int portal_here = st->map().portal_id_maybe(st->player_pos(player_id_));
     if (portal_here == -1) return AUCUN_PORTAIL;
-
-    // Check that the given position is a portal
-    int portal_there = st->map().portal_id_maybe(portail_);
-    if (portal_there == -1) return AUCUN_PORTAIL;
 
     // Check that the two portals are distinct
     if (portal_here == portal_there) return LIEN_DEGENERE;
@@ -58,6 +58,11 @@ int ActionLier::check(const GameState* st) const
         if (point_in_triangle(VERTEX(0,f), VERTEX(1,f), VERTEX(2,f),
                               player_pos))
             return LIEN_CHAMP;
+    }
+    }
+    catch (const InvalidPosition& exc)
+    {
+        return POSITION_INVALIDE;
     }
 
     return OK;

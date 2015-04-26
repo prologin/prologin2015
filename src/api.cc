@@ -18,6 +18,7 @@
 #include "actions.hh"
 #include "dumper.hh"
 #include "geometry.hh"
+#include "errors.hh"
 
 // global used in interface.cc
 Api* api;
@@ -216,11 +217,19 @@ bool Api::lien_existe(position ext1, position ext2)
     // TODO tester
 
     const Map& map = game_state_->map();
+
+    try
+    {
     const int u = map.portal_id_maybe(ext1);
     const int v = map.portal_id_maybe(ext2);
 
     if (u == -1 || v == -1 || u == v) return false;
     return game_state_->graph().edge_exists({u, v});
+    }
+    catch (const InvalidPosition& exc)
+    {
+        return false;
+    }
 }
 
 ///
@@ -232,6 +241,9 @@ bool Api::champ_existe(position som1, position som2, position som3)
     // TODO tester
 
     const Map& map = game_state_->map();
+
+    try
+    {
     const int u = map.portal_id_maybe(som1);
     const int v = map.portal_id_maybe(som2);
     const int w = map.portal_id_maybe(som3);
@@ -242,6 +254,11 @@ bool Api::champ_existe(position som1, position som2, position som3)
     return game_state_->graph().edge_exists({u, v})
         && game_state_->graph().edge_exists({v, w})
         && game_state_->graph().edge_exists({w, u});
+    }
+    catch (const InvalidPosition& exc)
+    {
+        return false;
+    }
 }
 
 ///
@@ -288,10 +305,17 @@ std::vector<champ> Api::case_champs(position pos)
 int Api::portail_joueur(position portail)
 {
     // TODO tester
+    try
+    {
     int portal_id = game_state_->map().portal_id_maybe(portail);
     if (portal_id == -1)
         return -2; // CHECK do we use this convention
     return game_state_->owner(portal_id);
+    }
+    catch (const InvalidPosition& exc)
+    {
+        return -2;
+    }
 }
 
 ///
@@ -301,10 +325,17 @@ int Api::portail_joueur(position portail)
 int Api::portail_boucliers(position portail)
 {
     // TODO tester
+    try
+    {
     int portal_id = game_state_->map().portal_id_maybe(portail);
     if (portal_id == -1)
         return -2; // CHECK do we use this convention
     return game_state_->num_shields(portal_id);
+    }
+    catch (const InvalidPosition& exc)
+    {
+        return -2;
+    }
 }
 
 ///
@@ -316,6 +347,8 @@ std::vector<lien> Api::liens_incidents_portail(position portail)
 
     std::vector<lien> incident_links;
 
+    try
+    {
     int portal_id = game_state_->map().portal_id_maybe(portail);
     if (portal_id != -1) // CHECK agree on the wanted behavior in that case
     {
@@ -326,6 +359,8 @@ std::vector<lien> Api::liens_incidents_portail(position portail)
             incident_links.push_back(game_state_->edge_to_link(e));
         }
     }
+    }
+    catch (const InvalidPosition& exc) { }
 
     return incident_links; // empty if not a portal
 }
@@ -339,6 +374,8 @@ std::vector<champ> Api::champs_incidents_portail(position portail)
 
     std::vector<champ> incident_fields;
 
+    try
+    {
     int portal_id = game_state_->map().portal_id_maybe(portail);
     if (portal_id != -1) // TODO agree on the wanted behavior in that case
     {
@@ -350,6 +387,8 @@ std::vector<champ> Api::champs_incidents_portail(position portail)
             incident_fields.push_back(game_state_->triangle_to_field(t));
         }
     }
+    }
+    catch (const InvalidPosition& exc) { }
 
     return incident_fields; // empty if not a portal
 }
@@ -365,6 +404,8 @@ std::vector<champ> Api::champs_incidents_segment(position ext1, position ext2)
 
     std::vector<champ> incident_fields;
 
+    try
+    {
     int u = game_state_->map().portal_id_maybe(ext1);
     int v = game_state_->map().portal_id_maybe(ext2);
     // condition: both portals exist and are distinct
@@ -378,6 +419,8 @@ std::vector<champ> Api::champs_incidents_segment(position ext1, position ext2)
             incident_fields.push_back(game_state_->triangle_to_field(t));
         }
     }
+    }
+    catch (const InvalidPosition& exc) { }
 
     return incident_fields; // empty if not a portal
 }
