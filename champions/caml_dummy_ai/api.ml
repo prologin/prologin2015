@@ -98,6 +98,7 @@ type erreur =
 | Portail_ennemi (* <- Le portail appartient à votre adversaire. *)
 | Lien_intersection (* <- Le lien croise un lien existant. *)
 | Lien_champ (* <- Le lien se trouve dans un champ existant. *)
+| Lien_degenere (* <- Les deux extrémités du lien coïncident. *)
 | Limite_boucliers (* <- Ce portail est équipé du nombre maximal de boucliers. *)
 
 

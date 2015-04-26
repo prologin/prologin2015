@@ -64,7 +64,8 @@ class erreur(IntEnum):
     PORTAIL_ENNEMI = 7  # <- Le portail appartient à votre adversaire.
     LIEN_INTERSECTION = 8  # <- Le lien croise un lien existant.
     LIEN_CHAMP = 9  # <- Le lien se trouve dans un champ existant.
-    LIMITE_BOUCLIERS = 10  # <- Ce portail est équipé du nombre maximal de boucliers.
+    LIEN_DEGENERE = 10  # <- Les deux extrémités du lien coïncident.
+    LIMITE_BOUCLIERS = 11  # <- Ce portail est équipé du nombre maximal de boucliers.
 
 
 from collections import namedtuple

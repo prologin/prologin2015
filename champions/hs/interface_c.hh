@@ -19,6 +19,7 @@ typedef enum erreur {
   PORTAIL_ENNEMI, /* <- Le portail appartient à votre adversaire. */
   LIEN_INTERSECTION, /* <- Le lien croise un lien existant. */
   LIEN_CHAMP, /* <- Le lien se trouve dans un champ existant. */
+  LIEN_DEGENERE, /* <- Les deux extrémités du lien coïncident. */
   LIMITE_BOUCLIERS, /* <- Ce portail est équipé du nombre maximal de boucliers. */
 } erreur;
 

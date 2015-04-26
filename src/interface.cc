@@ -73,6 +73,7 @@ std::string convert_to_string(erreur in){
     case PORTAIL_ENNEMI: return "\"portail_ennemi\"";
     case LIEN_INTERSECTION: return "\"lien_intersection\"";
     case LIEN_CHAMP: return "\"lien_champ\"";
+    case LIEN_DEGENERE: return "\"lien_degenere\"";
     case LIMITE_BOUCLIERS: return "\"limite_boucliers\"";
   }
   return "bad value";
@@ -445,6 +446,7 @@ std::ostream& operator<<(std::ostream& os, erreur v)
   case PORTAIL_ENNEMI: os << "PORTAIL_ENNEMI"; break;
   case LIEN_INTERSECTION: os << "LIEN_INTERSECTION"; break;
   case LIEN_CHAMP: os << "LIEN_CHAMP"; break;
+  case LIEN_DEGENERE: os << "LIEN_DEGENERE"; break;
   case LIMITE_BOUCLIERS: os << "LIMITE_BOUCLIERS"; break;
   }
   return os;

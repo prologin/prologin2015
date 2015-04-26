@@ -101,6 +101,7 @@ enum:
       - [portail_ennemi, "Le portail appartient à votre adversaire."]
       - [lien_intersection, "Le lien croise un lien existant."]
       - [lien_champ, "Le lien se trouve dans un champ existant."]
+      - [lien_degenere, "Les deux extrémités du lien coïncident."]
       - [limite_boucliers, "Ce portail est équipé du nombre maximal de
                             boucliers."]
 
