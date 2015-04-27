@@ -20,6 +20,7 @@ GameState::GameState(Map* map, rules::Players_sptr players)
             FATAL("This game cannot accomodate more than two players.");
         if (p->type == rules::PLAYER)
         {
+            p->score = 0;
             player_info_[p->id] = (player_info) {
                 .action_points = NB_POINTS_ACTION,
                 .move_points = NB_POINTS_DEPLACEMENT,
@@ -63,13 +64,27 @@ int GameState::get_current_turn() const
 void GameState::go_next_turn()
 {
     ++current_turn_;
-    for (auto& player : player_info_)
+}
+
+void GameState::end_of_player_turn(int player_id)
+{
+    // Reset points
+    // This should actually be done at the start of a player's turn
+    // but since Rules::start_of_player_turn doesn't exist
+    // it ends up here
+    player_info& pi = player_info_.at(player_id);
+    pi.action_points = NB_POINTS_ACTION;
+    pi.move_points = NB_POINTS_DEPLACEMENT;
+
+    // Update score with area covered by fields
+    int area_x2 = 0;
+    auto triangles = graph_.triangles();
+    for (auto& t : triangles)
     {
-        player_info& pi = player.second;
-        pi.action_points = NB_POINTS_ACTION;
-        pi.move_points = NB_POINTS_DEPLACEMENT;
-        // TODO: update the score
+        if (owner(t) == player_id)
+            area_x2 += field_area_x2(t);
     }
+    increment_score(player_id, (POINTS_CHAMP/2) * area_x2);
 }
 
 bool GameState::is_finished() const

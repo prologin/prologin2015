@@ -137,18 +137,9 @@ void Rules::end_of_player_turn(uint32_t player_id)
 {
     // Don't try anything if this player is actually a spectator: spectators
     // are not supposed to change the game state themselves.
-    if (api_->player() == nullptr
-            || api_->player()->type != rules::PLAYER)
+    if (api_->player() == nullptr || api_->player()->type != rules::PLAYER)
         return;
 
-    auto& st = *(api_->game_state());
-    int area_x2 = 0;
-    auto triangles = st.graph().triangles();
-    for (auto& t : triangles)
-    {
-        if (st.owner(t) == static_cast<int>(player_id))
-            area_x2 += st.field_area_x2(t);
-    }
-    st.increment_score(player_id, (POINTS_CHAMP/2) * area_x2);
+    end_of_player_turn(static_cast<int>(player_id));
 }
 

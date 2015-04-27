@@ -42,9 +42,11 @@ public:
 
     // Return the current turn number.
     int get_current_turn() const;
-    // Go to the next turn: increment the current turn number, reset
-    // action/move points and update scores.
+    // Go to the next turn: increment the current turn number.
     void go_next_turn();
+    // After a player's turn has ended,
+    // reset action/move points and update scores.
+    void end_of_player_turn(int player_id);
 
     // Return false when it's still time for players to play, true otherwise.
     bool is_finished() const;

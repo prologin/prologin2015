@@ -84,6 +84,7 @@ TEST_F(ActionTest, Capturer_NextTurnResetsPoints)
     EXPECT_EQ(0, st->action_points(PLAYER_1));
     ASSERT_EQ(PA_INSUFFISANTS, act.check(st));
 
-    st->go_next_turn();
+    st->end_of_player_turn(PLAYER_1);
+    // st->go_next_turn();
     ASSERT_EQ(OK, act.check(st));
 }
