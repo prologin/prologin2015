@@ -1,0 +1,8 @@
+rules: libprologin2015.so
+map: ../maps/dummy_map.txt
+verbose: 5
+clients:
+    - ./empty/champion.so
+    - ./empty/champion.so
+spectators: []
+#    - ../spectators/dumper/dumper.so
