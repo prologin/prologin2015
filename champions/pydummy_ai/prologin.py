@@ -171,7 +171,7 @@ class Game:
         if position_agent(self.me) == (0, 0):
             portails = [(1, 1), (1, 4), (4, 1), (4, 4)]
         else:
-            portails = [(38, 39), (28, 39), (35, 36)]
+            portails = [(28, 29), (18, 29), (25, 26)]
 
         for i, portail in enumerate(portails):
             yield from self.deplacer(portail)
@@ -193,6 +193,7 @@ g = None
 
 # Fonction appelée au début de la partie
 def partie_init():
+    print("Please use this dummy AI with dummy_map.txt")
     global g
     g = Game()
 
