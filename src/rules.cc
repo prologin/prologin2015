@@ -6,6 +6,7 @@
 
 #include "rules.hh"
 #include "actions.hh"
+#include "errors.hh"
 
 Rules::Rules(const rules::Options opt)
     : TurnBasedRules(opt)
@@ -132,14 +133,15 @@ void Rules::end_of_turn()
     api_->game_state()->go_next_turn();
 }
 
-// The only game-specific piece of code in this file
 void Rules::end_of_player_turn(uint32_t player_id)
 {
-    // Don't try anything if this player is actually a spectator:
-    // spectators are not supposed to change the game state themselves.
-    if (api_->player() == nullptr || api_->player()->type != rules::PLAYER)
-        return;
-
-    api_->game_state()->end_of_player_turn(static_cast<int>(player_id));
+    // The player_id may be a spectator,
+    // in which case this method will raise InvalidPlayer.
+    // We just have to ignore this exception.
+    try
+    {
+        api_->game_state()->end_of_player_turn(static_cast<int>(player_id));
+    }
+    catch (const InvalidPlayer& exn) { }
 }
 

@@ -44,8 +44,9 @@ public:
     int get_current_turn() const;
     // Go to the next turn: increment the current turn number.
     void go_next_turn();
-    // After a player's turn has ended,
-    // reset action/move points and update scores.
+    // After a player's turn has ended, reset points and update scores.
+    // May raise InvalidPlayer, which is currently NOT the case of the other
+    // methods which take a player_id as input.
     void end_of_player_turn(int player_id);
 
     // Return false when it's still time for players to play, true otherwise.

@@ -1,8 +1,11 @@
 // FIXME License notice
 
+#include <stdexcept>
+
 #include "game_state.hh"
 #include "constant.hh"
 #include "geometry.hh"
+#include "errors.hh"
 
 GameState::GameState(Map* map, rules::Players_sptr players)
     : rules::GameState()
@@ -68,11 +71,19 @@ void GameState::go_next_turn()
 
 void GameState::end_of_player_turn(int player_id)
 {
+    // Check that the player_id refers to an actual player
+    // Raise an exception if it's not the case
+    // CHECK should we add this to all other functions which take a player id?
+    auto iter = player_info_.find(player_id);
+    if (iter == player_info_.end())
+        throw InvalidPlayer(player_id);
+
+    player_info& pi = iter->second;
+
     // Reset points
     // This should actually be done at the start of a player's turn
     // but since Rules::start_of_player_turn doesn't exist
     // it ends up here
-    player_info& pi = player_info_.at(player_id);
     pi.action_points = NB_POINTS_ACTION;
     pi.move_points = NB_POINTS_DEPLACEMENT;
 
