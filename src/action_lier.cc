@@ -4,9 +4,6 @@
 #include "geometry.hh"
 #include "errors.hh"
 
-// TODO replace this macro with unpack_triangle_pos
-#define VERTEX(n,f) st->portal_pos(std::get<n>(f))
-
 int ActionLier::check(const GameState* st) const
 {
     // Check action points
@@ -55,8 +52,10 @@ int ActionLier::check(const GameState* st) const
     auto fields = st->graph().triangles();
     for (auto f : fields)
     {
-        if (point_in_triangle(VERTEX(0,f), VERTEX(1,f), VERTEX(2,f),
-                              player_pos))
+        position a, b, c;
+        st->unpack_triangle_pos(t, a, b, c);
+
+        if (point_in_triangle(a, b, c, player_pos))
             return LIEN_CHAMP;
     }
     }
