@@ -67,6 +67,9 @@ class Window(object):
 
         # display
         flags = pygame.DOUBLEBUF | pygame.HWSURFACE
+        if settings.options.fullscreen:
+            flags |= pygame.FULLSCREEN | pygame.RESIZABLE
+
         self.screen = pygame.display.set_mode(screen_dim, flags)
 
         self.clock = pygame.time.Clock()
@@ -103,6 +106,7 @@ class Window(object):
                 type.__name__, value
             ))
         self.release()
+        sys.exit(0)
 
     def loop(self):
         while (
@@ -163,6 +167,10 @@ class Window(object):
                 elif event.key == pygame.K_h:
                     self.state.switch_help()
 
+                # quit
+                elif event.key == pygame.K_q:
+                    self.state.close()
+
             # Mouse button pressed
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 for widget in self.widgets.values():
@@ -218,6 +226,7 @@ class Window(object):
         pygame.display.flip()
 
     def release(self):
+        pygame.display.quit()
         pygame.quit()
 
 class State:

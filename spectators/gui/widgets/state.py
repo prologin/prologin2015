@@ -16,7 +16,7 @@ class StateWidget(BaseWidget):
     TEXT_HEIGHT = 15
     LINES = 12
 
-    HEIGHT = TEXT_HEIGHT * LINES 
+    HEIGHT = TEXT_HEIGHT * LINES
     def __init__(self, x, y, width):
         super(StateWidget, self).__init__(x, y, width, self.HEIGHT)
         self.font = pygame.font.Font(data.get_font_path('font.ttf'), self.TEXT_SIZE)

@@ -5,6 +5,7 @@ import gzip
 import sys
 
 import pygame
+import pygame.display
 pygame.init()
 
 import logs
@@ -16,7 +17,6 @@ settings.parser.add_argument('file', help='The file to replay')
 settings.load(sys.argv[1:])
 
 filename = settings.options.file
-
 
 if filename.endswith('.gz'):
     dump_file = gzip.open(filename, 'rt')

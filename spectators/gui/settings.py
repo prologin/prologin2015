@@ -12,6 +12,10 @@ parser.add_argument(
     help='Set the height of the GUI'
 )
 
+parser.add_argument(
+    '-F', '--fullscreen', action='store_true', help='Fullscreen mode'
+)
+
 def load(argv):
     global options
     options = parser.parse_args(argv)
