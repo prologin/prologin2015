@@ -107,6 +107,15 @@ int Map::portal_id_maybe(position p) const
     return portals_map_[index(p)];
 }
 
+int Map::portal_id_exn(position p) const
+{
+    // compiler, plz inline this
+    int id = portal_id_maybe(p);
+    if (id == -1)
+        throw InvalidPosition(p);
+    return id;
+}
+
 bool Map::is_portal(position p) const
 {
     if (!valid_position(p))

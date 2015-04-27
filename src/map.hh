@@ -29,6 +29,11 @@ public:
     // If "p" contains a portal, return its ID.  Return -1 otherwise.
     int portal_id_maybe(position p) const;
 
+    // If "p" contains a portal, return its ID.  Throw InvalidPosition
+    // otherwise, that is, if there is no portal on position "p" (in
+    // addition to the case where "p" is out of bounds).
+    int portal_id_exn(position p) const;
+
     // Getters for the list of portals.
     const std::vector<position>& get_portals() const;
     int num_portals() const;

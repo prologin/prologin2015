@@ -220,11 +220,9 @@ bool Api::lien_existe(position ext1, position ext2)
 
     try
     {
-        const int u = map.portal_id_maybe(ext1);
-        const int v = map.portal_id_maybe(ext2);
-
-        if (u == -1 || v == -1 || u == v) return false;
-        return game_state_->graph().edge_exists({u, v});
+        const int u = map.portal_id_exn(ext1);
+        const int v = map.portal_id_exn(ext2);
+        return (u != v) && game_state_->graph().edge_exists({u, v});
     }
     catch (const InvalidPosition& exc)
     {
@@ -244,12 +242,12 @@ bool Api::champ_existe(position som1, position som2, position som3)
 
     try
     {
-        const int u = map.portal_id_maybe(som1);
-        const int v = map.portal_id_maybe(som2);
-        const int w = map.portal_id_maybe(som3);
+        const int u = map.portal_id_exn(som1);
+        const int v = map.portal_id_exn(som2);
+        const int w = map.portal_id_exn(som3);
 
-        if (u == -1 || v == -1 || w == -1 || u == v || v == w || w == u)
-            return false;
+        if (u == v || v == w || w == u)
+            return false; // degenerate triangle
 
         return game_state_->graph().edge_exists({u, v})
             && game_state_->graph().edge_exists({v, w})
@@ -307,9 +305,7 @@ int Api::portail_joueur(position portail)
     // TODO tester
     try
     {
-        int portal_id = game_state_->map().portal_id_maybe(portail);
-        if (portal_id == -1)
-            return -2; // CHECK do we use this convention
+        int portal_id = game_state_->map().portal_id_exn(portail);
         return game_state_->owner(portal_id);
     }
     catch (const InvalidPosition& exc)
@@ -327,9 +323,7 @@ int Api::portail_boucliers(position portail)
     // TODO tester
     try
     {
-        int portal_id = game_state_->map().portal_id_maybe(portail);
-        if (portal_id == -1)
-            return -2; // CHECK do we use this convention
+        int portal_id = game_state_->map().portal_id_exn(portail);
         return game_state_->num_shields(portal_id);
     }
     catch (const InvalidPosition& exc)
@@ -349,15 +343,12 @@ std::vector<lien> Api::liens_incidents_portail(position portail)
 
     try
     {
-        int portal_id = game_state_->map().portal_id_maybe(portail);
-        if (portal_id != -1) // CHECK agree on the wanted behavior in that case
+        int portal_id = game_state_->map().portal_id_exn(portail);
+        auto& neighbors = game_state_->graph().adj_list()[portal_id];
+        for (int v : neighbors)
         {
-            auto& neighbors = game_state_->graph().adj_list()[portal_id];
-            for (int v : neighbors)
-            {
-                auto e = ordered_pair(portal_id, v);
-                incident_links.push_back(game_state_->edge_to_link(e));
-            }
+            auto e = ordered_pair(portal_id, v);
+            incident_links.push_back(game_state_->edge_to_link(e));
         }
     }
     catch (const InvalidPosition& exc) { }
@@ -376,16 +367,13 @@ std::vector<champ> Api::champs_incidents_portail(position portail)
 
     try
     {
-        int portal_id = game_state_->map().portal_id_maybe(portail);
-        if (portal_id != -1) // TODO agree on the wanted behavior in that case
+        int portal_id = game_state_->map().portal_id_exn(portail);
+        auto neighbor_edges
+            = game_state_->graph().incident_triangles(portal_id);
+        for (auto& e : neighbor_edges)
         {
-            auto neighbor_edges
-                = game_state_->graph().incident_triangles(portal_id);
-            for (auto& e : neighbor_edges)
-            {
-                auto t = ordered_triple(portal_id, e.first, e.second);
-                incident_fields.push_back(game_state_->triangle_to_field(t));
-            }
+            auto t = ordered_triple(portal_id, e.first, e.second);
+            incident_fields.push_back(game_state_->triangle_to_field(t));
         }
     }
     catch (const InvalidPosition& exc) { }
@@ -406,10 +394,10 @@ std::vector<champ> Api::champs_incidents_segment(position ext1, position ext2)
 
     try
     {
-        int u = game_state_->map().portal_id_maybe(ext1);
-        int v = game_state_->map().portal_id_maybe(ext2);
-        // condition: both portals exist and are distinct
-        if (u != -1 && v != -1 && u != v)
+        int u = game_state_->map().portal_id_exn(ext1);
+        int v = game_state_->map().portal_id_exn(ext2);
+
+        if (u != v) // segment must be non-degenerate
         {
             auto third_vertices
                 = game_state_->graph().incident_triangles(std::make_pair(u,v));
