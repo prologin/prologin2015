@@ -30,12 +30,16 @@ module Api ( Erreur(..)
            , hist_portails_neutralises
            , hist_liens_crees
            , hist_champs_crees
+           , hist_boucliers_ajoutes
            , distance
            , score_triangle
            , intersection_segments
+           , point_dans_triangle
            , moi
            , adversaire
            , position_agent
+           , points_action
+           , points_deplacement
            , score
            , tour_actuel
            , annuler

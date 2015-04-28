@@ -141,11 +141,15 @@ public:
 ///
 // Renvoie la liste des liens créés par votre adversaire au dernier tour.
 //
-   std::vector<position> hist_liens_crees();
+   std::vector<lien> hist_liens_crees();
 ///
 // Renvoie la liste des champs créés par votre adversaire au dernier tour.
 //
-   std::vector<position> hist_champs_crees();
+   std::vector<champ> hist_champs_crees();
+///
+// Renvoie la liste des positions où votre adversaire a ajouté des boucliers au dernier tour.
+//
+   std::vector<position> hist_boucliers_ajoutes();
 ///
 // Retourne la distance entre deux positions
 //
@@ -159,6 +163,10 @@ public:
 //
    bool intersection_segments(position a1, position a2, position b1, position b2);
 ///
+// Indique si un point se trouve à l'intérieur d'un triangle. Le critère coïncide avec celui de ``case_champs``.
+//
+   bool point_dans_triangle(position p, position som1, position som2, position som3);
+///
 // Renvoie votre numéro de joueur.
 //
    int moi();
@@ -170,6 +178,14 @@ public:
 // Indique la position de l'agent du joueur désigné par le numéro ``id_joueur``.
 //
    position position_agent(int id_joueur);
+///
+// Indique votre nombre de points d'actions restants pour ce tour-ci.
+//
+   int points_action();
+///
+// Indique votre nombre de points de déplacement restants pour ce tour-ci.
+//
+   int points_deplacement();
 ///
 // Retourne le score du joueur désigné par le numéro ``id_joueur``.
 //

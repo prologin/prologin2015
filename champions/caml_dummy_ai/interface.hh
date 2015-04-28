@@ -168,12 +168,17 @@ extern "C" std::vector<position> api_hist_portails_neutralises();
 ///
 // Renvoie la liste des liens créés par votre adversaire au dernier tour.
 //
-extern "C" std::vector<position> api_hist_liens_crees();
+extern "C" std::vector<lien> api_hist_liens_crees();
 
 ///
 // Renvoie la liste des champs créés par votre adversaire au dernier tour.
 //
-extern "C" std::vector<position> api_hist_champs_crees();
+extern "C" std::vector<champ> api_hist_champs_crees();
+
+///
+// Renvoie la liste des positions où votre adversaire a ajouté des boucliers au dernier tour.
+//
+extern "C" std::vector<position> api_hist_boucliers_ajoutes();
 
 ///
 // Retourne la distance entre deux positions
@@ -191,6 +196,11 @@ extern "C" int api_score_triangle(position som1, position som2, position som3);
 extern "C" bool api_intersection_segments(position a1, position a2, position b1, position b2);
 
 ///
+// Indique si un point se trouve à l'intérieur d'un triangle. Le critère coïncide avec celui de ``case_champs``.
+//
+extern "C" bool api_point_dans_triangle(position p, position som1, position som2, position som3);
+
+///
 // Renvoie votre numéro de joueur.
 //
 extern "C" int api_moi();
@@ -204,6 +214,16 @@ extern "C" int api_adversaire();
 // Indique la position de l'agent du joueur désigné par le numéro ``id_joueur``.
 //
 extern "C" position api_position_agent(int id_joueur);
+
+///
+// Indique votre nombre de points d'actions restants pour ce tour-ci.
+//
+extern "C" int api_points_action();
+
+///
+// Indique votre nombre de points de déplacement restants pour ce tour-ci.
+//
+extern "C" int api_points_deplacement();
 
 ///
 // Retourne le score du joueur désigné par le numéro ``id_joueur``.

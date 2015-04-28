@@ -507,17 +507,23 @@ hist_portails_neutralises  =  (hs_hist_portails_neutralises ) >>= unStorable
 foreign import ccall
   hs_hist_portails_neutralises ::  IO (ApiStorableType [Position])
 -- | Renvoie la liste des liens créés par votre adversaire au dernier tour.
-hist_liens_crees :: IO [Position]
+hist_liens_crees :: IO [Lien]
 hist_liens_crees  =  (hs_hist_liens_crees ) >>= unStorable
 
 foreign import ccall
-  hs_hist_liens_crees ::  IO (ApiStorableType [Position])
+  hs_hist_liens_crees ::  IO (ApiStorableType [Lien])
 -- | Renvoie la liste des champs créés par votre adversaire au dernier tour.
-hist_champs_crees :: IO [Position]
+hist_champs_crees :: IO [Champ]
 hist_champs_crees  =  (hs_hist_champs_crees ) >>= unStorable
 
 foreign import ccall
-  hs_hist_champs_crees ::  IO (ApiStorableType [Position])
+  hs_hist_champs_crees ::  IO (ApiStorableType [Champ])
+-- | Renvoie la liste des positions où votre adversaire a ajouté des boucliers au dernier tour.
+hist_boucliers_ajoutes :: IO [Position]
+hist_boucliers_ajoutes  =  (hs_hist_boucliers_ajoutes ) >>= unStorable
+
+foreign import ccall
+  hs_hist_boucliers_ajoutes ::  IO (ApiStorableType [Position])
 -- | Retourne la distance entre deux positions
 distance :: Position ->  Position -> IO Int
 distance pos1 pos2 = toStorable pos1 $ \pos1' ->  toStorable pos2 $ \pos2' ->  (hs_distance pos1' pos2') >>= unStorable
@@ -536,6 +542,12 @@ intersection_segments a1 a2 b1 b2 = toStorable a1 $ \a1' ->  toStorable a2 $ \a2
 
 foreign import ccall
   hs_intersection_segments :: (ApiStorableType Position) -> (ApiStorableType Position) -> (ApiStorableType Position) -> (ApiStorableType Position) ->  IO (ApiStorableType Bool)
+-- | Indique si un point se trouve à l'intérieur d'un triangle. Le critère coïncide avec celui de ``case_champs``.
+point_dans_triangle :: Position ->  Position ->  Position ->  Position -> IO Bool
+point_dans_triangle p som1 som2 som3 = toStorable p $ \p' ->  toStorable som1 $ \som1' ->  toStorable som2 $ \som2' ->  toStorable som3 $ \som3' ->  (hs_point_dans_triangle p' som1' som2' som3') >>= unStorable
+
+foreign import ccall
+  hs_point_dans_triangle :: (ApiStorableType Position) -> (ApiStorableType Position) -> (ApiStorableType Position) -> (ApiStorableType Position) ->  IO (ApiStorableType Bool)
 -- | Renvoie votre numéro de joueur.
 moi :: IO Int
 moi  =  (hs_moi ) >>= unStorable
@@ -554,6 +566,18 @@ position_agent id_joueur = toStorable id_joueur $ \id_joueur' ->  (hs_position_a
 
 foreign import ccall
   hs_position_agent :: (ApiStorableType Int) ->  IO (ApiStorableType Position)
+-- | Indique votre nombre de points d'actions restants pour ce tour-ci.
+points_action :: IO Int
+points_action  =  (hs_points_action ) >>= unStorable
+
+foreign import ccall
+  hs_points_action ::  IO (ApiStorableType Int)
+-- | Indique votre nombre de points de déplacement restants pour ce tour-ci.
+points_deplacement :: IO Int
+points_deplacement  =  (hs_points_deplacement ) >>= unStorable
+
+foreign import ccall
+  hs_points_deplacement ::  IO (ApiStorableType Int)
 -- | Retourne le score du joueur désigné par le numéro ``id_joueur``.
 score :: Int -> IO Int
 score id_joueur = toStorable id_joueur $ \id_joueur' ->  (hs_score id_joueur') >>= unStorable

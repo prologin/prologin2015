@@ -437,7 +437,7 @@ extern "C" value ml_hist_liens_crees(value unit)
 {
   CAMLparam0();
   CAMLxparam1(unit);
-  CAMLreturn((cxx2lang_array<position>(api_hist_liens_crees())));
+  CAMLreturn((cxx2lang_array<lien>(api_hist_liens_crees())));
 }
 
 ///
@@ -447,7 +447,17 @@ extern "C" value ml_hist_champs_crees(value unit)
 {
   CAMLparam0();
   CAMLxparam1(unit);
-  CAMLreturn((cxx2lang_array<position>(api_hist_champs_crees())));
+  CAMLreturn((cxx2lang_array<champ>(api_hist_champs_crees())));
+}
+
+///
+// Renvoie la liste des positions où votre adversaire a ajouté des boucliers au dernier tour.
+//
+extern "C" value ml_hist_boucliers_ajoutes(value unit)
+{
+  CAMLparam0();
+  CAMLxparam1(unit);
+  CAMLreturn((cxx2lang_array<position>(api_hist_boucliers_ajoutes())));
 }
 
 ///
@@ -481,6 +491,16 @@ extern "C" value ml_intersection_segments(value a1, value a2, value b1, value b2
 }
 
 ///
+// Indique si un point se trouve à l'intérieur d'un triangle. Le critère coïncide avec celui de ``case_champs``.
+//
+extern "C" value ml_point_dans_triangle(value p, value som1, value som2, value som3)
+{
+  CAMLparam0();
+  CAMLxparam4(p, som1, som2, som3);
+  CAMLreturn((cxx2lang<value, bool>(api_point_dans_triangle(lang2cxx<value, position>(p), lang2cxx<value, position>(som1), lang2cxx<value, position>(som2), lang2cxx<value, position>(som3)))));
+}
+
+///
 // Renvoie votre numéro de joueur.
 //
 extern "C" value ml_moi(value unit)
@@ -508,6 +528,26 @@ extern "C" value ml_position_agent(value id_joueur)
   CAMLparam0();
   CAMLxparam1(id_joueur);
   CAMLreturn((cxx2lang<value, position>(api_position_agent(lang2cxx<value, int>(id_joueur)))));
+}
+
+///
+// Indique votre nombre de points d'actions restants pour ce tour-ci.
+//
+extern "C" value ml_points_action(value unit)
+{
+  CAMLparam0();
+  CAMLxparam1(unit);
+  CAMLreturn((cxx2lang<value, int>(api_points_action())));
+}
+
+///
+// Indique votre nombre de points de déplacement restants pour ce tour-ci.
+//
+extern "C" value ml_points_deplacement(value unit)
+{
+  CAMLparam0();
+  CAMLxparam1(unit);
+  CAMLreturn((cxx2lang<value, int>(api_points_deplacement())));
 }
 
 ///

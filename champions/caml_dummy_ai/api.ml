@@ -217,11 +217,15 @@ external hist_portails_neutralises : unit -> position array = "ml_hist_portails_
 (*
 ** Renvoie la liste des liens créés par votre adversaire au dernier tour.
 *)
-external hist_liens_crees : unit -> position array = "ml_hist_liens_crees"
+external hist_liens_crees : unit -> lien array = "ml_hist_liens_crees"
 (*
 ** Renvoie la liste des champs créés par votre adversaire au dernier tour.
 *)
-external hist_champs_crees : unit -> position array = "ml_hist_champs_crees"
+external hist_champs_crees : unit -> champ array = "ml_hist_champs_crees"
+(*
+** Renvoie la liste des positions où votre adversaire a ajouté des boucliers au dernier tour.
+*)
+external hist_boucliers_ajoutes : unit -> position array = "ml_hist_boucliers_ajoutes"
 (*
 ** Retourne la distance entre deux positions
 *)
@@ -235,6 +239,10 @@ external score_triangle : position -> position -> position -> int = "ml_score_tr
 *)
 external intersection_segments : position -> position -> position -> position -> bool = "ml_intersection_segments"
 (*
+** Indique si un point se trouve à l'intérieur d'un triangle. Le critère coïncide avec celui de ``case_champs``.
+*)
+external point_dans_triangle : position -> position -> position -> position -> bool = "ml_point_dans_triangle"
+(*
 ** Renvoie votre numéro de joueur.
 *)
 external moi : unit -> int = "ml_moi"
@@ -246,6 +254,14 @@ external adversaire : unit -> int = "ml_adversaire"
 ** Indique la position de l'agent du joueur désigné par le numéro ``id_joueur``.
 *)
 external position_agent : int -> position = "ml_position_agent"
+(*
+** Indique votre nombre de points d'actions restants pour ce tour-ci.
+*)
+external points_action : unit -> int = "ml_points_action"
+(*
+** Indique votre nombre de points de déplacement restants pour ce tour-ci.
+*)
+external points_deplacement : unit -> int = "ml_points_deplacement"
 (*
 ** Retourne le score du joueur désigné par le numéro ``id_joueur``.
 *)

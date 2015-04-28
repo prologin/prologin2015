@@ -318,14 +318,19 @@ extern "C" position_array* hs_hist_portails_neutralises(void)
   return cxx2lang_array_ptr<position, position_array, __internal__cxx__position >(api_hist_portails_neutralises());
 }
 
-extern "C" position_array* hs_hist_liens_crees(void)
+extern "C" lien_array* hs_hist_liens_crees(void)
 {
-  return cxx2lang_array_ptr<position, position_array, __internal__cxx__position >(api_hist_liens_crees());
+  return cxx2lang_array_ptr<lien, lien_array, __internal__cxx__lien >(api_hist_liens_crees());
 }
 
-extern "C" position_array* hs_hist_champs_crees(void)
+extern "C" champ_array* hs_hist_champs_crees(void)
 {
-  return cxx2lang_array_ptr<position, position_array, __internal__cxx__position >(api_hist_champs_crees());
+  return cxx2lang_array_ptr<champ, champ_array, __internal__cxx__champ >(api_hist_champs_crees());
+}
+
+extern "C" position_array* hs_hist_boucliers_ajoutes(void)
+{
+  return cxx2lang_array_ptr<position, position_array, __internal__cxx__position >(api_hist_boucliers_ajoutes());
 }
 
 extern "C" int hs_distance(position* pos1, position* pos2)
@@ -343,6 +348,11 @@ extern "C" bool hs_intersection_segments(position* a1, position* a2, position* b
   return cxx2lang<bool, bool >(api_intersection_segments(lang2cxx<position*, __internal__cxx__position >(a1), lang2cxx<position*, __internal__cxx__position >(a2), lang2cxx<position*, __internal__cxx__position >(b1), lang2cxx<position*, __internal__cxx__position >(b2)));
 }
 
+extern "C" bool hs_point_dans_triangle(position* p, position* som1, position* som2, position* som3)
+{
+  return cxx2lang<bool, bool >(api_point_dans_triangle(lang2cxx<position*, __internal__cxx__position >(p), lang2cxx<position*, __internal__cxx__position >(som1), lang2cxx<position*, __internal__cxx__position >(som2), lang2cxx<position*, __internal__cxx__position >(som3)));
+}
+
 extern "C" int hs_moi(void)
 {
   return cxx2lang<int, int >(api_moi());
@@ -356,6 +366,16 @@ extern "C" int hs_adversaire(void)
 extern "C" position* hs_position_agent(int id_joueur)
 {
   return cxx2lang<position*, __internal__cxx__position >(api_position_agent(lang2cxx<int, int >(id_joueur)));
+}
+
+extern "C" int hs_points_action(void)
+{
+  return cxx2lang<int, int >(api_points_action());
+}
+
+extern "C" int hs_points_deplacement(void)
+{
+  return cxx2lang<int, int >(api_points_deplacement());
 }
 
 extern "C" int hs_score(int id_joueur)
