@@ -177,6 +177,10 @@ class DumpReader(Reader):
         # The current turn.
         self.turn = -1
 
+        # A list of players (i.e. game.Player instances). Initialized from game
+        # states each time one is decoded. This is used in TV show mode.
+        self.players = None
+
         # For each turn, the file offset in `dump_file` to use when reading the
         # corresponding JSON dump. This is built lazyly as `go_next` is called.
         self.offsets = [0]
@@ -220,7 +224,9 @@ class DumpReader(Reader):
             return None
         else:
             self.turn = next_turn
-            return self.build_state(json.loads(line))
+            result = self.build_state(json.loads(line))
+            self.players = result.players
+            return result
 
     def is_ended(self):
         return self.is_ended_bool

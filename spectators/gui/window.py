@@ -12,7 +12,7 @@ import settings
 import utils
 import state_reader
 from widgets import (
-    DetailsWidget, HelpWidget, MapWidget, StateWidget
+    DetailsWidget, HelpWidget, MapWidget, StateWidget, TVShowWidget
 )
 
 WIDGETS_PADDING = 5
@@ -83,11 +83,14 @@ class Window(object):
         self.details_widget = DetailsWidget(*details_rect)
         self.help_widget = HelpWidget(*screen_dim)
 
+        self.tvshow_widget = TVShowWidget(width, height)
+
         self.widgets = {
             'map': self.map_widget,
             'state': self.state_widget,
             'details': self.details_widget,
             'help': self.help_widget,
+            'tvshow': self.tvshow_widget,
         }
 
         # plug widgets
@@ -109,10 +112,25 @@ class Window(object):
         sys.exit(0)
 
     def loop(self):
+        if settings.options.tv_show:
+            with self.tvshow_widget:
+                self.tvshow_widget.create_init(self.state_reader.players)
+                time_start = time.time()
+                while (not self.state.is_closed and
+                       time.time() - time_start < TVShowWidget.INIT_DURATION):
+                    self.clock.tick(self.FPS)
+                    self.update_state()
+                    self.handle_events()
+                    self.update_window()
+
+            self.state.switch_looping()
+            self.go_next_turn()
+
         while (
             not self.state.is_closed and
             (not self.state_reader.is_ended() or
-             self.state_reader.can_go_backwards())
+             (self.state_reader.can_go_backwards() and
+              not settings.options.tv_show))
         ):
             if not self.state.looping:
                 self.clock.tick(self.FPS)
@@ -123,10 +141,24 @@ class Window(object):
         # The game is finished or the user has quitted: if the used hasn’t
         # quitted, display a final screen.
         self.state_widget.update_end()
+
+        if settings.options.tv_show:
+            with self.tvshow_widget:
+                self.tvshow_widget.create_fini(self.state_reader.players)
+                time_start = time.time()
+                while (not self.state.is_closed and
+                       time.time() - time_start < TVShowWidget.FINI_DURATION):
+                    self.clock.tick(self.FPS)
+                    self.update_state()
+                    self.handle_events()
+                    self.update_window()
+            self.state.close()
+
         while not self.state.is_closed:
             self.clock.tick(self.FPS)
             self.looping = self.handle_events()
             self.update_window()
+
 
         if self.state.is_closed and self.state_reader.can_quit():
             self.release()
@@ -145,6 +177,11 @@ class Window(object):
             # close
             if event.type == pygame.QUIT:
                 self.state.close()
+
+            # In TV show mode, the user is only allowed to quit...
+            if settings.options.tv_show:
+                continue
+
             # display help
             if self.state.display_help:
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_h:
@@ -236,6 +273,9 @@ class Window(object):
         self.map_widget.display(self.screen)
         self.state_widget.display(self.screen)
         self.details_widget.display(self.screen)
+
+        if self.tvshow_widget.enabled:
+            self.tvshow_widget.display(self.screen)
 
         if self.state.display_help:
             self.help_widget.display(self.screen)
