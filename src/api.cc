@@ -490,10 +490,12 @@ bool Api::intersection_segments(position a1, position a2,
 ///
 // Indique si un point se trouve à l'intérieur d'un triangle. Le critère coïncide avec celui de ``case_champs``.
 //
-bool Api::point_dans_triangle(position p, position som1, position som2, position som3)
+bool Api::point_dans_triangle(position p,
+                              position som1, position som2, position som3)
 {
-  // TODO
-  abort();
+    // LOL mismatch in argument ordering
+    // I should have checked geometry.hh first…
+    return point_in_triangle(som1, som2, som3, p);
 }
 
 ///
@@ -526,8 +528,7 @@ position Api::position_agent(int id_joueur)
 //
 int Api::points_action()
 {
-  // TODO
-  abort();
+    return game_state_->action_points(player_->id);
 }
 
 ///
@@ -535,8 +536,7 @@ int Api::points_action()
 //
 int Api::points_deplacement()
 {
-  // TODO
-  abort();
+    return game_state_->move_points(player_->id);
 }
 
 ///
