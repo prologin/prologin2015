@@ -319,14 +319,21 @@ function:
     fct_name: hist_liens_crees
     fct_summary: "Renvoie la liste des liens créés par votre adversaire au
         dernier tour."
-    fct_ret_type: position array
+    fct_ret_type: lien array
     fct_arg: []
   -
     fct_name: hist_champs_crees
     fct_summary: "Renvoie la liste des champs créés par votre adversaire au
         dernier tour."
+    fct_ret_type: champ array
+    fct_arg: []
+  -
+    fct_name: hist_boucliers_ajoutes
+    fct_summary: "Renvoie la liste des positions où votre adversaire a
+                  ajouté des boucliers au dernier tour."
     fct_ret_type: position array
     fct_arg: []
+
 
 # Algorithmes offerts gratuitement
 
@@ -359,6 +366,16 @@ function:
       - [a2, position, "Seconde extrémité du premier segment."]
       - [b1, position, "Première extrémité du second segment."]
       - [b2, position, "Seconde extrémité du second segment."]
+  -
+    fct_name: point_dans_triangle
+    fct_summary: Indique si un point se trouve à l'intérieur d'un triangle.
+                 Le critère coïncide avec celui de ``case_champs``.
+    fct_ret_type: bool
+    fct_arg:
+      - [p, position, "Point à tester."]
+      - [som1, position, "Premier sommet du triangle."]
+      - [som2, position, "Deuxième sommet du triangle."]
+      - [som3, position, "Troisième sommet du triangle."]
 
 # Autre
   -
@@ -377,6 +394,16 @@ function:
     fct_ret_type: position
     fct_arg:
       - [id_joueur, int, "Numéro du joueur."]
+  -
+    fct_name: points_action
+    fct_summary: Indique votre nombre de points d'actions restants pour ce tour-ci.
+    fct_ret_type: int
+    fct_arg: []
+  -
+    fct_name: points_deplacement
+    fct_summary: Indique votre nombre de points de déplacement restants pour ce tour-ci.
+    fct_ret_type: int
+    fct_arg: []
   -
     fct_name: score
     fct_summary: Retourne le score du joueur désigné par le numéro ``id_joueur``.

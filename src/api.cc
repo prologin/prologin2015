@@ -276,7 +276,7 @@ std::vector<position> Api::hist_portails_neutralises()
 ///
 // Renvoie la liste des liens créés par votre adversaire au dernier tour.
 //
-std::vector<position> Api::hist_liens_crees()
+std::vector<lien> Api::hist_liens_crees()
 {
   // TODO
   abort();
@@ -285,7 +285,16 @@ std::vector<position> Api::hist_liens_crees()
 ///
 // Renvoie la liste des champs créés par votre adversaire au dernier tour.
 //
-std::vector<position> Api::hist_champs_crees()
+std::vector<champ> Api::hist_champs_crees()
+{
+  // TODO
+  abort();
+}
+
+///
+// Renvoie la liste des positions où votre adversaire a ajouté des boucliers au dernier tour.
+//
+std::vector<position> Api::hist_boucliers_ajoutes()
 {
   // TODO
   abort();
@@ -319,6 +328,15 @@ bool Api::intersection_segments(position a1, position a2, position b1, position 
 }
 
 ///
+// Indique si un point se trouve à l'intérieur d'un triangle. Le critère coïncide avec celui de ``case_champs``.
+//
+bool Api::point_dans_triangle(position p, position som1, position som2, position som3)
+{
+  // TODO
+  abort();
+}
+
+///
 // Renvoie votre numéro de joueur.
 //
 int Api::moi()
@@ -340,6 +358,24 @@ int Api::adversaire()
 // Indique la position de l'agent du joueur désigné par le numéro ``id_joueur``.
 //
 position Api::position_agent(int id_joueur)
+{
+  // TODO
+  abort();
+}
+
+///
+// Indique votre nombre de points d'actions restants pour ce tour-ci.
+//
+int Api::points_action()
+{
+  // TODO
+  abort();
+}
+
+///
+// Indique votre nombre de points de déplacement restants pour ce tour-ci.
+//
+int Api::points_deplacement()
 {
   // TODO
   abort();
