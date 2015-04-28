@@ -111,7 +111,8 @@ class Window(object):
     def loop(self):
         while (
             not self.state.is_closed and
-            not self.state_reader.is_ended()
+            (not self.state_reader.is_ended() or
+             self.state_reader.can_go_backwards())
         ):
             if not self.state.looping:
                 self.clock.tick(self.FPS)
@@ -159,8 +160,15 @@ class Window(object):
                     self.state.switch_looping()
                     if self.state.looping:
                         self.go_next_turn()
+
+                # previous
+                elif not self.state.looping and event.key in (
+                        pygame.K_p, pygame.K_LEFT):
+                    self.go_previous_turn()
+
                 # next
-                elif not self.state.looping and event.key == pygame.K_n:
+                elif not self.state.looping and event.key in (
+                        pygame.K_n, pygame.K_RIGHT):
                     self.go_next_turn()
 
                 # display help
@@ -192,9 +200,19 @@ class Window(object):
         self.state_reader.go_next()
         self.state_widget.update_wait()
 
+    def go_previous_turn(self):
+        try:
+            self.state_reader.go_previous()
+        except RuntimeError:
+            # Going to the previous turn is not supported: we are probably
+            # running with Stechec. It's not a big deal: do nothing.
+            return
+        self.state_widget.update_wait()
+
     def update_state(self):
         if self.state_reader.is_ended():
-            return
+            self.state.looping = False
+            self.state_widget.update_end()
 
         if self.state.display_help:
             return

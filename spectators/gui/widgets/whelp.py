@@ -38,7 +38,8 @@ class HelpWidget(BaseWidget):
             ((u'H', ), u'Afficher/cacher l’aide'),
             None,
             ((u'Space', ), u'Activer/désactiver la pause'),
-            ((u'N', ), u'Passer au tour suivant (en pause)'),
+            ((u'P', u'←'), u'Passer au tour précédent (en pause)'),
+            ((u'N', u'→'), u'Passer au tour suivant (en pause)'),
         )
 
         # final pos of the first key

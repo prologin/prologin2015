@@ -18,6 +18,21 @@ class Reader:
     def __init__(self):
         pass
 
+    def get_previous_state(self):
+        '''
+        TODO
+        Must only be called in the GUI thread.
+        '''
+        raise NotImplementedError()
+
+    def go_previous(self):
+        '''
+        Prepare the Stechec client to go to the previous turn or raise a
+        RuntimeError if this feature is not available.
+        Must be called in the GUI thread.
+        '''
+        raise NotImplementedError()
+
     def get_next_state(self):
         '''
         Return if available the next game state.
@@ -77,6 +92,9 @@ class Reader:
     def can_quit(self):
         raise NotImplementedError()
 
+    def can_go_backwards(self):
+        raise NotImplementedError()
+
 class StechecReader(Reader):
     '''
     Stechec reader get the game from the Stechec client.
@@ -98,6 +116,12 @@ class StechecReader(Reader):
 
     def can_quit(self):
         return False
+
+    def can_go_backwards(self):
+        return False
+
+    def go_previous(self):
+        raise RuntimeError('Cannot get the previous state under Stechec')
 
     def get_next_state(self):
         if self.waiting_turn:
@@ -149,31 +173,54 @@ class StechecReader(Reader):
 class DumpReader(Reader):
     def __init__(self, dump_file):
         self.dump_file = dump_file
-        self.generator = iter(
-            self.build_state(json.loads(line))
-            for line in self.dump_file
-        )
-        self.turn = 0
+
+        # The current turn.
+        self.turn = -1
+
+        # For each turn, the file offset in `dump_file` to use when reading the
+        # corresponding JSON dump. This is built lazyly as `go_next` is called.
+        self.offsets = [0]
+
         self.is_ended_bool = False
         self.go_next()
 
     def can_quit(self):
         return True
 
+    def can_go_backwards(self):
+        return True
+
     def get_next_state(self):
         if self.next_state is not None:
             ns = self.next_state
             self.next_state = None
-            self.turn += 1
             return ns
         return None
 
     def go_next(self):
-        try:
-            self.next_state = next(self.generator)
-        except StopIteration:
-            self.next_state = None
-            self.is_ended_bool = True
+        self.next_state = self.read_state(+1)
+
+        if self.turn == len(self.offsets) - 1:
+            self.offsets.append(self.dump_file.tell())
+
+    def get_previous_state(self):
+        return self.get_next_state()
+
+    def go_previous(self):
+        self.next_state = self.read_state(-1)
+
+    def read_state(self, offset):
+        next_turn = max(0, self.turn + offset)
+        self.dump_file.seek(self.offsets[next_turn])
+        line = self.dump_file.readline()
+
+        self.is_ended_bool = not line
+
+        if self.is_ended_bool:
+            return None
+        else:
+            self.turn = next_turn
+            return self.build_state(json.loads(line))
 
     def is_ended(self):
         return self.is_ended_bool
