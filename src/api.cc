@@ -152,7 +152,7 @@ std::vector<lien> Api::liste_liens()
     // TODO tester
 
     auto edges = game_state_->graph().edges();
-    std::vector<lien> links; 
+    std::vector<lien> links(edges.size()); 
     std::transform (edges.cbegin(), edges.cend(), links.begin(),
                     [this](const ipair& e)
                     { return game_state_->edge_to_link(e); });
