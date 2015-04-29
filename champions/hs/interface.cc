@@ -4,8 +4,11 @@
 // to the script file : gen/generator_haskell.rb
 //
 
-#include "Prologin_stub.h"
+#include "HsFFI.h"
 extern "C" {
+void hs_partie_init(void);
+void hs_jouer_tour(void);
+void hs_partie_fin(void);
   extern void __stginit_Prologin ( void );
 }
 #include "interface.hh"

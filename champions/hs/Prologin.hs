@@ -15,8 +15,8 @@ import System.Random
 import Api
 
 pickRandom :: [a] -> IO a
--- pickRandom xs = (xs !!) <$> randomRIO (0, length xs - 1)
-pickRandom = return . head
+pickRandom xs = (xs !!) <$> randomRIO (0, length xs - 1)
+-- pickRandom = return . head
 
 distance_ a b = unsafePerformIO $ distance a b
 

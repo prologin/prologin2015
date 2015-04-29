@@ -29,8 +29,7 @@ ifndef NOCOLORS
   quiet_cmd_ocaml		= [1;33mcaml $< -> $@[0m
   quiet_cmd_ocamlo		= [1;33mcaml $< -> $@[0m
   quiet_cmd_hsc2hs		= [1;32mhsc2hs   $< -> $@[0m
-  quiet_cmd_ghc			= [1;33mghc   $$^[0m
-  quiet_cmd_ghc_link	= [1;36mghc link  $< -> $@[0m
+  quiet_cmd_ghc			= [1;33mghc   $^ -> $@[0m
   quiet_cmd_ld_shared	= [1;36mlib  $@[0m
   quiet_cmd_clean		= [1;35mclean[0m
   quiet_cmd_distclean	= [1;35mdistclean[0m
@@ -44,7 +43,6 @@ else
   quiet_cmd_ocamlo	= OCAML   $@
   quiet_cmd_hsc2hs    	= HSC2HS      $@
   quiet_cmd_ghc    	= GHC      $@
-  quiet_cmd_ghc_link   	= GHC LINK      $@
   quiet_cmd_ld_shared	= LINK    $@
   quiet_cmd_clean	= CLEAN   objects
   quiet_cmd_distclean	= CLEAN   targets
@@ -73,12 +71,12 @@ LD		= $(CROSS)ld
 OCAML_LIBS      = -L`ocamlc -where` -Wl,-R`ocamlc -where` -lcamlrun_shared -lcurses -lm
 OCAML_CFLAGS    = -O2 -I`ocamlc -where`
 
-HASKELL_CFLAGS	= -O2 -I`ghc --print-libdir`/include -std=c++11
+HASKELL_CFLAGS	= -O2 -I`$(GHC) --print-libdir`/include -std=c++11
 
 LANG_FILE     	= _lang
 
 ifeq ($(STECHEC_LANG),haskell)
-	LINK_CMD = ghc_link
+	LINK_CMD = ghc
 else
 	LINK_CMD = ld_shared
 endif
@@ -113,18 +111,13 @@ endef
 define get_haskell_objs
   $(1)-hsc-src := $$(filter %.hsc,$$($(1)-srcs))
   $(1)-hs-src := $$(filter %.hs,$$($(1)-srcs)) $$($(1)-hsc-src:.hsc=.hs)
-  $(1)-hs-objs := $$($(1)-hs-src:.hs=.o)
 
-  ifneq ($$($(1)-hs-objs),)
-    $(1)-objs := $$($(1)-hs-objs) $(value $(1)-objs)
+  ifneq ($$($(1)-hs-src),)
+    $(1)-deps := $$($(1)-hs-src)
     $(1)-cxxflags := $$($(1)-cxxflags) $$(HASKELL_CFLAGS)
   endif
 
   cleanfiles := $$($(1)-hs-src:.hs=.hi) $$($(1)-hs-src:.hs=.o) $(1).so $$($(1)-hsc-src:.hsc=.hs) $$(cleanfiles)
-
-*.o: $$($(1)-hs-src)
-$$($(1)-hs-objs): $$($(1)-hs-src)
-	$(call cmd,ghc)
 endef
 
 define get_csclass
@@ -177,8 +170,7 @@ cmd_java		= $(JAVAC) $(java_flags) $<
 cmd_ocaml		= $(OCAMLC) $(_CAMLFLAGS) -c $< -o $@
 cmd_ocamlo		= $(OCAMLC) -output-obj $(_CAMLFLAGS) $(filter %.cmo,$^) -o $@
 cmd_hsc2hs		= $(HSC2HS) $< -o $@
-cmd_ghc			= $(GHC) -O9 -dynamic --make -c -fPIC $$^
-cmd_ghc_link	= $(GHC) -O9 -dynamic --make -shared -L`$(GHC) --print-libdir` -lHSrts-ghc`$(GHC) --numeric-version` -fPIC $(filter %.o %.a,$^) -o $@
+cmd_ghc			= $(GHC) -O9 -dynamic --make -shared -fPIC -L`$(GHC) --print-libdir` -lHSrts-ghc`$(GHC) --numeric-version` $(filter %.o %.a %.hs,$^) -o $@
 
 ld_flags	= $(_LDFLAGS)
 cmd_ld_shared	= $(CXX) $(filter %.o %.a,$^) $(ld_flags) -shared -o $@ $(_LDLIBS)
