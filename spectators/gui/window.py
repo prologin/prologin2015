@@ -264,7 +264,6 @@ class Window(object):
         if game_state is not None:
             self.game_state = game_state
             self.state_widget.update_turn(game_state)
-            self.details_widget.update_game(game_state)
             self.map_widget.update_game(game_state)
 
             if self.state.check_loop():

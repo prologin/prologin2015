@@ -185,3 +185,17 @@ class MapWidget(BaseWidget):
         if game_state:
             self.game_state = game_state
         return self.game_state
+
+    def handle_view_click(self, x, y, but1, but2, but3, absolute=False):
+        x = x // data.TILE_WIDTH
+        y = (y - data.TILE_OVERLAY) // (data.TILE_HEIGHT - data.TILE_OVERLAY)
+
+        if but1:
+            self.details_widget.update_position(x, y)
+
+    def handle_click(self, x, y, but1, but2, but3):
+        coords = self.is_click_inside(x, y)
+        if not coords:
+            return False
+        self.handle_view_click(coords[0], coords[1], but1, but2, but3)
+        return True
