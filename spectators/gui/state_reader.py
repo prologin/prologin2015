@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import ctypes
 import json
 import threading
 import queue
@@ -114,6 +115,11 @@ class StechecReader(Reader):
         self.turn = 0
         self.waiting_end = threading.Event()
 
+        librules = ctypes.cdll.LoadLibrary('libprologin2015.so')
+        self.get_dump = librules.api_get_dump
+        self.get_dump.argtypes = []
+        self.get_dump.restype = ctypes.c_char_p
+
     def can_quit(self):
         return False
 
@@ -166,8 +172,10 @@ class StechecReader(Reader):
         return self.turn
 
     def build_state(self):
+        json_dump = self.get_dump().decode('ascii')
+        result = game.GameState(json.loads(json_dump))
         self.turn += 1
-        return game.GameState(json.loads(get_dump()))
+        return result
 
 
 class DumpReader(Reader):
