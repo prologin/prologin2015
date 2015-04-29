@@ -3,25 +3,25 @@
 
 pkgname=stechec2-prologin2015-gui
 pkgver=2015_0.1
-pkgrel=3
+pkgrel=4
 pkgdesc="Stechec2 with Prologin 2015 GUI"
 arch=('i686' 'x86_64')
 url="http://prologin.org/"
 license=('GPL')
 provides=('prologin2015-gui')
-depends=('stechec2' 'prologin2015')
+depends=('stechec2' 'prologin2015' 'python3-pygame')
 makedepends=('git')
 source=("git+https://bitbucket.org/prologin/prologin2015")
 sha512sums=(SKIP)
 
 build() {
-    cd $srcdir/prologin2015/gui
+    cd "$srcdir/prologin2015/spectators/gui"
     make
 }
 
 package() {
-    cd $srcdir/prologin2015
-    mkdir -p $pkgdir/usr/share/stechec2/prologin2015/
-    cp -r gui $pkgdir/usr/share/stechec2/prologin2015/ 
-    install -Dm755  gui/prologin2015-replay $pkgdir/usr/bin/prologin2015-replay
+    cd "$srcdir/prologin2015/spectators"
+    mkdir -p "$pkgdir/usr/share/stechec2/prologin2015/"
+    cp -r gui "$pkgdir/usr/share/stechec2/prologin2015/"
+    install -Dm755  gui/prologin2015-replay "$pkgdir/usr/bin/prologin2015-replay"
 }
