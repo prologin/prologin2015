@@ -310,7 +310,10 @@ class State:
     # plug widgets
     def plug(self, widgets):
         self.help_widget = widgets['help']
-        self.disabled_widgets.update((self.help_widget, ))
+        self.tvshow_widget = widgets['tvshow']
+        self.disabled_widgets.add(self.help_widget)
+        if not settings.options.tv_show:
+            self.disabled_widgets.add(self.tvshow_widget)
 
     def switch_help(self):
         self.display_help = not self.display_help
