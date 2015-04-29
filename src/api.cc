@@ -168,7 +168,8 @@ std::vector<champ> Api::liste_champs()
 
     auto triangles = game_state_->graph().triangles();
     std::vector<champ> fields(triangles.size());
-    std::transform (triangles.cbegin(), triangles.cend(), fields.begin(),
+    std::transform (triangles.cbegin(), triangles.cend(),
+                    std::back_inserter(fields),
                     [this](const itriple& t)
                     { return game_state_->triangle_to_field(t); });
     return fields;
