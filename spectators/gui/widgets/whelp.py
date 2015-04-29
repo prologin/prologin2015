@@ -35,11 +35,12 @@ class HelpWidget(BaseWidget):
 
         # FIXME: change description
         descriptions = (
-            ((u'H', ), u'Afficher/cacher l’aide'),
+            ((u'H', ), (u'Afficher/cacher l’aide', )),
             None,
-            ((u'Space', ), u'Activer/désactiver la pause'),
-            ((u'P', u'←'), u'Passer au tour précédent (en pause)'),
-            ((u'N', u'→'), u'Passer au tour suivant (en pause)'),
+            ((u'Space', ), (u'Activer/désactiver la pause', )),
+            ((u'P', u'←'), (u'Passer au tour précédent (en pause)',
+                            u'(disponible en mode replay seulement)')),
+            ((u'N', u'→'), (u'Passer au tour suivant (en pause)', )),
         )
 
         # final pos of the first key
@@ -55,9 +56,11 @@ class HelpWidget(BaseWidget):
                 continue
 
             keys, caption = description
+            caption_first_line = caption[0]
 
             key_buttons = [utils.make_button(key, self.font) for key in keys]
-            caption_text = self.font.render(caption, True, utils.WHITE)
+            caption_text = self.font.render(caption_first_line, True,
+                                            utils.WHITE)
 
             key_height = max(button.get_size()[1] for button in key_buttons)
             caption_height = caption_text.get_size()[1]
@@ -77,4 +80,13 @@ class HelpWidget(BaseWidget):
                     (caption_x, vshift + (line_height - caption_height) / 2)
             )
 
+            next_line_vshift = vshift + caption_height
             vshift += line_height + self.PADDING / 2
+
+            for line in caption[1:]:
+                caption_text = self.font.render(line, True, utils.WHITE)
+                _, caption_h = caption_text.get_size()
+                self.surface.blit(caption_text, (caption_x, next_line_vshift))
+                next_line_vshift += caption_h
+
+            vshift = max(vshift, next_line_vshift)

@@ -245,7 +245,9 @@ class Window(object):
             self.state_reader.go_previous()
         except RuntimeError:
             # Going to the previous turn is not supported: we are probably
-            # running with Stechec. It's not a big deal: do nothing.
+            # running with Stechec. It's not a big deal: just tell the user
+            # it's not available.
+            self.state_widget.update_previous_not_available()
             return
         self.state_widget.update_wait()
 

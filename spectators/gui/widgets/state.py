@@ -106,6 +106,11 @@ class StateWidget(BaseWidget):
         self._update()
         self._display_text(u'Match terminé', 9 * self.TEXT_HEIGHT, utils.GREY)
 
+    def update_previous_not_available(self):
+        self._update()
+        self._display_text(u'Tour précédent', 9 * self.TEXT_HEIGHT, utils.RED)
+        self._display_text(u'non disponible', 10 * self.TEXT_HEIGHT, utils.RED)
+
     def update_wait_end(self, turn):
         self.turn = turn
         self._update()
