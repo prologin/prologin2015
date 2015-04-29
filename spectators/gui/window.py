@@ -108,6 +108,7 @@ class Window(object):
                 ''.join(line for line in traceback.format_tb(tb)),
                 type.__name__, value
             ))
+        self.state_reader.do_gui_end()
         self.release()
         sys.exit(0)
 
@@ -168,6 +169,8 @@ class Window(object):
         # wait for stechec to stop.
         self.state_reader.wait_end()
         while not self.state_reader.is_ended():
+            self.state_reader.go_next()
+            self.state_reader.get_next_state()
             self.state_widget.update_wait_end(self.state_reader.get_turn())
             self.update_window()
             self.clock.tick(self.FPS)

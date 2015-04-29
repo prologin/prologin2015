@@ -23,3 +23,4 @@ def jouer_tour():
 
 def partie_fin():
     game_state_reader.do_end()
+    game_state_reader.wait_gui_end()

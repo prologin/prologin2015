@@ -76,6 +76,20 @@ class Reader:
         '''
         raise NotImplementedError()
 
+    def wait_gui_end(self):
+        '''
+        Wait for the GUI to be done before exitting.
+        Must be called in the Stechec thread.
+        '''
+        raise NotImplementedError()
+
+    def do_gui_end(self):
+        '''
+        State that the GUI is done so Stechec can exit.
+        Must be called ni the GUI thread.
+        '''
+        raise NotImplementedError()
+
     def get_turn(self):
         '''
         Return the turn number.
@@ -114,6 +128,8 @@ class StechecReader(Reader):
         self.realeased = threading.Event()
         self.turn = 0
         self.waiting_end = threading.Event()
+
+        self.gui_end = threading.Event()
 
         librules = ctypes.cdll.LoadLibrary('libprologin2015.so')
         self.get_dump = librules.api_get_dump
@@ -167,6 +183,12 @@ class StechecReader(Reader):
 
     def do_end(self):
         self.end_game.set()
+
+    def wait_gui_end(self):
+        self.gui_end.wait()
+
+    def do_gui_end(self):
+        self.gui_end.set()
 
     def get_turn(self):
         return self.turn
@@ -244,3 +266,6 @@ class DumpReader(Reader):
 
     def build_state(self, json):
         return game.GameState(json)
+
+    def do_gui_end(self):
+        pass
