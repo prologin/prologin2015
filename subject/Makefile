@@ -3,11 +3,10 @@ all: subject.pdf
 finale.tex: ../doc/finale.rst
 	pandoc -o finale.tex ../doc/finale.rst
 
-api.tex: ../prologin2015.yml
+apidoc.tex useapi.tex: ../prologin2015.yml
 	generator apidoc ../prologin2015.yml .
-	mv file.tex api.tex
 
-subject.pdf: subject.tex subject_content.tex useapi.tex finale.tex api.tex prologin2015.pdf image.pdf
+subject.pdf: subject.tex subject_content.tex useapi.tex finale.tex apidoc.tex prologin2015.pdf
 	xelatex subject.tex
 
 clean:
@@ -18,6 +17,7 @@ clean:
 	rm -f *.aux
 
 distclean: clean
-	rm -f api.tex
+	rm -f apidoc.tex
+	rm -f useapi.tex
 	rm -f finale.tex
 	rm -f *.pdf
