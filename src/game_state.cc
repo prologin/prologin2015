@@ -16,6 +16,8 @@ GameState::GameState(Map* map, rules::Players_sptr players)
     , portal_player_(map->num_portals(), -1)
     , portal_shields_(map->num_portals(), 0)
 {
+    history_.reset(new history_info);
+
     int player_ordinal = 0;
     for (auto& p : players_->players)
     {
@@ -44,6 +46,7 @@ GameState::GameState(const GameState& st)
     , portal_player_(st.portal_player_)
     , portal_shields_(st.portal_shields_)
     , player_info_(st.player_info_)
+    , history_(st.history_)
 {
     // I think that's the default copy constructor?
     // CHECK : can we remove this declaration?
