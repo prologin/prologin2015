@@ -92,7 +92,7 @@ void Rules::at_start()
     api_->game_state()->go_next_round();
 }
 
-void Rules::at_client_start()
+void Rules::at_player_start()
 {
     sandbox_.execute(champion_partie_init_);
 }
@@ -102,7 +102,7 @@ void Rules::at_spectator_start()
     champion_partie_init_();
 }
 
-void Rules::at_client_end()
+void Rules::at_player_end()
 {
     sandbox_.execute(champion_partie_fin_);
 }

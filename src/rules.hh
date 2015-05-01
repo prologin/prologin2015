@@ -27,9 +27,9 @@ public:
     virtual bool is_finished();
 
     virtual void at_start();
-    virtual void at_client_start();
+    virtual void at_player_start();
     virtual void at_spectator_start();
-    virtual void at_client_end();
+    virtual void at_player_end();
     virtual void at_spectator_end();
 
     virtual void player_turn();
