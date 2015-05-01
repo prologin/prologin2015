@@ -51,11 +51,12 @@ def get_images(names):
     return result
 
 def load_images():
-    global gui_icons, tiles
+    global gui_icons, stats_icons, icon_shadow, tiles
     global player_tiles
     global portal_tiles
 
     gui_icons = get_images(['score'])
+    stats_icons = get_images('portals links fields'.split())
     tiles = get_images('portal shield player1 player2'.split())
 
     portal_tiles = get_colored_images(tiles['portal'],
@@ -64,6 +65,7 @@ def load_images():
         utils.set_color(tiles['player1'], PLAYER_COLORS[0]),
         utils.set_color(tiles['player2'], PLAYER_COLORS[1]),
     ])
+    icon_shadow = utils.make_shadow(ICON_WIDTH, ICON_HEIGHT)
 
 def get_font_path(name):
     return os.path.join(images_dir, name)
