@@ -10,7 +10,7 @@
 GameState::GameState(Map* map, rules::Players_sptr players)
     : rules::GameState()
     , players_(players)
-    , current_turn_(0)
+    , current_round_(0)
     , map_(map)
     , graph_(map->num_portals())
     , portal_player_(map->num_portals(), -1)
@@ -40,7 +40,7 @@ GameState::GameState(Map* map, rules::Players_sptr players)
 GameState::GameState(const GameState& st)
     : rules::GameState(st)
     , players_(st.players_)
-    , current_turn_(st.current_turn_)
+    , current_round_(st.current_round_)
     , map_(st.map_)
     , graph_(st.graph_)
     , portal_player_(st.portal_player_)
@@ -62,17 +62,17 @@ rules::GameState* GameState::copy() const
     return new GameState(*this);
 }
 
-int GameState::get_current_turn() const
+int GameState::get_current_round() const
 {
-    return current_turn_;
+    return current_round_;
 }
 
-void GameState::go_next_turn()
+void GameState::go_next_round()
 {
-    ++current_turn_;
+    ++current_round_;
 }
 
-void GameState::end_of_player_turn(int player_id)
+void GameState::end_of_turn(int player_id)
 {
     // Check that the player_id refers to an actual player
     // Return if it's not the case
@@ -165,7 +165,7 @@ void GameState::end_of_player_turn(int player_id)
 
 bool GameState::is_finished() const
 {
-    return current_turn_ > NB_TOURS;
+    return current_round_ > NB_TOURS;
 }
 
 int GameState::get_opponent(int player_id) const

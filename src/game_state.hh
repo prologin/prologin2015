@@ -56,14 +56,14 @@ public:
     virtual rules::GameState* copy() const;
     ~GameState();
 
-    // Return the current turn number.
-    int get_current_turn() const;
-    // Go to the next turn: increment the current turn number.
-    void go_next_turn();
+    // Return the current round number.
+    int get_current_round() const;
+    // Go to the next round: increment the current round number.
+    void go_next_round();
     // After a player's turn has ended, reset points and update scores.
     // (when handed an invalid player_id, does nothing
     //  whereas other GameState methods may fail in such a scenario)
-    void end_of_player_turn(int player_id);
+    void end_of_turn(int player_id);
 
     // Return false when it's still time for players to play, true otherwise.
     bool is_finished() const;
@@ -144,7 +144,7 @@ private:
     // spectators.
     rules::Players_sptr players_;
 
-    int current_turn_;
+    int current_round_;
 
     // The Graph is an adjacency list which doesn't know anything about
     // its concrete realization in the plane; portals are represented

@@ -72,7 +72,6 @@ TEST_F(ActionTest, Deplacer_NextTurnResetsPoints)
     EXPECT_EQ(0, st->move_points(PLAYER_1));
     ASSERT_EQ(POSITION_ELOIGNEE, act.check(st));
 
-    // st->go_next_turn();
-    st->end_of_player_turn(PLAYER_1);
+    st->end_of_turn(PLAYER_1);
     ASSERT_EQ(OK, act.check(st));
 }

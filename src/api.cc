@@ -547,7 +547,7 @@ int Api::score(int id_joueur)
 //
 int Api::tour_actuel()
 {
-    return game_state_->get_current_turn();
+    return game_state_->get_current_round();
 }
 
 ///

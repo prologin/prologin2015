@@ -89,7 +89,7 @@ bool Rules::is_finished()
 
 void Rules::at_start()
 {
-    api_->game_state()->go_next_turn();
+    api_->game_state()->go_next_round();
 }
 
 void Rules::at_client_start()
@@ -123,21 +123,21 @@ void Rules::spectator_turn()
     // No ack?
 }
 
-void Rules::start_of_turn()
+void Rules::start_of_round()
 {
-    INFO("TURN %d", api_->game_state()->get_current_turn());
+    INFO("ROUND %d", api_->game_state()->get_current_round());
 }
 
-void Rules::end_of_turn()
+void Rules::end_of_round()
 {
-    api_->game_state()->go_next_turn();
+    api_->game_state()->go_next_round();
 }
 
-void Rules::end_of_player_turn(uint32_t player_id)
+void Rules::end_of_turn(uint32_t player_id)
 {
     // The player_id may be a spectator,
     // in which case this method won't have any effect.
-    api_->game_state()->end_of_player_turn(static_cast<int>(player_id));
+    api_->game_state()->end_of_turn(static_cast<int>(player_id));
 
     // Clear the list of game states at the end of each turn (half-round)
     // We need the linked list of game states only for undo and history,
