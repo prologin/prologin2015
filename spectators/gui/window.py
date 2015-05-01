@@ -12,7 +12,7 @@ import settings
 import utils
 import state_reader
 from widgets import (
-    DetailsWidget, HelpWidget, MapWidget, StateWidget, TVShowWidget
+    DetailsWidget, HelpWidget, MapWidget, StateWidget, TVShowWidget, PlayerStatWidget
 )
 
 WIDGETS_PADDING = 5
@@ -56,9 +56,16 @@ class Window(object):
             StateWidget.HEIGHT
         )
 
-        details_rect = (
+        player_stat_rect = (
             rcol_x,
             get_below(state_rect),
+            rcol_w,
+            PlayerStatWidget.HEIGHT
+        )
+
+        details_rect = (
+            rcol_x,
+            get_below(player_stat_rect),
             rcol_w,
             height - state_rect[1] - state_rect[3] - 2 * WIDGETS_PADDING
         )
@@ -80,6 +87,7 @@ class Window(object):
         # widget initialization
         self.map_widget = MapWidget(WIDGETS_PADDING, WIDGETS_PADDING)
         self.state_widget = StateWidget(*state_rect[:3])
+        self.player_stat_widget = PlayerStatWidget(*player_stat_rect)
         self.details_widget = DetailsWidget(*details_rect)
         self.help_widget = HelpWidget(*screen_dim)
 
@@ -88,6 +96,7 @@ class Window(object):
         self.widgets = {
             'map': self.map_widget,
             'state': self.state_widget,
+            'playerstat': self.player_stat_widget,
             'details': self.details_widget,
             'help': self.help_widget,
             'tvshow': self.tvshow_widget,
@@ -265,7 +274,7 @@ class Window(object):
             self.game_state = game_state
             self.state_widget.update_turn(game_state)
             self.map_widget.update_game(game_state)
-            self.details_widget.update_game(game_state)
+            self.player_stat_widget.update_game(game_state)
 
             if self.state.check_loop():
                 self.go_next_turn()
@@ -277,6 +286,7 @@ class Window(object):
         #displays the widgets
         self.map_widget.display(self.screen)
         self.state_widget.display(self.screen)
+        self.player_stat_widget.display(self.screen)
         self.details_widget.display(self.screen)
 
         if self.tvshow_widget.enabled:
