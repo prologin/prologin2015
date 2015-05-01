@@ -13,6 +13,7 @@
 #include "map.hh"
 #include "graph.hh"
 
+// Game-specific information related to each player
 struct player_info
 {
     // Action an move points still available for the player for the current
@@ -28,6 +29,21 @@ struct player_info
     int *score;
 };
 
+// Structure to store a diff between the states at the start of the
+// current turn and at the start of the previous one.
+struct history
+{
+    // list of portals captured (resp. neutralised) during previous turn
+    std::vector<position> hist_captured;
+    std::vector<position> hist_neutralised;
+
+    // list of links (resp. fields) created during previous turn
+    std::vector<lien> hist_links;
+    std::vector<champ> hist_fields;
+
+    // list of shields added during previous turn
+    std::vector<position> hist_shields;
+};
 
 class GameState : public rules::GameState
 {
@@ -128,10 +144,17 @@ private:
 
     int current_turn_;
 
+    // The Graph is an adjacency list which doesn't know anything about
+    // its concrete realization in the plane; portals are represented
+    // by IDs (ints).
+    // Mapping portal IDs to positions on a grid is the responsibility
+    // of the Map, which is supposed to be *constant* during the entirety
+    // of the game (the data it holds is entirely given by the map file)
+    // hence the shared_ptr.
     std::shared_ptr<Map> map_;
     Graph graph_;
 
-    // Mapping: portal ID -> ID for the player that owns the corresponding
+    // Mapping: portal ID -> ID of the player that owns the corresponding
     // portal, or -1 if no one owns it.
     std::vector<int> portal_player_;
 
@@ -141,7 +164,10 @@ private:
     // Mapping: player ID -> player_info data structure.  Spectators are
     // missing from this mapping.
     std::map<int, player_info> player_info_;
+
+    // The history is in a shared_ptr because it only refers to the previous
+    // turn's events: it is constant during a turn.
+    std::shared_ptrr<history> history_;
 };
 
 #endif /* !GAME_STATE_HH */
-
