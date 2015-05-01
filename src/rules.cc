@@ -143,5 +143,11 @@ void Rules::end_of_player_turn(uint32_t player_id)
         api_->game_state()->end_of_player_turn(static_cast<int>(player_id));
     }
     catch (const InvalidPlayer& exn) { }
+
+    // Clear the list of game states at the end of each turn (half-round)
+    // We need the linked list of game states only for undo and history,
+    // therefore old states are not needed anymore after the turn ends.
+    // Spectators should do this as well!
+    api_->game_state()->clear_old_version();
 }
 
