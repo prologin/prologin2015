@@ -9,10 +9,15 @@ module Prologin where
 import Control.Applicative
 import Control.Monad
 import Data.List
+import Data.IORef
 import System.IO.Unsafe
 import System.Random
 
 import Api
+
+{-# NOINLINE maVariable #-}
+maVariable :: IORef Int
+maVariable = unsafePerformIO (newIORef 1)
 
 pickRandom :: [a] -> IO a
 pickRandom xs = (xs !!) <$> randomRIO (0, length xs - 1)
