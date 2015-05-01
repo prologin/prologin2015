@@ -31,7 +31,7 @@ struct player_info
 
 // Structure to store a diff between the states at the start of the
 // current turn and at the start of the previous one.
-struct history
+struct history_info
 {
     // list of portals captured (resp. neutralised) during previous turn
     std::vector<position> hist_captured;
@@ -137,6 +137,8 @@ public:
     // the corresponding move points.
     void set_pos(int player_id, const position& position);
 
+    const history_info& history() { return *history_; }
+
 private:
     // Array of all clients on this game.  Note that this also contains
     // spectators.
@@ -167,7 +169,7 @@ private:
 
     // The history is in a shared_ptr because it only refers to the previous
     // turn's events: it is constant during a turn.
-    std::shared_ptrr<history> history_;
+    std::shared_ptr<history_info> history_;
 };
 
 #endif /* !GAME_STATE_HH */

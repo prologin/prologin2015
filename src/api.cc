@@ -418,8 +418,7 @@ std::vector<champ> Api::champs_incidents_segment(position ext1, position ext2)
 //
 std::vector<position> Api::hist_portails_captures()
 {
-  // TODO
-  abort();
+    return game_state_->history().hist_captured;
 }
 
 ///
@@ -428,8 +427,7 @@ std::vector<position> Api::hist_portails_captures()
 //
 std::vector<position> Api::hist_portails_neutralises()
 {
-  // TODO
-  abort();
+    return game_state_->history().hist_neutralised;
 }
 
 ///
@@ -437,8 +435,7 @@ std::vector<position> Api::hist_portails_neutralises()
 //
 std::vector<lien> Api::hist_liens_crees()
 {
-  // TODO
-  abort();
+    return game_state_->history().hist_links;
 }
 
 ///
@@ -446,8 +443,7 @@ std::vector<lien> Api::hist_liens_crees()
 //
 std::vector<champ> Api::hist_champs_crees()
 {
-  // TODO
-  abort();
+    return game_state_->history().hist_fields;
 }
 
 ///
@@ -455,8 +451,7 @@ std::vector<champ> Api::hist_champs_crees()
 //
 std::vector<position> Api::hist_boucliers_ajoutes()
 {
-  // TODO
-  abort();
+    return game_state_->history().hist_shields;
 }
 
 ///

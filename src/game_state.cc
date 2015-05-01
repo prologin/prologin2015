@@ -96,6 +96,63 @@ void GameState::end_of_player_turn(int player_id)
             area_x2 += field_area_x2(t);
     }
     increment_score(player_id, (POINTS_CHAMP/2) * area_x2);
+
+    // The rest of the function updates the history
+    history_.reset(new history_info);
+    rules::GameState *st = this;
+    while (st->can_cancel())
+    {
+        // Retrieve the game state at the start of the turn
+        // as the last element of the stack
+        st = st->get_old_version();
+    }
+    GameState *old = dynamic_cast<GameState*>(st);
+    int opponent = get_opponent(player_id);
+
+    // Portals diff
+    for (int i = 0; i < map_->num_portals(); ++i)
+    {
+        if (portal_player_[i] == player_id &&
+            old->portal_player_[i] != player_id)
+        {
+            history_->hist_captured.push_back(portal_pos(i));
+        }
+        // TODO: precise in the yaml comment that using the virus to
+        // neutralize one's own portal doesn't count towards this
+        // something like "the portals that have stopped belonging
+        // to you during your opponent's previous turn"
+        if (portal_player_[i] != opponent &&
+            old->portal_player_[i] == opponent)
+        {
+            history_->hist_neutralised.push_back(portal_pos(i));
+        }
+        // Shields, counting multiplicity
+        for (int j = 0; j < portal_shields_[i] - old->portal_shields_[i]; ++j)
+        {
+            history_->hist_shields.push_back(portal_pos(i));
+        }
+    }
+
+    // Links diff
+    for (auto& e : graph_.edges())
+    {
+        if (!old->graph_.edge_exists(e))
+            history_->hist_links.push_back(edge_to_link(e));
+    }
+
+    // Fields diff: a field is new if one of its links is new
+    // Reuse the vector of triangles computed before
+    for (const itriple& t : triangles)
+    {
+        // for once this doesn't use unpack_triangle_pos
+        int v0 = std::get<0>(t);
+        int v1 = std::get<0>(t);
+        int v2 = std::get<0>(t);
+        if (!old->graph_.edge_exists({v0,v1}) ||
+            !old->graph_.edge_exists({v1,v2}) ||
+            !old->graph_.edge_exists({v2,v0}))
+            history_->hist_fields.push_back(triangle_to_field(t));
+    }
 }
 
 bool GameState::is_finished() const
