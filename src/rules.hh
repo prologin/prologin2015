@@ -38,7 +38,7 @@ public:
     virtual void start_of_round();
     virtual void end_of_round();
 
-    virtual void end_of_turn(uint32_t);
+    virtual void end_of_player_turn(uint32_t);
 
 protected:
     f_champion_partie_init champion_partie_init_;

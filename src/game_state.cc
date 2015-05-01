@@ -72,13 +72,11 @@ void GameState::go_next_round()
     ++current_round_;
 }
 
-void GameState::end_of_turn(int player_id)
+void GameState::end_of_player_turn(int player_id)
 {
     // Check that the player_id refers to an actual player
-    // Return if it's not the case
     auto iter = player_info_.find(player_id);
-    if (iter == player_info_.end())
-        return;
+    assert(iter != player_info_.end()); // should never happen
 
     player_info& pi = iter->second;
 

@@ -133,11 +133,9 @@ void Rules::end_of_round()
     api_->game_state()->go_next_round();
 }
 
-void Rules::end_of_turn(uint32_t player_id)
+void Rules::end_of_player_turn(uint32_t player_id)
 {
-    // The player_id may be a spectator,
-    // in which case this method won't have any effect.
-    api_->game_state()->end_of_turn(static_cast<int>(player_id));
+    api_->game_state()->end_of_player_turn(static_cast<int>(player_id));
 
     // Clear the list of game states at the end of each turn (half-round)
     // We need the linked list of game states only for undo and history,

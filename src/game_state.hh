@@ -61,9 +61,7 @@ public:
     // Go to the next round: increment the current round number.
     void go_next_round();
     // After a player's turn has ended, reset points and update scores.
-    // (when handed an invalid player_id, does nothing
-    //  whereas other GameState methods may fail in such a scenario)
-    void end_of_turn(int player_id);
+    void end_of_player_turn(int player_id);
 
     // Return false when it's still time for players to play, true otherwise.
     bool is_finished() const;
