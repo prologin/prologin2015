@@ -6,7 +6,20 @@
 
 open Api;;
 
-let fin_action_bouclier = 5
+let fin_action_bouclier = 9
+
+let coefLiens nb_liens tour = (4. +. max 3. nb_liens) *. 100.
+let coefChamp tour = 1.
+let coefBoucliers tour = 0.
+let coefPortails tour = 1.
+
+let coef_me = 1.
+let coef_adv = -1.
+
+let coef_fuit distance tour = float_of_int distance
+
+let score_position ma_distance sa_distance =
+  (10. +. float_of_int sa_distance) *. 100. /. (1. +. float_of_int ma_distance)
 
 module Position = struct
   type t = position
@@ -29,12 +42,20 @@ module LiensSet = struct
       PosSet.fold (fun pt2 acc -> (pt1, pt2) :: acc) v acc) map []
 end
 
+(*nombre de tours nécéssaires pour capturer un lien qui est à cette distance*)
+let ntours_a_porte d = d / (nb_points_deplacement + nb_points_action / cout_turbo)
+
+
 let (|>) x f = f x
+
 
 let refmoi = ref (-1)
 let moi () = !refmoi
 
 let position_valide (x, y) = x >= 0 && y >= 0 && x < taille_terrain && y < taille_terrain
+
+
+
 let ppos p (x, y) = Printf.fprintf p "(%d, %d)" x y
 let scale a (x, y) = a * x, a * y
 let pos_add (x1, y1) (x2, y2) = (x1 + x2, y1 + y2)
@@ -75,6 +96,7 @@ type portail = {
     champs : champ list;
     liens : PosSet.t;
     boucliers : int;
+    deja : bool;
   }
 
 let perr p () = Printf.fprintf p "\027[31mErreur! \027[0m"
@@ -113,6 +135,17 @@ let afficher_erreur state = function Ok -> ()
 | Lien_degenere      -> Printf.printf "%aLes deux extrémités du lien coïncident.\n" perr ()
 | Limite_boucliers   -> Printf.printf "%aCe portail est équipé du nombre maximal de boucliers.\n" perr ()
 
+let rec aller_vers pos state =
+  let mypos = position_agent (moi ()) in
+  if mypos = pos then () else
+  if points_deplacement () = 0 then () else
+  let acote = List.map (pos_add mypos) [0, 1; 1, 0; 0, -1; -1, 0] in
+  let acote = List.map (fun p -> distance pos p, p) acote in
+  let acote = List.sort (fun (a, _) (b, _) -> a - b) acote |> List.map snd in
+  deplacer (List.hd acote) |> afficher_erreur state;
+  aller_vers pos state
+
+
 let peut_relier pos1 pos2 portails =
   pos1 <> pos2 &&
   PosMap.for_all (fun _ p ->
@@ -147,6 +180,10 @@ let creation_lien state pos () =
 
 let nop () = ()
 
+let ajouter_bouclier state p () =
+  Printf.printf "Ajouter bouclier %a\n" ppos p.pos;
+  ajouter_bouclier () |> afficher_erreur state
+
 let neutralisation_capture state p () =
   if (cout_neutralisation_capture p.boucliers).pa = cout_virus then
     begin
@@ -157,12 +194,12 @@ let neutralisation_capture state p () =
     begin
       Printf.printf "Neutralisation capture %a\n" ppos p.pos;
       neutraliser () |> afficher_erreur state;
-      capturer () |> afficher_erreur state
+      capturer () |> afficher_erreur state;
     end
 
-let ajouter_bouclier state p () =
-  Printf.printf "Ajouter bouclier %a\n" ppos p.pos;
-  ajouter_bouclier () |> afficher_erreur state
+let neutralisation_capture_bouclier state p () =
+  neutralisation_capture state p ();
+  ajouter_bouclier state p ()
 
 let filtermap f li =
   List.fold_right (fun x acc -> match f x with
@@ -187,13 +224,13 @@ let state_relier p1 p2 portails =
     PosMap.add l {p with champs = List.rev_append nouveaux_champs p.champs} portails
               ) linked_both portails
 
-let state_neutralisation_capture p p2 =
+let state_neutralisation_capture b p p2 =
   if p.pos = p2.pos then
     { p2 with
       owned = Me;
       liens = PosSet.empty;
       champs =  [];
-      boucliers = 0;
+      boucliers = b;
     }
   else { p2 with
          liens = PosSet.remove p.pos p2.liens;
@@ -255,7 +292,7 @@ let actions_relier p position resources portails actions =
     in (position, resources, action, state) :: actions
   else actions
 
-let possibles position resources portails = (* TODO flatten un peu tout ça... *)
+let possibles neutralises position resources portails = (* TODO flatten un peu tout ça... *)
   let owner =
     try Some (PosMap.find position portails).owned
     with Not_found -> None
@@ -276,11 +313,19 @@ let possibles position resources portails = (* TODO flatten un peu tout ça... *
             ) :: actions
           else actions
       | Adv ->
-          let cout = cout_neutralisation_capture p.boucliers in
+          if PosSet.mem position neutralises then
+            actions
+          else
+          let cout = cout_neutralisation_capture p.boucliers ++ cout_bouclier in
           if mes_moyens resources cout then
-            (position, resources -- cout, neutralisation_capture portails p,
-             PosMap.map (state_neutralisation_capture p) portails) :: actions
-          else actions
+            (position, resources -- cout, neutralisation_capture_bouclier portails p,
+             PosMap.map (state_neutralisation_capture 1 p) portails) :: actions
+          else
+            let cout = cout_neutralisation_capture p.boucliers in
+            if mes_moyens resources cout then
+              (position, resources -- cout, neutralisation_capture portails p,
+               PosMap.map (state_neutralisation_capture 0 p) portails) :: actions
+            else actions
       | Neutral -> (* on capture *)
           if mes_moyens resources cout_capture then
             (position, resources -- cout_capture, capture portails p,
@@ -288,15 +333,16 @@ let possibles position resources portails = (* TODO flatten un peu tout ça... *
           else actions
     else if not in_neutral then (* on se déplace vers un des portails *)
       let cout = cout_deplacement p.pos position resources.pd in
-      if mes_moyens resources cout then
-        (p.pos, resources -- cout, move portails resources position p.pos, portails) :: actions
+      if mes_moyens resources cout && not p.deja then
+        (p.pos, resources -- cout, move portails resources position p.pos,
+        PosMap.add p.pos {p with deja = true} portails) :: actions
       else actions
     else actions)
     portails []
 
-let possibles =
+let possibles neutralises =
   let f ((position, resources, action, portails) as tuple) =
-    let li = possibles position resources portails in
+    let li = possibles neutralises position resources portails in
     match li with
     | [] -> [tuple], []
     | _ -> [], List.map (fun (pos, resources, action2, portails) ->
@@ -314,29 +360,46 @@ let possibles =
     eat [] [position, resources, nop, portails] |> List.filter (fun (_, r, _, _) -> r <> resources ))
 
 (* TODO jouer sur ces constantes *)
-let delta_score portails =
-  PosMap.fold (fun _ p delta -> if p.owned = Neutral then delta else
+let delta_score tour portails =
+  let opponent_position = position_agent (adversaire ()) in
+  PosMap.fold (fun pos p delta -> if p.owned = Neutral then delta else
   let deltachamps = List.fold_left (fun deta c ->
     deta + score_triangle c.som1 c.som2 c.som3) 0 p.champs in
-  let deltalien = PosSet.cardinal p.liens in
-  let deltaportail = 1 in
-  let delta_boucliers = p.boucliers in
-  let sign = match p.owned with Me -> 1 | Adv -> -1 | Neutral -> 0 in
-  delta + sign * ( delta_boucliers
-                     + deltalien
-                     + deltaportail * 100
-                     + deltachamps)) portails 0
+  let deltalien = PosSet.cardinal p.liens |> float_of_int in
+  let deltaportail = 1. in
+  let delta_boucliers = float_of_int p.boucliers *. deltalien in
+  let sign = match p.owned with Me -> coef_me | Adv -> coef_adv | Neutral -> 0. in
+  delta +. sign *. ( delta_boucliers *. coefBoucliers tour
+                     +. coefLiens deltalien tour
+                     +. deltaportail *. coefPortails tour
+                     +. float_of_int  deltachamps *. coefChamp tour)) portails 0.
+
+let score_position opponent_position tour mypos portails =
+  let nos_distances = distance mypos opponent_position in
+  let n, sum = PosMap.fold (fun pos p (n, sum) ->
+    if p.owned = Adv then
+      let d = distance mypos pos |> ntours_a_porte in
+      let d2 = distance opponent_position pos |> ntours_a_porte in
+      let diff = score_position d d2 in
+      let coef = float_of_int (PosSet.cardinal p.liens) in
+      n +. coef, sum +. diff *. coef
+    else n, sum) portails (0., 0.)
+  in
+  if n < 1. then 1000000. else sum /. n +. coef_fuit nos_distances tour
+
 
 let pick_action score_avant resources actions =
+  let opponent_position = position_agent (adversaire ()) in
+  let tour = tour_actuel () in
   match actions with
   | [] ->
       Printf.printf "pas d'action ?\n%!";
       assert false
-  | ((_, res0, _, portails) as hd)::tl ->
-      let score0 = delta_score portails in
-      List.fold_left (fun (score1, res1, act1) ((_, res2, _, portails) as act2)->
+  | ((pos0, res0, _, portails) as hd)::tl ->
+      let score0 = delta_score tour portails +. score_position opponent_position tour pos0 portails in
+      List.fold_left (fun (score1, res1, act1) ((pos2, res2, _, portails) as act2)->
         let res2 = cout_normalise (resources -- res2) in
-        let score2 = delta_score portails in
+        let score2 = delta_score tour portails +. score_position opponent_position tour pos2 portails in
         (* if (score2 - score_avant) * res1 > (score1 - score_avant) * res2 *)
         if score2 > score1
         then score2, res2, act2 else score1, res1, act1
@@ -350,6 +413,8 @@ Printf.printf "Tour : %d, mon score : %d, autre score : %d\n%!"
     (tour_actuel ())
     (score (moi ()))
     (score (adversaire ()));
+  let neutralises = hist_portails_neutralises () |> Array.to_list |> PosSet.of_list in
+  Printf.printf "%d Neutralisés ?\n%!" (PosSet.cardinal neutralises);
   let moi = moi () in
   let mypos = position_agent moi in
   let mes_resources = {pa=nb_points_action ; pd=nb_points_deplacement} in
@@ -359,23 +424,50 @@ Printf.printf "Tour : %d, mon score : %d, autre score : %d\n%!"
     owned = owner (portail_joueur pos);
     champs = champs_incidents_portail pos |> Array.to_list;
     liens = liens_incidents_portail pos |> Array.to_list |> List.map (fun l -> if l.extr1 = pos then l.extr2 else l.extr1) |> PosSet.of_list;
-    boucliers = portail_boucliers pos
+    boucliers = portail_boucliers pos;
+    deja = mypos = pos
   }) |> List.fold_left (fun acc p -> PosMap.add p.pos p acc) PosMap.empty
   in
   let rec f position resources portails =
-    Printf.printf "resources : %a ; position : %a\n" pcout resources ppos position;
-    let p = possibles position resources portails in
+    let p = possibles neutralises position resources portails in
     if p <> [] then
-      let score_avant = delta_score portails in
+      let score_avant = delta_score (tour_actuel ()) portails in
       begin
         (* intelligence ici *)
         let delta, _, (position, resources, action, portails) = pick_action score_avant resources p in
-        Printf.printf "delta : %d. %d actions possibles\n%!" delta (List.length p);
+        Printf.printf "delta : %f. %d actions possibles resources restantes : %a\n%!" delta (List.length p) pcout resources;
         action () ;
         f position resources portails
       end
     else (position, resources, portails) in
-  let _ = f mypos mes_resources portails in
+  let position, resources, portails = f mypos mes_resources portails in
+  Printf.printf "resources a la fin : %d %d\n"
+    (points_action ())
+    (points_deplacement ());
+  while points_action () >= cout_turbo do
+    utiliser_turbo () |> afficher_erreur portails;
+  done;
+  Printf.printf "resources apres_turbo : %d %d\n"
+    (points_action ())
+    (points_deplacement ());
+(* TODO calculer si il nous restera des points d'actions à la fin pour ajouter des boucliers *)
+(* TODO se calculer des scores pour tout les points qu'on peut atteindre *)
+  let score_bestpos, target_position =
+  PosMap.fold (fun pos2 p (score, pos)->
+    let score2 = match p.owned with
+    | Me -> 1000.
+    | Adv ->
+        let deltachamps = List.fold_left (fun deta c ->
+          deta + score_triangle c.som1 c.som2 c.som3) 0 p.champs in
+
+        float_of_int (distance pos2 position) *.
+          (100. -. float_of_int (PosSet.cardinal p.liens))
+          /. float_of_int deltachamps
+    | Neutral -> float_of_int (distance pos2 position) *. 1000.
+    in if score2 < score then score2, pos2 else score, pos)
+      portails (2000., (0, 0)) in
+  Printf.printf "le point le plus intéressant est en : %a (score : %f)\n%!" ppos target_position score_bestpos;
+  aller_vers target_position portails ;
   flush stderr; flush stdout
 
 (*
