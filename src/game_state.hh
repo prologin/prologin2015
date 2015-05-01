@@ -61,8 +61,8 @@ public:
     // Go to the next turn: increment the current turn number.
     void go_next_turn();
     // After a player's turn has ended, reset points and update scores.
-    // May raise InvalidPlayer, which is currently NOT the case of the other
-    // methods which take a player_id as input.
+    // (when handed an invalid player_id, does nothing
+    //  whereas other GameState methods may fail in such a scenario)
     void end_of_player_turn(int player_id);
 
     // Return false when it's still time for players to play, true otherwise.

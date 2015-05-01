@@ -75,11 +75,10 @@ void GameState::go_next_turn()
 void GameState::end_of_player_turn(int player_id)
 {
     // Check that the player_id refers to an actual player
-    // Raise an exception if it's not the case
-    // CHECK should we add this to all other functions which take a player id?
+    // Return if it's not the case
     auto iter = player_info_.find(player_id);
     if (iter == player_info_.end())
-        throw InvalidPlayer(player_id);
+        return;
 
     player_info& pi = iter->second;
 
