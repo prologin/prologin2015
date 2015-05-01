@@ -15,8 +15,8 @@ GameState::GameState(Map* map, rules::Players_sptr players)
     , graph_(map->num_portals())
     , portal_player_(map->num_portals(), -1)
     , portal_shields_(map->num_portals(), 0)
+    , history_(new history_info)
 {
-    history_.reset(new history_info);
 
     int player_ordinal = 0;
     for (auto& p : players_->players)
@@ -139,21 +139,27 @@ void GameState::end_of_player_turn(int player_id)
     // Links diff
     for (auto& e : graph_.edges())
     {
-        if (!old->graph_.edge_exists(e))
+        // A new link is either a new edge on the graph, or
+        // an opponent's link that was destroyed and replaced
+        // by the current player
+        if (!old->graph_.edge_exists(e) || old->owner(e) != owner(e))
             history_->hist_links.push_back(edge_to_link(e));
     }
 
-    // Fields diff: a field is new if one of its links is new
+    // Fields diff
     // Reuse the vector of triangles computed before
     for (const itriple& t : triangles)
     {
         // for once this doesn't use unpack_triangle_pos
         int v0 = std::get<0>(t);
-        int v1 = std::get<0>(t);
-        int v2 = std::get<0>(t);
+        int v1 = std::get<1>(t);
+        int v2 = std::get<2>(t);
+        // A field is new if one of its links is new,
+        // or its owner has changed
         if (!old->graph_.edge_exists({v0,v1}) ||
             !old->graph_.edge_exists({v1,v2}) ||
-            !old->graph_.edge_exists({v2,v0}))
+            !old->graph_.edge_exists({v2,v0}) ||
+            old->owner(t) != owner(t))
             history_->hist_fields.push_back(triangle_to_field(t));
     }
 }
