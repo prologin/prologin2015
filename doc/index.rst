@@ -9,5 +9,6 @@ Pages:
    finale
    faq-candidat
    stechec2
-   erratum
    rendu
+
+.. erratum (does not exist, un-comment if needed)

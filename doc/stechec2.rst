@@ -14,11 +14,11 @@ la rubrique appropriée.
 
 Attention, il ne faut pas envoyer le fichier .so mais une archive du dossier
 dans lequel vous travaillez. Pour ce faire il vous suffit de taper la
-commande suivante :
+commande suivante::
 
     make tar
 
-Cela va créer un fichier `champion.tgz`. C'est ce fichier que vous devez
+Cela va créer un fichier ``champion.tgz``. C'est ce fichier que vous devez
 donner au site sur la page « Envoyer un champion ».
 
 Match
@@ -39,7 +39,7 @@ De plus le serveur a besoin de savoir combien de clients vont se connecter
 avant de lancer le match, et le client a besoin de savoir où est votre champion
 pour l'utiliser.
 
-Prenons un exemple (qui devrait par ailleurs satisfaire vos besoins) ::
+Prenons un exemple (qui devrait par ailleurs satisfaire vos besoins)::
 
   rules: libprologin2015.so
   verbose: 3
@@ -50,18 +50,18 @@ Prenons un exemple (qui devrait par ailleurs satisfaire vos besoins) ::
     - Player 1
     - Player 2
 
-Vous devez lancer depuis votre ligne de commande stechec2 : ::
+Vous devez lancer depuis votre ligne de commande stechec2::
 
     prompt$ stechec2-run config.yml
 
 N'hésitez pas à rapporter aux organisateurs tous les problèmes ou bugs que vous
 pourriez rencontrer lors de l'exécution de stechec2.
 
-Gui
----
+Interface graphique (GUI)
+-------------------------
 
 Pour utiliser la GUI pendant que vous lancez votre match, rajoutez à la fin de
-votre config.yml::
+votre ``config.yml``::
 
   spectators:
    - /usr/share/stechec2/prologin2015/gui/gui.so

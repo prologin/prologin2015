@@ -14,10 +14,11 @@ avez utilisé.
 Rendu
 -----
 
-Le rendu est le dernier champion envoyé sur le serveur. Assurez-vous qu'il
-compile et contactez-un orga si ce n'est pas le cas.
+Le rendu pris en compte pour établir votre classement est le
+**dernier champion envoyé** sur le serveur. Assurez-vous qu'il compile et
+contactez un organisateur si ce n'est pas le cas.
 
-N'oubliez pas de rendre votre champion.tgz (et non pas votre champion.so)
-obtenu en tapant "make tar".
+N'oubliez pas de rendre votre ``champion.tgz`` (et non pas votre
+``champion.so``) obtenu en lançant ``make tar``.
 
-Le rendu fermera à 00:42.
+Le rendu ferme **dimanche à 00:42**.

@@ -19,7 +19,7 @@ Nombre de joueurs
 
 Une partie voit s'affronter 2 joueurs à la fois (bleu et vert).
 Chaque joueur possède une base placée dans un coin d'une carte carrée de
-dimensions 40×40.
+dimensions 40 × 40.
 
 TODO
 
@@ -39,10 +39,10 @@ TODO
 Plateau
 =======
 
-Une grille carrée. Le côté du carré est constant (TAILLE_TERRAIN cases).
+Une grille carrée. Le côté du carré est constant (``TAILLE_TERRAIN`` cases).
 
 Des portails sont disposés sur la carte, leur nombre est variable selon la carte
-mais leur positions sont fixes et connues des 2 joueurs.
+mais leur positions sont fixes et connues des deux joueurs.
 
 
 Précisions sur la géométrie
@@ -52,35 +52,35 @@ Deux liens [AB] et [CD] interfèrent si [AB] intersecte ]CD[ ou si ]AB[
 intersecte [CD], c'est-à-dire que le cas où un point se trouve à l'intérieur
 d'un autre segment compte comme une interférence. Cela exclut notamment les
 triangles plats. En particulier un segment s'auto-intersecte ce qui interdit de
-construire le même lien 2 fois, pratique.
+construire le même lien deux fois, pratique.
 
-D'ailleurs, comme 2 * aire d'un triangle à coordonnées entières est entier (car
-déterminant de vecteurs entiers), et que la constante de proportionnalité est
-paire, les scores obtenus sont toujours entiers.
+D'ailleurs, comme *2 × aire d'un triangle à coordonnées entières* est entier
+(comme déterminant de vecteurs entiers) et que la constante de
+proportionnalité est paire, les scores obtenus sont toujours entiers.
 
-Un champ correspondra à l'intérieur (au sens topologique i.e. en excluant les
-côtés) d'un triangle.
+Un champ correspondra à l'intérieur d'un triangle, au sens topologique,
+c'est-à-dire en excluant les côtés.
 
 
 Mécanismes
 ==========
 
 Le jeu est tour par tour. Il y a alternance des tours des deux joueurs
-(Turn Based Rules), et pas de découpage particulier des tours en phases.
+(*Turn Based Rules*), et pas de découpage particulier des tours en phases.
 
 * Nombre de joueurs : 2
-* Nombre de tours : NB_TOURS
+* Nombre de tours : ``NB_TOURS``
 
-Un joueur peut effectué des actions qui coûtent des points d'action, sauf pour
-les mouvements qui ont une réserve de points spécifique. Aucun des deux type de
+Un joueur peut effectuer des actions qui coûtent des points d'action, sauf pour
+les mouvements qui ont une réserve de points spécifique. Aucun des deux types de
 points n'est cumulé de tour en tour. Le turbo permet de convertir des points
-d'action en points de déplacement, le contraire est impossible.
+d'action en points de déplacement ; le contraire est impossible.
 
-* Points de déplacement : NB_POINTS_DEPLACEMENT
-* Points d'action : NB_POINTS_ACTION
+* Points de déplacement : ``NB_POINTS_DEPLACEMENT``
+* Points d'action : ``NB_POINTS_ACTION``
 
 Pour toute action liée à un portail, le joueur doit se trouver sur la case du
-portail. Dans le cas de la création de lien, faisant intervenir deux portails à
+portail. Dans le cas de la création de lien faisant intervenir deux portails à
 la fois, le joueur doit se trouver sur l'une des deux extrémités.
 
 
@@ -96,61 +96,66 @@ et le point d'arrivée.
 Capturer un portail
 -------------------
 
-Le joueur peut dépenser COUT_CAPTURE points d'action pour capturer un portail
+Le joueur peut dépenser ``COUT_CAPTURE`` points d'action pour capturer un portail
 neutre.
 
 Relier des portails
 -------------------
 
-Il peut dépenser COUT_LIEN points d'action pour relier le portail à un autre si
-le lien n'intersecte aucun autre lien existant et qu'aucun des deux portails ne
-se trouve à l'intérieur d'un champ existant. Les deux portails doivent
-appartenir au joueur qui crée le lien.
+Le joueur peut dépenser ``COUT_LIEN`` points d'action pour relier le portail à
+un autre si le lien n'intersecte aucun autre lien existant et qu'aucun des deux
+portails ne se trouve à l'intérieur d'un champ existant. Les deux portails
+doivent appartenir au joueur qui crée le lien.
 
 Neutraliser un portail
 ----------------------
 
-Un joueur peut dépenser COUT_NEUTRALISATION points d'action pour neutraliser un
-portail qui appartient à l'adversaire, celui-ci devient alors neutre. Si des
-boucliers (cf. Ajouter un bouclier) sont présents sur le portail, ils augmentent
-le coup de l'action du nombre de boucliers * COUT_NEUTRALISATION_BOUCLIER.
+Le joueur peut dépenser ``COUT_NEUTRALISATION`` points d'action pour
+neutraliser un portail qui appartient à l'adversaire, celui-ci devient alors
+neutre. Si des boucliers (cf. :ref:`ajouter-bouclier`) sont présents sur le
+portail, ils augmentent le coup de l'action de
+``nombre de boucliers × COUT_NEUTRALISATION_BOUCLIER``.
 
 La neutralisation d'un portail lui fait perdre tous ses boucliers, et fait
 disparaître tous les liens reliés à ce portail (ainsi que les triangles donc).
 
+.. _ajouter-bouclier:
+
 Ajouter un bouclier
 -------------------
 
-Il peut dépenser COUT_BOUCLIER points d'action pour incrémenter de 1 le nombre
-de boucliers sur un portail qu'il contrôle. Un portail neutre n'a aucun
-bouclier, un portail qui vient d'être capturé non plus. Le nombre de boucliers
-qu'on peut mettre sur un même portail est borné à MAX_BOUCLIERS. Ceci garantit
-qu'un portail restera toujours destructible avec les points d'action dont on
-dispose dans un tour.
+Le joueur peut dépenser ``COUT_BOUCLIER`` points d'action pour incrémenter de
+1 le nombre de boucliers sur un portail qu'il contrôle. Un portail neutre n'a
+aucun bouclier, un portail qui vient d'être capturé non plus. Le nombre de
+boucliers que l'on peut mettre sur un même portail est borné à
+``MAX_BOUCLIERS``. Ceci garantit qu'un portail restera toujours destructible
+avec les points d'action dont on dispose dans un tour.
 
 Déployer un virus
 -----------------
 
-Le joueur peut dépenser COUT_VIRUS points d'action pour détruire un portail peu
-importe son possesseur (supprimant donc les liens, triangles et boucliers
-associés) et le change de propriétaire. Capturer un portail grâce à un virus ne
-rapporte pas de points.
+Le joueur peut dépenser ``COUT_VIRUS`` points d'action pour détruire un portail
+peu importe son possesseur (supprimant donc les liens, triangles et boucliers
+associés) et le changer de propriétaire. Capturer un portail grâce à un virus
+ne rapporte pas de points.
 
 Turbo
 -----
 
-Il peut, autant de fois qu'il veut par tour, augmenter de GAIN_TURBO ses points
-de déplacement pour le tour, en dépensant COUT_TURBO points d'actions.
+Le joueur peut, autant de fois qu'il veut par tour, augmenter de ``GAIN_TURBO``
+ses points de déplacement pour le tour, en dépensant ``COUT_TURBO`` points
+d'actions.
 
 
 Score
 =====
 
 * À chaque capture de portail et à chaque création de lien : le joueur gagne un
-  petit nombre de points (respectivement POINTS_CREATION_PORTAIL et
-  POINTS_CREATION_LIEN points).
+  petit nombre de points, respectivement ``POINTS_CREATION_PORTAIL`` et
+  ``POINTS_CREATION_LIEN`` points.
 * À la fin de chaque tour : le joueur gagne un nombre de points proportionnel à
-  l'aire des triangles qu'il contrôle (POINTS_CHAMP points par unité d'aire).
+  l'aire des triangles qu'il contrôle (``POINTS_CHAMP`` points par unité
+  d'aire).
 
 Est compté comme un triangle tout triplet de sommets reliés, même si les
 triangles se superposent. Les superpositions devront être des inclusions, il n'y
