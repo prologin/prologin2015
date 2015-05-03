@@ -55,8 +55,7 @@ protected:
         utils::Logger::get().level() = utils::Logger::DEBUG_LEVEL;
 
         std::istringstream map_stream(some_map);
-        Map* map = new Map();
-        map->load(map_stream);
+        Map* map = new Map(map_stream);
 
         /* Create two players (no spectator).  */
         rules::Players_sptr players(new rules::Players {

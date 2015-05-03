@@ -9,7 +9,8 @@
 
 TEST(MapTest, valid_position)
 {
-    Map m;
+    std::istringstream map_stream(some_map);
+    Map m(map_stream);
 
     // Test that Map::valid_position behaves properly in each corner and right
     // beyond these.
@@ -43,8 +44,8 @@ TEST(MapTest, getters)
 {
     const position invalid_pos = {0, TAILLE_TERRAIN};
     bool exception_thrown = false;
-    Map m;
     std::istringstream map_stream(some_map);
+    Map m(map_stream);
 
     // Check invalid positions are properly handled: first for Map::is_portal,
     // then for Map::portal_id_maybe.
@@ -75,19 +76,6 @@ TEST(MapTest, getters)
 
 
     // Now, test the getters themselves.
-
-
-    // First, check with an empty map (which we have by default).
-    EXPECT_FALSE(m.is_portal({1, 1}));
-    EXPECT_EQ(-1, m.portal_id_maybe({1, 1}));
-
-    const std::vector<position>& portals_empty = m.get_portals();
-    EXPECT_EQ((size_t) 0, portals_empty.size());
-    EXPECT_EQ(0, m.num_portals());
-
-
-    // Now load our example map and check that getters behave properly.
-    m.load(map_stream);
 
     EXPECT_TRUE(m.is_portal({1, 1}));
     // The portal IDs should be ordered in lexicographical order.

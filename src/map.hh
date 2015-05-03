@@ -13,10 +13,7 @@ const int NB_JOUEURS = 2;
 class Map
 {
 public:
-    Map();
-    ~Map();
-
-    int load(std::istream& s);
+    Map(std::istream& s);
 
     // Return whether "p" identifies a valid position on this map.  As one
     // could expect, this is the only method that does not raise an

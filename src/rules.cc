@@ -25,11 +25,10 @@ Rules::Rules(const rules::Options opt)
     else
         champion_dll_ = nullptr;
 
-    Map* map = new Map;
     std::ifstream ifs(opt.map_file);
     if (!ifs.is_open())
         FATAL("Cannot open file: %s", opt.map_file.c_str());
-    map->load(ifs);
+    Map* map = new Map(ifs);
 
     // Init gamestate
     GameState* game_state = new GameState(map, opt.players);

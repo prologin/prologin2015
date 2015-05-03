@@ -1,6 +1,6 @@
 rules: libprologin2015.so
-map: ../maps/dummy_map.txt
-verbose: 5
+map: ../maps/dummy_mapsdkhsdf.txt
+verbose: 1
 clients:
     - ./empty/champion.so
     - ./empty/champion.so

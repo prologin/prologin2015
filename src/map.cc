@@ -11,21 +11,11 @@
 #include "errors.hh"
 #include "map.hh"
 
-Map::Map()
-{
-    portals_map_.fill(-1);
-}
-
-Map::~Map()
-{
-}
-
-int Map::load(std::istream& s)
+Map::Map(std::istream& s)
 {
     INFO("Loading map");
 
     std::string line;
-
     for (int i = 0; i < 2; i++)
     {
         s >> start_positions_[i].x >> start_positions_[i].y;
@@ -47,6 +37,7 @@ int Map::load(std::istream& s)
 
     }
 
+    portals_map_.fill(-1);
     for (int y = 0; y < TAILLE_TERRAIN; ++y) // y then x is correct!
     {
         s >> line;
@@ -89,9 +80,6 @@ int Map::load(std::istream& s)
             }
         }
     }
-
-                
-    return 0;
 }
 
 bool Map::valid_position(position p)
