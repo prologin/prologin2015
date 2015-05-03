@@ -27,6 +27,8 @@ Rules::Rules(const rules::Options opt)
 
     Map* map = new Map;
     std::ifstream ifs(opt.map_file);
+    if (!ifs.is_open())
+        FATAL("Cannot open file: %s", opt.map_file.c_str());
     map->load(ifs);
 
     // Init gamestate
