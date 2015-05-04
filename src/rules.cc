@@ -28,10 +28,9 @@ Rules::Rules(const rules::Options opt)
     std::ifstream ifs(opt.map_file);
     if (!ifs.is_open())
         FATAL("Cannot open file: %s", opt.map_file.c_str());
-    Map* map = new Map(ifs);
 
     // Init gamestate
-    GameState* game_state = new GameState(map, opt.players);
+    GameState* game_state = new GameState(ifs, opt.players);
 
     // Init API
     api_ = new Api(game_state, opt.player);

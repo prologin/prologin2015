@@ -7,17 +7,18 @@
 #include "geometry.hh"
 #include "errors.hh"
 
-GameState::GameState(Map* map, rules::Players_sptr players)
+GameState::GameState(std::istream& map_stream, rules::Players_sptr players)
     : rules::GameState()
     , players_(players)
     , current_round_(0)
-    , map_(map)
-    , graph_(map->num_portals())
-    , portal_player_(map->num_portals(), -1)
-    , portal_shields_(map->num_portals(), 0)
+    , map_(new Map(map_stream))
+    // it's ok, map_ appears before all these variables in the .hh,
+    // and is therefore initialized first
+    , graph_(map_->num_portals())
+    , portal_player_(map_->num_portals(), -1)
+    , portal_shields_(map_->num_portals(), 0)
     , history_(new history_info)
 {
-
     int player_ordinal = 0;
     for (auto& p : players_->players)
     {

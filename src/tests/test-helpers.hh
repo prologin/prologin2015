@@ -55,7 +55,6 @@ protected:
         utils::Logger::get().level() = utils::Logger::DEBUG_LEVEL;
 
         std::istringstream map_stream(some_map);
-        Map* map = new Map(map_stream);
 
         /* Create two players (no spectator).  */
         rules::Players_sptr players(new rules::Players {
@@ -65,7 +64,7 @@ protected:
             }
         });
 
-        st = new GameState(map, players);
+        st = new GameState(map_stream, players);
     }
 
     virtual void TearDown()

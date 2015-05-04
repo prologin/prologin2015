@@ -48,10 +48,9 @@ struct history_info
 class GameState : public rules::GameState
 {
 public:
-    // Build a game state out of a map and some players. The ownership of "map"
-    // is transferred to the new GameState (i.e. the caller must not free it
-    // nor reference it anymore.
-    GameState(Map* map, rules::Players_sptr players);
+    // Build a game state out of a input stream containing a description
+    // of the map, and some players.
+    GameState(std::istream& map_stream, rules::Players_sptr players);
     GameState(const GameState& st);
     virtual rules::GameState* copy() const;
     ~GameState();
