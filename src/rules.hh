@@ -38,6 +38,7 @@ public:
     virtual void start_of_round();
     virtual void end_of_round();
 
+    virtual void start_of_player_turn(uint32_t);
     virtual void end_of_player_turn(uint32_t);
 
 protected:

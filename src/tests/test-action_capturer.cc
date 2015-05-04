@@ -73,17 +73,17 @@ TEST_F(ActionTest, Capturer_RegularOK)
 }
 
 // Test that action points are reset when going to the next turn.
-TEST_F(ActionTest, Capturer_NextTurnResetsPoints)
-{
-    ActionCapturer act(PLAYER_1);
+// TEST_F(ActionTest, Capturer_NextTurnResetsPoints)
+// {
+//     ActionCapturer act(PLAYER_1);
 
-    // First move the player on a cell that contains a neutral portal and
-    // remove all action points for him.
-    st->set_pos(PLAYER_1, st->portal_pos(0));
-    st->decrement_action_points(PLAYER_1, NB_POINTS_ACTION);
-    EXPECT_EQ(0, st->action_points(PLAYER_1));
-    ASSERT_EQ(PA_INSUFFISANTS, act.check(st));
+//     // First move the player on a cell that contains a neutral portal and
+//     // remove all action points for him.
+//     st->set_pos(PLAYER_1, st->portal_pos(0));
+//     st->decrement_action_points(PLAYER_1, NB_POINTS_ACTION);
+//     EXPECT_EQ(0, st->action_points(PLAYER_1));
+//     ASSERT_EQ(PA_INSUFFISANTS, act.check(st));
 
-    st->end_of_player_turn(PLAYER_1);
-    ASSERT_EQ(OK, act.check(st));
-}
+//     st->end_of_player_turn(PLAYER_1);
+//     ASSERT_EQ(OK, act.check(st));
+// }

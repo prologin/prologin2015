@@ -59,7 +59,10 @@ public:
     int get_current_round() const;
     // Go to the next round: increment the current round number.
     void go_next_round();
+    // Reset points at the start of a player's turn.
+    void reset_points(int player_id);
     // After a player's turn has ended, reset points and update scores.
+    // Doing both together avoids a recomputation of the list of triangles.
     void end_of_player_turn(int player_id);
 
     // Return false when it's still time for players to play, true otherwise.

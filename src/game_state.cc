@@ -73,7 +73,7 @@ void GameState::go_next_round()
     ++current_round_;
 }
 
-void GameState::end_of_player_turn(int player_id)
+void GameState::reset_points(int player_id)
 {
     // Check that the player_id refers to an actual player
     auto iter = player_info_.find(player_id);
@@ -82,15 +82,21 @@ void GameState::end_of_player_turn(int player_id)
     player_info& pi = iter->second;
 
     // Reset points
-    // This should actually be done at the start of a player's turn
-    // but since Rules::start_of_player_turn doesn't exist
-    // it ends up here
     pi.action_points = NB_POINTS_ACTION;
     pi.move_points = NB_POINTS_DEPLACEMENT;
+}
+
+void GameState::end_of_player_turn(int player_id)
+{
+    // Check that the player_id refers to an actual player
+    assert(player_info_.find(player_id) != player_info_.end());
+
+    // Compute stuff
+    auto edges = graph_.edges();
+    auto triangles = graph_.triangles();
 
     // Update score with area covered by fields
     int area_x2 = 0;
-    auto triangles = graph_.triangles();
     for (auto& t : triangles)
     {
         if (owner(t) == player_id)
@@ -135,7 +141,7 @@ void GameState::end_of_player_turn(int player_id)
     }
 
     // Links diff
-    for (auto& e : graph_.edges())
+    for (auto& e : edges)
     {
         // A new link is either a new edge on the graph, or
         // an opponent's link that was destroyed and replaced

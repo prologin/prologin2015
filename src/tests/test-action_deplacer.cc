@@ -63,15 +63,15 @@ TEST_F(ActionTest, Deplacer_RegularOK)
 }
 
 // Test that move points are reset when going to the next turn.
-TEST_F(ActionTest, Deplacer_NextTurnResetsPoints)
-{
-    ActionDeplacer act({1, 1}, PLAYER_1);
+// TEST_F(ActionTest, Deplacer_NextTurnResetsPoints)
+// {
+//     ActionDeplacer act({1, 1}, PLAYER_1);
 
-    // First remove all move points for player 1.
-    st->increment_move_points(PLAYER_1, -NB_POINTS_DEPLACEMENT);
-    EXPECT_EQ(0, st->move_points(PLAYER_1));
-    ASSERT_EQ(POSITION_ELOIGNEE, act.check(st));
+//     // First remove all move points for player 1.
+//     st->increment_move_points(PLAYER_1, -NB_POINTS_DEPLACEMENT);
+//     EXPECT_EQ(0, st->move_points(PLAYER_1));
+//     ASSERT_EQ(POSITION_ELOIGNEE, act.check(st));
 
-    st->end_of_player_turn(PLAYER_1);
-    ASSERT_EQ(OK, act.check(st));
-}
+//     st->end_of_player_turn(PLAYER_1);
+//     ASSERT_EQ(OK, act.check(st));
+// }

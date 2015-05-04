@@ -133,6 +133,11 @@ void Rules::end_of_round()
     api_->game_state()->go_next_round();
 }
 
+void Rules::start_of_player_turn(uint32_t player_id)
+{
+    api_->game_state()->reset_points(static_cast<int>(player_id));
+}
+
 void Rules::end_of_player_turn(uint32_t player_id)
 {
     api_->game_state()->end_of_player_turn(static_cast<int>(player_id));
@@ -140,6 +145,6 @@ void Rules::end_of_player_turn(uint32_t player_id)
     // Clear the list of game states at the end of each turn (half-round)
     // We need the linked list of game states only for undo and history,
     // therefore old states are not needed anymore after the turn ends.
-    // This concerns both players and spectators.
     api_->game_state()->clear_old_version();
 }
+
