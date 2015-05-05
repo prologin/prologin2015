@@ -211,6 +211,26 @@ static inline void _init_caml()
 }
 
 ///
+// Déplace votre agent sur la case passée en argument.
+//
+extern "C" value ml_deplacer(value dest)
+{
+  CAMLparam0();
+  CAMLxparam1(dest);
+  CAMLreturn((cxx2lang<value, erreur>(api_deplacer(lang2cxx<value, position>(dest)))));
+}
+
+///
+// Utilise un turbo.
+//
+extern "C" value ml_utiliser_turbo(value unit)
+{
+  CAMLparam0();
+  CAMLxparam1(unit);
+  CAMLreturn((cxx2lang<value, erreur>(api_utiliser_turbo())));
+}
+
+///
 // Capture le portail où est positionné votre agent.
 //
 extern "C" value ml_capturer(value unit)
@@ -241,16 +261,6 @@ extern "C" value ml_neutraliser(value unit)
 }
 
 ///
-// Déplace votre agent sur la case passée en argument.
-//
-extern "C" value ml_deplacer(value dest)
-{
-  CAMLparam0();
-  CAMLxparam1(dest);
-  CAMLreturn((cxx2lang<value, erreur>(api_deplacer(lang2cxx<value, position>(dest)))));
-}
-
-///
 // Ajoute un bouclier au portail sur lequel se trouve votre agent.
 //
 extern "C" value ml_ajouter_bouclier(value unit)
@@ -258,26 +268,6 @@ extern "C" value ml_ajouter_bouclier(value unit)
   CAMLparam0();
   CAMLxparam1(unit);
   CAMLreturn((cxx2lang<value, erreur>(api_ajouter_bouclier())));
-}
-
-///
-// Fait passer le portail où se situe votre agent à l'autre joueur.
-//
-extern "C" value ml_utiliser_virus(value unit)
-{
-  CAMLparam0();
-  CAMLxparam1(unit);
-  CAMLreturn((cxx2lang<value, erreur>(api_utiliser_virus())));
-}
-
-///
-// Utilise un turbo.
-//
-extern "C" value ml_utiliser_turbo(value unit)
-{
-  CAMLparam0();
-  CAMLxparam1(unit);
-  CAMLreturn((cxx2lang<value, erreur>(api_utiliser_turbo())));
 }
 
 ///
@@ -461,7 +451,7 @@ extern "C" value ml_hist_boucliers_ajoutes(value unit)
 }
 
 ///
-// Retourne la distance entre deux positions
+// Renvoie la distance entre deux positions
 //
 extern "C" value ml_distance(value pos1, value pos2)
 {
@@ -551,7 +541,7 @@ extern "C" value ml_points_deplacement(value unit)
 }
 
 ///
-// Retourne le score du joueur désigné par le numéro ``id_joueur``.
+// Renvoie le score du joueur désigné par le numéro ``id_joueur``.
 //
 extern "C" value ml_score(value id_joueur)
 {
@@ -561,7 +551,7 @@ extern "C" value ml_score(value id_joueur)
 }
 
 ///
-// Retourne le numéro du tour actuel.
+// Renvoie le numéro du tour actuel.
 //
 extern "C" value ml_tour_actuel(value unit)
 {
@@ -625,7 +615,7 @@ extern "C" value ml_afficher_champ(value v)
 }
 
 ///
-// Fonction appelée au début de la partie
+// Fonction appelée au début de la partie.
 //
 void partie_init()
 {
@@ -641,7 +631,7 @@ void partie_init()
 
 
 ///
-// Fonction appelée à chaque tour
+// Fonction appelée à chaque tour.
 //
 void jouer_tour()
 {
@@ -657,7 +647,7 @@ void jouer_tour()
 
 
 ///
-// Fonction appelée à la fin de la partie
+// Fonction appelée à la fin de la partie.
 //
 void partie_fin()
 {

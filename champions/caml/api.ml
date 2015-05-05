@@ -5,64 +5,54 @@
 *)
 
 (*
-** Taille du terrain (longueur et largeur)
+** Taille du terrain (longueur et largeur).
 *)
 let taille_terrain = 30
 
 (*
-** Nombre de tours à jouer avant la fin de la partie
+** Nombre de tours à jouer avant la fin de la partie.
 *)
 let nb_tours = 100
 
 (*
-** Nombre de points de déplacements par tour
+** Nombre de points de déplacement par tour (avant utilisation du turbo).
 *)
 let nb_points_deplacement = 6
 
 (*
-** Nombre de points d'action à chaque tour
+** Nombre de points d'action par tour.
 *)
 let nb_points_action = 42
 
 (*
-** Nombre de points d'actions que coûte la capture d'un portail
+** Nombre de points d'action que coûte la capture d'un portail.
 *)
 let cout_capture = 1
 
 (*
-** Nombre de points d'actions que coûte la création d'un lien
+** Nombre de points d'action que coûte la création d'un lien.
 *)
 let cout_lien = 1
 
 (*
-** Nombre de points d'actions que coûte la neutralisation d'un portail de base.
+** Nombre de points d'action que coûte la neutralisation d'un portail de base.
 *)
 let cout_neutralisation = 10
 
 (*
-** Nombre de points d'actions supplémentaires que coûte l'attaque pour chaque bouclier présent.
+** Nombre de points d'action supplémentaires que coûte l'attaque pour chaque bouclier présent.
 *)
 let cout_neutralisation_bouclier = 4
 
 (*
-** Nombre de points d'actions que coûte la mise en place d'un bouclier.
+** Nombre de points d'action que coûte la mise en place d'un bouclier.
 *)
 let cout_bouclier = 2
 
 (*
-** Nombre de points d'actions que coûte l'utilisation d'un virus
-*)
-let cout_virus = 20
-
-(*
-** Nombre de points d'actions que coûte un turbo
+** Nombre de points d'action que coûte l'utilisation d'un turbo.
 *)
 let cout_turbo = 6
-
-(*
-** Nombre de points de déplacement donnés par le turbo
-*)
-let gain_turbo = 1
 
 (*
 ** Nombre maximum de boucliers sur un même portail.
@@ -73,11 +63,6 @@ let max_boucliers = 4
 ** Nombre de points que rapporte la création d'un portail.
 *)
 let points_creation_portail = 3
-
-(*
-** Nombre de points que rapporte la création d'un lien.
-*)
-let points_creation_lien = 5
 
 (*
 ** Constante de proportionnalité reliant l'aire d'un champ au nombre de points qu'il rapporte par tour.
@@ -127,6 +112,14 @@ type champ = {
 }
 
 (*
+** Déplace votre agent sur la case passée en argument.
+*)
+external deplacer : position -> erreur = "ml_deplacer"
+(*
+** Utilise un turbo.
+*)
+external utiliser_turbo : unit -> erreur = "ml_utiliser_turbo"
+(*
 ** Capture le portail où est positionné votre agent.
 *)
 external capturer : unit -> erreur = "ml_capturer"
@@ -139,21 +132,9 @@ external lier : position -> erreur = "ml_lier"
 *)
 external neutraliser : unit -> erreur = "ml_neutraliser"
 (*
-** Déplace votre agent sur la case passée en argument.
-*)
-external deplacer : position -> erreur = "ml_deplacer"
-(*
 ** Ajoute un bouclier au portail sur lequel se trouve votre agent.
 *)
 external ajouter_bouclier : unit -> erreur = "ml_ajouter_bouclier"
-(*
-** Fait passer le portail où se situe votre agent à l'autre joueur.
-*)
-external utiliser_virus : unit -> erreur = "ml_utiliser_virus"
-(*
-** Utilise un turbo.
-*)
-external utiliser_turbo : unit -> erreur = "ml_utiliser_turbo"
 (*
 ** Renvoie la liste de tous les liens présents.
 *)
@@ -227,7 +208,7 @@ external hist_champs_crees : unit -> champ array = "ml_hist_champs_crees"
 *)
 external hist_boucliers_ajoutes : unit -> position array = "ml_hist_boucliers_ajoutes"
 (*
-** Retourne la distance entre deux positions
+** Renvoie la distance entre deux positions
 *)
 external distance : position -> position -> int = "ml_distance"
 (*
@@ -263,11 +244,11 @@ external points_action : unit -> int = "ml_points_action"
 *)
 external points_deplacement : unit -> int = "ml_points_deplacement"
 (*
-** Retourne le score du joueur désigné par le numéro ``id_joueur``.
+** Renvoie le score du joueur désigné par le numéro ``id_joueur``.
 *)
 external score : int -> int = "ml_score"
 (*
-** Retourne le numéro du tour actuel.
+** Renvoie le numéro du tour actuel.
 *)
 external tour_actuel : unit -> int = "ml_tour_actuel"
 (*

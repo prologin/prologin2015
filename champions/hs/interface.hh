@@ -23,13 +23,12 @@ typedef struct __internal__cxx__champ {
   __internal__cxx__position som3;
   int joueur_c;
 } __internal__cxx__champ;
+extern "C" erreur api_deplacer(__internal__cxx__position dest);
+extern "C" erreur api_utiliser_turbo(void);
 extern "C" erreur api_capturer(void);
 extern "C" erreur api_lier(__internal__cxx__position portail);
 extern "C" erreur api_neutraliser(void);
-extern "C" erreur api_deplacer(__internal__cxx__position dest);
 extern "C" erreur api_ajouter_bouclier(void);
-extern "C" erreur api_utiliser_virus(void);
-extern "C" erreur api_utiliser_turbo(void);
 extern "C" std::vector<__internal__cxx__lien> api_liste_liens(void);
 extern "C" std::vector<__internal__cxx__champ> api_liste_champs(void);
 extern "C" std::vector<__internal__cxx__position> api_liste_portails(void);

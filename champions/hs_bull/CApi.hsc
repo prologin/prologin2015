@@ -374,6 +374,18 @@ instance ApiStorable [Position] where
     xs <- peekArray (fromIntegral xl) xa
     mapM unStorableBase xs
   {-# INLINE unStorableBase #-}
+-- | Déplace votre agent sur la case passée en argument.
+deplacer :: Position -> IO Erreur
+deplacer dest = toStorable dest $ \dest' ->  (hs_deplacer dest') >>= unStorable
+
+foreign import ccall
+  hs_deplacer :: (ApiStorableType Position) ->  IO (ApiStorableType Erreur)
+-- | Utilise un turbo.
+utiliser_turbo :: IO Erreur
+utiliser_turbo  =  (hs_utiliser_turbo ) >>= unStorable
+
+foreign import ccall
+  hs_utiliser_turbo ::  IO (ApiStorableType Erreur)
 -- | Capture le portail où est positionné votre agent.
 capturer :: IO Erreur
 capturer  =  (hs_capturer ) >>= unStorable
@@ -392,30 +404,12 @@ neutraliser  =  (hs_neutraliser ) >>= unStorable
 
 foreign import ccall
   hs_neutraliser ::  IO (ApiStorableType Erreur)
--- | Déplace votre agent sur la case passée en argument.
-deplacer :: Position -> IO Erreur
-deplacer dest = toStorable dest $ \dest' ->  (hs_deplacer dest') >>= unStorable
-
-foreign import ccall
-  hs_deplacer :: (ApiStorableType Position) ->  IO (ApiStorableType Erreur)
 -- | Ajoute un bouclier au portail sur lequel se trouve votre agent.
 ajouter_bouclier :: IO Erreur
 ajouter_bouclier  =  (hs_ajouter_bouclier ) >>= unStorable
 
 foreign import ccall
   hs_ajouter_bouclier ::  IO (ApiStorableType Erreur)
--- | Fait passer le portail où se situe votre agent à l'autre joueur.
-utiliser_virus :: IO Erreur
-utiliser_virus  =  (hs_utiliser_virus ) >>= unStorable
-
-foreign import ccall
-  hs_utiliser_virus ::  IO (ApiStorableType Erreur)
--- | Utilise un turbo.
-utiliser_turbo :: IO Erreur
-utiliser_turbo  =  (hs_utiliser_turbo ) >>= unStorable
-
-foreign import ccall
-  hs_utiliser_turbo ::  IO (ApiStorableType Erreur)
 -- | Renvoie la liste de tous les liens présents.
 liste_liens :: IO [Lien]
 liste_liens  =  (hs_liste_liens ) >>= unStorable
@@ -524,7 +518,7 @@ hist_boucliers_ajoutes  =  (hs_hist_boucliers_ajoutes ) >>= unStorable
 
 foreign import ccall
   hs_hist_boucliers_ajoutes ::  IO (ApiStorableType [Position])
--- | Retourne la distance entre deux positions
+-- | Renvoie la distance entre deux positions
 distance :: Position ->  Position -> IO Int
 distance pos1 pos2 = toStorable pos1 $ \pos1' ->  toStorable pos2 $ \pos2' ->  (hs_distance pos1' pos2') >>= unStorable
 
@@ -578,13 +572,13 @@ points_deplacement  =  (hs_points_deplacement ) >>= unStorable
 
 foreign import ccall
   hs_points_deplacement ::  IO (ApiStorableType Int)
--- | Retourne le score du joueur désigné par le numéro ``id_joueur``.
+-- | Renvoie le score du joueur désigné par le numéro ``id_joueur``.
 score :: Int -> IO Int
 score id_joueur = toStorable id_joueur $ \id_joueur' ->  (hs_score id_joueur') >>= unStorable
 
 foreign import ccall
   hs_score :: (ApiStorableType Int) ->  IO (ApiStorableType Int)
--- | Retourne le numéro du tour actuel.
+-- | Renvoie le numéro du tour actuel.
 tour_actuel :: IO Int
 tour_actuel  =  (hs_tour_actuel ) >>= unStorable
 

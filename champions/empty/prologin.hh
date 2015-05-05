@@ -12,64 +12,54 @@
 # include <string>
 
 ///
-// Taille du terrain (longueur et largeur)
+// Taille du terrain (longueur et largeur).
 //
 # define TAILLE_TERRAIN            30
 
 ///
-// Nombre de tours à jouer avant la fin de la partie
+// Nombre de tours à jouer avant la fin de la partie.
 //
 # define NB_TOURS                  100
 
 ///
-// Nombre de points de déplacements par tour
+// Nombre de points de déplacement par tour (avant utilisation du turbo).
 //
 # define NB_POINTS_DEPLACEMENT     6
 
 ///
-// Nombre de points d'action à chaque tour
+// Nombre de points d'action par tour.
 //
 # define NB_POINTS_ACTION          42
 
 ///
-// Nombre de points d'actions que coûte la capture d'un portail
+// Nombre de points d'action que coûte la capture d'un portail.
 //
 # define COUT_CAPTURE              1
 
 ///
-// Nombre de points d'actions que coûte la création d'un lien
+// Nombre de points d'action que coûte la création d'un lien.
 //
 # define COUT_LIEN                 1
 
 ///
-// Nombre de points d'actions que coûte la neutralisation d'un portail de base.
+// Nombre de points d'action que coûte la neutralisation d'un portail de base.
 //
 # define COUT_NEUTRALISATION       10
 
 ///
-// Nombre de points d'actions supplémentaires que coûte l'attaque pour chaque bouclier présent.
+// Nombre de points d'action supplémentaires que coûte l'attaque pour chaque bouclier présent.
 //
 # define COUT_NEUTRALISATION_BOUCLIER 4
 
 ///
-// Nombre de points d'actions que coûte la mise en place d'un bouclier.
+// Nombre de points d'action que coûte la mise en place d'un bouclier.
 //
 # define COUT_BOUCLIER             2
 
 ///
-// Nombre de points d'actions que coûte l'utilisation d'un virus
-//
-# define COUT_VIRUS                20
-
-///
-// Nombre de points d'actions que coûte un turbo
+// Nombre de points d'action que coûte l'utilisation d'un turbo.
 //
 # define COUT_TURBO                6
-
-///
-// Nombre de points de déplacement donnés par le turbo
-//
-# define GAIN_TURBO                1
 
 ///
 // Nombre maximum de boucliers sur un même portail.
@@ -80,11 +70,6 @@
 // Nombre de points que rapporte la création d'un portail.
 //
 # define POINTS_CREATION_PORTAIL   3
-
-///
-// Nombre de points que rapporte la création d'un lien.
-//
-# define POINTS_CREATION_LIEN      5
 
 ///
 // Constante de proportionnalité reliant l'aire d'un champ au nombre de points qu'il rapporte par tour.
@@ -141,6 +126,26 @@ typedef struct champ {
 
 
 ///
+// Déplace votre agent sur la case passée en argument.
+//
+extern "C" erreur api_deplacer(position dest);
+static inline erreur deplacer(position dest)
+{
+  return api_deplacer(dest);
+}
+
+
+///
+// Utilise un turbo.
+//
+extern "C" erreur api_utiliser_turbo();
+static inline erreur utiliser_turbo()
+{
+  return api_utiliser_turbo();
+}
+
+
+///
 // Capture le portail où est positionné votre agent.
 //
 extern "C" erreur api_capturer();
@@ -171,42 +176,12 @@ static inline erreur neutraliser()
 
 
 ///
-// Déplace votre agent sur la case passée en argument.
-//
-extern "C" erreur api_deplacer(position dest);
-static inline erreur deplacer(position dest)
-{
-  return api_deplacer(dest);
-}
-
-
-///
 // Ajoute un bouclier au portail sur lequel se trouve votre agent.
 //
 extern "C" erreur api_ajouter_bouclier();
 static inline erreur ajouter_bouclier()
 {
   return api_ajouter_bouclier();
-}
-
-
-///
-// Fait passer le portail où se situe votre agent à l'autre joueur.
-//
-extern "C" erreur api_utiliser_virus();
-static inline erreur utiliser_virus()
-{
-  return api_utiliser_virus();
-}
-
-
-///
-// Utilise un turbo.
-//
-extern "C" erreur api_utiliser_turbo();
-static inline erreur utiliser_turbo()
-{
-  return api_utiliser_turbo();
 }
 
 
@@ -363,8 +338,8 @@ static inline std::vector<position> hist_portails_neutralises()
 ///
 // Renvoie la liste des liens créés par votre adversaire au dernier tour.
 //
-extern "C" std::vector<position> api_hist_liens_crees();
-static inline std::vector<position> hist_liens_crees()
+extern "C" std::vector<lien> api_hist_liens_crees();
+static inline std::vector<lien> hist_liens_crees()
 {
   return api_hist_liens_crees();
 }
@@ -373,15 +348,25 @@ static inline std::vector<position> hist_liens_crees()
 ///
 // Renvoie la liste des champs créés par votre adversaire au dernier tour.
 //
-extern "C" std::vector<position> api_hist_champs_crees();
-static inline std::vector<position> hist_champs_crees()
+extern "C" std::vector<champ> api_hist_champs_crees();
+static inline std::vector<champ> hist_champs_crees()
 {
   return api_hist_champs_crees();
 }
 
 
 ///
-// Retourne la distance entre deux positions
+// Renvoie la liste des positions où votre adversaire a ajouté des boucliers au dernier tour.
+//
+extern "C" std::vector<position> api_hist_boucliers_ajoutes();
+static inline std::vector<position> hist_boucliers_ajoutes()
+{
+  return api_hist_boucliers_ajoutes();
+}
+
+
+///
+// Renvoie la distance entre deux positions
 //
 extern "C" int api_distance(position pos1, position pos2);
 static inline int distance(position pos1, position pos2)
@@ -407,6 +392,16 @@ extern "C" bool api_intersection_segments(position a1, position a2, position b1,
 static inline bool intersection_segments(position a1, position a2, position b1, position b2)
 {
   return api_intersection_segments(a1, a2, b1, b2);
+}
+
+
+///
+// Indique si un point se trouve à l'intérieur d'un triangle. Le critère coïncide avec celui de ``case_champs``.
+//
+extern "C" bool api_point_dans_triangle(position p, position som1, position som2, position som3);
+static inline bool point_dans_triangle(position p, position som1, position som2, position som3)
+{
+  return api_point_dans_triangle(p, som1, som2, som3);
 }
 
 
@@ -441,7 +436,27 @@ static inline position position_agent(int id_joueur)
 
 
 ///
-// Retourne le score du joueur désigné par le numéro ``id_joueur``.
+// Indique votre nombre de points d'actions restants pour ce tour-ci.
+//
+extern "C" int api_points_action();
+static inline int points_action()
+{
+  return api_points_action();
+}
+
+
+///
+// Indique votre nombre de points de déplacement restants pour ce tour-ci.
+//
+extern "C" int api_points_deplacement();
+static inline int points_deplacement()
+{
+  return api_points_deplacement();
+}
+
+
+///
+// Renvoie le score du joueur désigné par le numéro ``id_joueur``.
 //
 extern "C" int api_score(int id_joueur);
 static inline int score(int id_joueur)
@@ -451,7 +466,7 @@ static inline int score(int id_joueur)
 
 
 ///
-// Retourne le numéro du tour actuel.
+// Renvoie le numéro du tour actuel.
 //
 extern "C" int api_tour_actuel();
 static inline int tour_actuel()
@@ -514,17 +529,17 @@ static inline void afficher_champ(champ v)
 extern "C" {
 
 ///
-// Fonction appelée au début de la partie
+// Fonction appelée au début de la partie.
 //
 void partie_init();
 
 ///
-// Fonction appelée à chaque tour
+// Fonction appelée à chaque tour.
 //
 void jouer_tour();
 
 ///
-// Fonction appelée à la fin de la partie
+// Fonction appelée à la fin de la partie.
 //
 void partie_fin();
 

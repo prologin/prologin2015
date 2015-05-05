@@ -211,6 +211,16 @@ champ* cxx2lang<champ*, __internal__cxx__champ>(__internal__cxx__champ in)
   return &out;
 }
 
+extern "C" erreur hs_deplacer(position* dest)
+{
+  return cxx2lang<erreur, erreur >(api_deplacer(lang2cxx<position*, __internal__cxx__position >(dest)));
+}
+
+extern "C" erreur hs_utiliser_turbo(void)
+{
+  return cxx2lang<erreur, erreur >(api_utiliser_turbo());
+}
+
 extern "C" erreur hs_capturer(void)
 {
   return cxx2lang<erreur, erreur >(api_capturer());
@@ -226,24 +236,9 @@ extern "C" erreur hs_neutraliser(void)
   return cxx2lang<erreur, erreur >(api_neutraliser());
 }
 
-extern "C" erreur hs_deplacer(position* dest)
-{
-  return cxx2lang<erreur, erreur >(api_deplacer(lang2cxx<position*, __internal__cxx__position >(dest)));
-}
-
 extern "C" erreur hs_ajouter_bouclier(void)
 {
   return cxx2lang<erreur, erreur >(api_ajouter_bouclier());
-}
-
-extern "C" erreur hs_utiliser_virus(void)
-{
-  return cxx2lang<erreur, erreur >(api_utiliser_virus());
-}
-
-extern "C" erreur hs_utiliser_turbo(void)
-{
-  return cxx2lang<erreur, erreur >(api_utiliser_turbo());
 }
 
 extern "C" lien_array* hs_liste_liens(void)

@@ -68,8 +68,9 @@ let cout_scale a c = { pa = c.pa * a; pd = c.pd * a}
 let cout_lien = { pa=cout_lien; pd=0 }
 let cout_neutralisation_capture b =
   let a = cout_neutralisation + cout_neutralisation_bouclier * b + cout_capture in
-  if a > cout_virus then {pa=cout_virus; pd=0}
-  else {pa=a; pd=0}
+  (* if a > cout_virus then {pa=cout_virus; pd=0} *)
+  (* else {pa=a; pd=0} *)
+  {pa=a; pd=0}
 let cout_bouclier = { pa=cout_bouclier; pd=0}
 let cout_capture = { pa=cout_capture; pd=0 }
 let cout_neutralisation = { pa=cout_neutralisation; pd=0 }
@@ -185,12 +186,12 @@ let ajouter_bouclier state p () =
   ajouter_bouclier () |> afficher_erreur state
 
 let neutralisation_capture state p () =
-  if (cout_neutralisation_capture p.boucliers).pa = cout_virus then
-    begin
-      Printf.printf "Virus capture %a\n" ppos p.pos;
-      utiliser_virus () |> afficher_erreur state;
-    end
-  else
+  (* if (cout_neutralisation_capture p.boucliers).pa = cout_virus then *)
+  (*   begin *)
+  (*     Printf.printf "Virus capture %a\n" ppos p.pos; *)
+  (*     utiliser_virus () |> afficher_erreur state; *)
+  (*   end *)
+  (* else *)
     begin
       Printf.printf "Neutralisation capture %a\n" ppos p.pos;
       neutraliser () |> afficher_erreur state;

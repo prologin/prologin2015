@@ -64,6 +64,16 @@ typedef struct champ {
 extern "C" {
 
 ///
+// Déplace votre agent sur la case passée en argument.
+//
+erreur api_deplacer(position dest);
+
+///
+// Utilise un turbo.
+//
+erreur api_utiliser_turbo();
+
+///
 // Capture le portail où est positionné votre agent.
 //
 erreur api_capturer();
@@ -79,24 +89,9 @@ erreur api_lier(position portail);
 erreur api_neutraliser();
 
 ///
-// Déplace votre agent sur la case passée en argument.
-//
-erreur api_deplacer(position dest);
-
-///
 // Ajoute un bouclier au portail sur lequel se trouve votre agent.
 //
 erreur api_ajouter_bouclier();
-
-///
-// Fait passer le portail où se situe votre agent à l'autre joueur.
-//
-erreur api_utiliser_virus();
-
-///
-// Utilise un turbo.
-//
-erreur api_utiliser_turbo();
 
 ///
 // Renvoie la liste de tous les liens présents.
@@ -176,15 +171,20 @@ std::vector<position> api_hist_portails_neutralises();
 ///
 // Renvoie la liste des liens créés par votre adversaire au dernier tour.
 //
-std::vector<position> api_hist_liens_crees();
+std::vector<lien> api_hist_liens_crees();
 
 ///
 // Renvoie la liste des champs créés par votre adversaire au dernier tour.
 //
-std::vector<position> api_hist_champs_crees();
+std::vector<champ> api_hist_champs_crees();
 
 ///
-// Retourne la distance entre deux positions
+// Renvoie la liste des positions où votre adversaire a ajouté des boucliers au dernier tour.
+//
+std::vector<position> api_hist_boucliers_ajoutes();
+
+///
+// Renvoie la distance entre deux positions
 //
 int api_distance(position pos1, position pos2);
 
@@ -197,6 +197,11 @@ int api_score_triangle(position som1, position som2, position som3);
 // Indique si deux segments se croisent. Cette fonction correspond exactement à la condition d'interférence entre liens, c'est-à-dire qu'elle renvoie ``false`` si l'intersection est une extrémité des deux segments.
 //
 bool api_intersection_segments(position a1, position a2, position b1, position b2);
+
+///
+// Indique si un point se trouve à l'intérieur d'un triangle. Le critère coïncide avec celui de ``case_champs``.
+//
+bool api_point_dans_triangle(position p, position som1, position som2, position som3);
 
 ///
 // Renvoie votre numéro de joueur.
@@ -214,12 +219,22 @@ int api_adversaire();
 position api_position_agent(int id_joueur);
 
 ///
-// Retourne le score du joueur désigné par le numéro ``id_joueur``.
+// Indique votre nombre de points d'actions restants pour ce tour-ci.
+//
+int api_points_action();
+
+///
+// Indique votre nombre de points de déplacement restants pour ce tour-ci.
+//
+int api_points_deplacement();
+
+///
+// Renvoie le score du joueur désigné par le numéro ``id_joueur``.
 //
 int api_score(int id_joueur);
 
 ///
-// Retourne le numéro du tour actuel.
+// Renvoie le numéro du tour actuel.
 //
 int api_tour_actuel();
 
