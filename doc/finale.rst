@@ -20,9 +20,9 @@ jouent chacun leur tour pendant toute la partie. Le but est de lier les
 portails entre eux afin de créer des champs de contrôle, et ainsi
 contrôler la plus grande aire possible.
 
------------
-État du jeu
------------
+---------------------
+État de la simulation
+---------------------
 
 Carte
 =====
@@ -70,7 +70,7 @@ de contrôle supplémentaire, ce qui donne au total 4 champs de contrôle.
 Agent
 =====
 
-Chaque agent contrôle un agent positionné sur la carte. La position
+Chaque IA contrôle un agent positionné sur la carte. La position
 de l'agent n'est soumise à aucune restriction, si ce n'est de rester à
 l'intérieur de la carte : un agent pourra tout autant se trouver sur
 un portail, sur une case non-portail, sur une case traversée par un
