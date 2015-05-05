@@ -6,159 +6,259 @@ Finale Prologin 2015 − Sujet
 Introduction
 ------------
 
-Il s'agit d'un jeu basé sur Ingress : deux joueurs, une carte sur laquelle se
-trouvent des portails dans des cases. On peut capturer des portails et détruire
-les portails des adversaires. Quand on possède deux portails, on peut faire un
-lien entre eux deux si aucun lien ne croise le lien potentiel. Le but est de
-faire des triangles qui rapportent à chaque tour des points proportionnels à
-l'aire du triangle.
+Le sujet de la finale de Prologin 2013 est un jeu de stratégie en tour
+par tour qui se déroule sur une carte remplie de portails, qui peuvent
+être capturés à l'aide d'un agent que les joueurs doivent déplacer sur
+la carte. Le but est de recouvrir la surface de la carte avec des
+champs triangulaires, formés en reliant les portails capturés entre
+eux.
 
 
-Nombre de joueurs
-=================
+Généralités
+===========
 
-Une partie voit s'affronter 2 joueurs à la fois (bleu et vert).
-Chaque joueur possède une base placée dans un coin d'une carte carrée de
-dimensions 40 × 40.
+Une partie voit s'affronter 2 joueurs (bleu et vert sur l'interface
+graphique).
 
-TODO
+Il y a alternance des tours des deux joueurs, et pas de découpage
+particulier des tours en phases. (TODO expliquer mieux)
+
+La condition de victoire est d'avoir un score plus élevé que celui de
+son adversaire à la fin de la partie.
+
+-----------
+État du jeu
+-----------
 
 
 Carte
 =====
 
-TODO
+La carte consiste en une grille carrée, de ``TAILLE_TERRAIN`` cases de
+côté. (La valeur de ``TAILLE_TERRAIN`` est la même pour toutes les
+cartes.) Des portails y sont disposés ; leur nombre et leur position
+varient selon la carte et restent constants durant toute une
+partie. Il en va de même pour les positions de départ des joueurs.
 
 
-But du jeu
-==========
+Portails, liens et champs
+=========================
 
-TODO
+Chaque portail peut être soit neutre, soit *contrôlé* (on dira aussi
+*possédé*) par l'un des deux joueurs.
 
+Un joueur contrôlant deux portails peut les joindre par un *lien*, qui
+se matérialise sur la carte par un segment entre les deux portails. Le
+joueur qui contrôle les deux portails aux extrémités est considéré
+comme possesseur du lien.
 
-Plateau
-=======
+Lorsque trois points sont tous reliés entre eux, l'intérieur du
+triangle constitué par ces liens forme un *champ*. Les trois sommets
+du champ sont alors forcément contrôlés par le même joueur, dont on
+dira qu'il possède le triangle.
 
-Une grille carrée. Le côté du carré est constant (``TAILLE_TERRAIN`` cases).
+Certaines situations ne pourront *jamais* se produire et *toute action
+devant mener à une telle situation sera interdite par les règles* :
 
-Des portails sont disposés sur la carte, leur nombre est variable selon la carte
-mais leur positions sont fixes et connues des deux joueurs.
+- une interférence entre deux liens, c'est-à-dire une intersection
+  entre les deux segments ;
+- la présence d'un lien à l'intérieur d'un champ (TODO: rendre plus
+  précis)
+
+Notez que les deux conditions précédentes sont indépendantes des
+possesseurs des liens (resp. champs).
 
 
 Précisions sur la géométrie
-===========================
+---------------------------
 
 Deux liens [AB] et [CD] interfèrent si [AB] intersecte ]CD[ ou si ]AB[
-intersecte [CD], c'est-à-dire que le cas où un point se trouve à l'intérieur
-d'un autre segment compte comme une interférence. Cela exclut notamment les
-triangles plats. En particulier un segment s'auto-intersecte ce qui interdit de
-construire le même lien deux fois, pratique.
+intersecte [CD]. Autrement dit, le cas où un point se trouve à
+l'intérieur d'un autre segment compte comme une interférence, mais pas
+le cas où ils partagent seulement une extrémité (sinon, impossible
+d'avoir des triangles !).
 
-D'ailleurs, comme *2 × aire d'un triangle à coordonnées entières* est entier
-(comme déterminant de vecteurs entiers) et que la constante de
-proportionnalité est paire, les scores obtenus sont toujours entiers.
+Cela exclut notamment la possibilité d'existence de triangles
+plats. Notez également qu'un segment s'auto-intersecte ; par
+conséquent, il est impossible de relier deux portails deux fois.
 
-Un champ correspondra à l'intérieur d'un triangle, au sens topologique,
+Un champ correspond à l'*intérieur* au sens topologique d'un triangle,
 c'est-à-dire en excluant les côtés.
 
-
-Mécanismes
-==========
-
-Le jeu est tour par tour. Il y a alternance des tours des deux joueurs
-(*Turn Based Rules*), et pas de découpage particulier des tours en phases.
-
-* Nombre de joueurs : 2
-* Nombre de tours : ``NB_TOURS``
-
-Un joueur peut effectuer des actions qui coûtent des points d'action, sauf pour
-les mouvements qui ont une réserve de points spécifique. Aucun des deux types de
-points n'est cumulé de tour en tour. Le turbo permet de convertir des points
-d'action en points de déplacement ; le contraire est impossible.
-
-* Points de déplacement : ``NB_POINTS_DEPLACEMENT``
-* Points d'action : ``NB_POINTS_ACTION``
-
-Pour toute action liée à un portail, le joueur doit se trouver sur la case du
-portail. Dans le cas de la création de lien faisant intervenir deux portails à
-la fois, le joueur doit se trouver sur l'une des deux extrémités.
+Est compté comme un triangle tout triplet de sommets reliés, même si
+les triangles se superposent. Les superpositions devront être des
+inclusions, il n'y a pas d'intersection possible. Autrement dit, ce
+qu'on prend sur notre graphe planaire, ce n'est pas la liste des faces
+triangulaires, mais celle des 3-cliques. (TODO: alors lol ce
+paragraphe faut vraiment le réécrire)
 
 
-Actions
-=======
+Agent
+=====
+
+Chaque joueur contrôle un agent positionné sur la carte. La position
+de l'agent n'est soumise à aucune restriction, si ce n'est de rester à
+l'intérieur de la carte : un agent pourra tout autant se trouver sur
+un portail, sur une case non-portail, sur une case traversée par un
+lien, à l'intérieur d'un champ ou à l'extérieur de tout champ, etc.
+
+
+---------------------
+Déroulement d'un tour
+---------------------
+
+Au début de chacun de vos tours, vous vous verrez octroyer
+``NB_POINTS_DEPLACEMENT`` *points de déplacement*, et
+``NB_POINTS_ACTION`` *points d'action*. Les compteurs des points sont
+remis à cette valeur à chaque début de tour (il n'y a pas de cumul de
+points sur plusieurs tours), et ne peuvent jamais atteindre une valeur
+négative.
+
+Pour consommer ces points, vous pouvez effectuer les actions énumérées
+ci-dessous. Vous pouvez jouer autant d'actions que vous voulez durant
+un tour, dans n'importe quel ordre, tant que vous avez suffisamment de
+points.
+
 
 Déplacement
------------
+===========
 
-Le coût d'un déplacement est la distance de Manhattan entre le point de départ
-et le point d'arrivée.
+Pour déplacer la position de votre agent, vous devez dépenser un
+nombre de points de déplacement égal à la distance de Manhattan
+(calculée par la fonction ``distance``) entre votre position actuelle
+et votre destination. Cela revient à considérer qu'on autorise des
+déplacements horizontaux et verticaux d'une case, chacun coûtant un
+point de déplacement.
+
+
+Turbo
+-----
+
+Le turbo vous permet de dépenser ``COUT_TURBO`` points d'action pour
+gagner un point de déplacement. La réciproque, à savoir convertir des
+points de déplacement en points d'action, est impossible.
+
+
+Actions sur des portails
+========================
+
+En règle générale, *pour toute action liée à un portail, votre agent
+doit se trouver sur la case du portail*. La création de lien est un
+cas particulier puisqu'elle fait intervenir deux portails.
+
 
 Capturer un portail
 -------------------
 
-Le joueur peut dépenser ``COUT_CAPTURE`` points d'action pour capturer un portail
-neutre.
+Vous pouvez dépenser ``COUT_CAPTURE`` points d'action pour capturer un
+portail *neutre*.
 
-Relier des portails
--------------------
 
-Le joueur peut dépenser ``COUT_LIEN`` points d'action pour relier le portail à
-un autre si le lien n'intersecte aucun autre lien existant et qu'aucun des deux
-portails ne se trouve à l'intérieur d'un champ existant. Les deux portails
-doivent appartenir au joueur qui crée le lien.
+Relier deux portails
+--------------------
+
+Vous pouvez dépenser ``COUT_LIEN`` points d'action pour relier le
+portail où votre agent se trouve à un autre quelconque si :
+
+- vous possédez les deux portails ;
+- le lien n'interférerait avec aucun autre lien existant ;
+- aucun des deux portails ne se trouve à l'intérieur d'un champ
+  existant.
+ 
 
 Neutraliser un portail
 ----------------------
 
-Le joueur peut dépenser ``COUT_NEUTRALISATION`` points d'action pour
-neutraliser un portail qui appartient à l'adversaire, celui-ci devient alors
-neutre. Si des boucliers (cf. :ref:`ajouter-bouclier`) sont présents sur le
-portail, ils augmentent le coup de l'action de
-``nombre de boucliers × COUT_NEUTRALISATION_BOUCLIER``.
+Vous pouvez dépenser ``COUT_NEUTRALISATION`` points d'action pour
+neutraliser un portail qui appartient à l'adversaire, celui-ci devient
+alors neutre. Si des boucliers (cf. :ref:`ajouter-bouclier`) sont
+présents sur le portail, un coût supplémentaire de ``nombre de
+boucliers × COUT_NEUTRALISATION_BOUCLIER`` vient s'ajouter au coût de
+base.
 
-La neutralisation d'un portail lui fait perdre tous ses boucliers, et fait
-disparaître tous les liens reliés à ce portail (ainsi que les triangles donc).
+La neutralisation d'un portail lui fait perdre tous ses boucliers et
+détruit tous les liens reliés à ce portail, et donc également tous les
+triangles incidents à ce portail. Il *n'est pas possible* de payer
+partiellement pour détruire des boucliers sans entièrement neutraliser
+le portail.
 
 .. _ajouter-bouclier:
 
 Ajouter un bouclier
 -------------------
 
-Le joueur peut dépenser ``COUT_BOUCLIER`` points d'action pour incrémenter de
-1 le nombre de boucliers sur un portail qu'il contrôle. Un portail neutre n'a
-aucun bouclier, un portail qui vient d'être capturé non plus. Le nombre de
-boucliers que l'on peut mettre sur un même portail est borné à
-``MAX_BOUCLIERS``. Ceci garantit qu'un portail restera toujours destructible
-avec les points d'action dont on dispose dans un tour.
+Vous pouvez dépenser ``COUT_BOUCLIER`` points d'action pour rajouter
+un bouclier sur un portail que vous contrôlez.
 
-Déployer un virus
------------------
+Les boucliers sur un portail sont conservés d'un tour à l'autre. Leur
+nombre commence à zéro pour un portail qui vient d'être capturé.
 
-Le joueur peut dépenser ``COUT_VIRUS`` points d'action pour détruire un portail
-peu importe son possesseur (supprimant donc les liens, triangles et boucliers
-associés) et le changer de propriétaire. Capturer un portail grâce à un virus
-ne rapporte pas de points.
+Le nombre de boucliers que l'on peut mettre sur un même portail est
+borné par ``MAX_BOUCLIERS``. Ceci garantit qu'un portail restera
+toujours neutralisable avec les points d'action dont on dispose dans
+un tour.
 
-Turbo
+
+-----
+Score
 -----
 
-Le joueur peut, autant de fois qu'il veut par tour, augmenter de ``GAIN_TURBO``
-ses points de déplacement pour le tour, en dépensant ``COUT_TURBO`` points
-d'actions.
+Le score des deux joueurs est initialisé à zéro en début de partie et
+ne peut qu'augmenter au cours de la partie. Pour cela, vous pouvez :
+
+* capturer des portails, ce qui incrémente de
+  ``POINTS_CREATION_PORTAIL`` votre score ;
+* posséder des champs : à la fin de chacun de vos tours, chaque champ
+  que vous contrôlez à ce moment vous rapporte un nombre de points
+  proportionnel à l'aire qu'il recouvre (``POINTS_CHAMP`` points par
+  unité d'aire).
 
 
-Score
-=====
+Format de la carte
+==================
 
-* À chaque capture de portail et à chaque création de lien : le joueur gagne un
-  petit nombre de points, respectivement ``POINTS_CREATION_PORTAIL`` et
-  ``POINTS_CREATION_LIEN`` points.
-* À la fin de chaque tour : le joueur gagne un nombre de points proportionnel à
-  l'aire des triangles qu'il contrôle (``POINTS_CHAMP`` points par unité
-  d'aire).
+La carte est représentée sous la forme d'un fichier texte où ``X``
+désigne l'emplacement d'un portail et ``.`` une case sans portail.
 
-Est compté comme un triangle tout triplet de sommets reliés, même si les
-triangles se superposent. Les superpositions devront être des inclusions, il n'y
-a pas d'intersection possible. Autrement dit, ce qu'on prend sur notre graphe
-planaire, ce n'est pas la liste des faces triangulaires, mais celle des
-3-cliques.
+Le fichier doit suivre le format suivant : ::
+
+  depart_joueur1.x depart_joueur1.y
+  depart_joueur2.x depart_joueur2.y
+  ASCII map representation
+
+Voici un exemple : ::
+
+  14 14
+  15 15
+  ..............................
+  ..........X........X..........
+  ....X.................X.......
+  .X................X...........
+  .........X................X...
+  .............X..........X.....
+  ...X.......................X..
+  ........X...........X.........
+  ...........X.....X............
+  .....X.................X......
+  ..X..................X........
+  ......X.....................X.
+  ............X...X.............
+  .......X.................X....
+  ..............................
+  ..............................
+  ....X.................X.......
+  .............X...X............
+  .X.....................X......
+  ........X..................X..
+  ......X.................X.....
+  ............X.....X...........
+  .........X...........X........
+  ..X.......................X...
+  .....X..........X.............
+  ...X................X.........
+  ...........X................X.
+  .......X.................X....
+  ..........X........X..........
+  ..............................
+
+
