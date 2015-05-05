@@ -451,7 +451,7 @@ extern "C" value ml_hist_boucliers_ajoutes(value unit)
 }
 
 ///
-// Renvoie la distance entre deux positions
+// Renvoie la distance de Manhattan entre deux positions.
 //
 extern "C" value ml_distance(value pos1, value pos2)
 {

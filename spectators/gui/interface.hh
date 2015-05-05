@@ -184,7 +184,7 @@ std::vector<champ> api_hist_champs_crees();
 std::vector<position> api_hist_boucliers_ajoutes();
 
 ///
-// Renvoie la distance entre deux positions
+// Renvoie la distance de Manhattan entre deux positions.
 //
 int api_distance(position pos1, position pos2);
 

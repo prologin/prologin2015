@@ -18,31 +18,31 @@ NB_POINTS_DEPLACEMENT = 6
 NB_POINTS_ACTION = 42
 
 # Nombre de points d'action que coûte la capture d'un portail.
-COUT_CAPTURE = 1
+COUT_CAPTURE = 3
 
 # Nombre de points d'action que coûte la création d'un lien.
-COUT_LIEN = 1
+COUT_LIEN = 2
 
 # Nombre de points d'action que coûte la neutralisation d'un portail de base.
 COUT_NEUTRALISATION = 10
 
-# Nombre de points d'action supplémentaires que coûte l'attaque pour chaque bouclier présent.
-COUT_NEUTRALISATION_BOUCLIER = 4
+# Nombre de points d'action supplémentaires que coûte la neutralisation pour chaque bouclier présent.
+COUT_NEUTRALISATION_BOUCLIER = 5
 
-# Nombre de points d'action que coûte la mise en place d'un bouclier.
-COUT_BOUCLIER = 2
+# Nombre de points d'action que coûte la mise en place d'un bouclier sur un portail sans bouclier.
+COUT_BOUCLIER = 3
 
 # Nombre de points d'action que coûte l'utilisation d'un turbo.
 COUT_TURBO = 6
 
 # Nombre maximum de boucliers sur un même portail.
-MAX_BOUCLIERS = 4
+MAX_BOUCLIERS = 6
 
 # Nombre de points que rapporte la création d'un portail.
-POINTS_CREATION_PORTAIL = 3
+POINTS_CREATION_PORTAIL = 10
 
 # Constante de proportionnalité reliant l'aire d'un champ au nombre de points qu'il rapporte par tour.
-POINTS_CHAMP = 10
+POINTS_CHAMP = 2
 
 
 from enum import IntEnum

@@ -27,12 +27,12 @@ let nb_points_action = 42
 (*
 ** Nombre de points d'action que coûte la capture d'un portail.
 *)
-let cout_capture = 1
+let cout_capture = 3
 
 (*
 ** Nombre de points d'action que coûte la création d'un lien.
 *)
-let cout_lien = 1
+let cout_lien = 2
 
 (*
 ** Nombre de points d'action que coûte la neutralisation d'un portail de base.
@@ -40,14 +40,14 @@ let cout_lien = 1
 let cout_neutralisation = 10
 
 (*
-** Nombre de points d'action supplémentaires que coûte l'attaque pour chaque bouclier présent.
+** Nombre de points d'action supplémentaires que coûte la neutralisation pour chaque bouclier présent.
 *)
-let cout_neutralisation_bouclier = 4
+let cout_neutralisation_bouclier = 5
 
 (*
-** Nombre de points d'action que coûte la mise en place d'un bouclier.
+** Nombre de points d'action que coûte la mise en place d'un bouclier sur un portail sans bouclier.
 *)
-let cout_bouclier = 2
+let cout_bouclier = 3
 
 (*
 ** Nombre de points d'action que coûte l'utilisation d'un turbo.
@@ -57,17 +57,17 @@ let cout_turbo = 6
 (*
 ** Nombre maximum de boucliers sur un même portail.
 *)
-let max_boucliers = 4
+let max_boucliers = 6
 
 (*
 ** Nombre de points que rapporte la création d'un portail.
 *)
-let points_creation_portail = 3
+let points_creation_portail = 10
 
 (*
 ** Constante de proportionnalité reliant l'aire d'un champ au nombre de points qu'il rapporte par tour.
 *)
-let points_champ = 10
+let points_champ = 2
 
 (*
 ** Erreurs possibles
@@ -208,7 +208,7 @@ external hist_champs_crees : unit -> champ array = "ml_hist_champs_crees"
 *)
 external hist_boucliers_ajoutes : unit -> position array = "ml_hist_boucliers_ajoutes"
 (*
-** Renvoie la distance entre deux positions
+** Renvoie la distance de Manhattan entre deux positions.
 *)
 external distance : position -> position -> int = "ml_distance"
 (*

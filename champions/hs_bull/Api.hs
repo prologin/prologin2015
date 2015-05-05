@@ -77,28 +77,28 @@ nb_points_action  :: Int
 nb_points_action = 42
 -- | Nombre de points d'action que coûte la capture d'un portail.
 cout_capture  :: Int
-cout_capture = 1
+cout_capture = 3
 -- | Nombre de points d'action que coûte la création d'un lien.
 cout_lien  :: Int
-cout_lien = 1
+cout_lien = 2
 -- | Nombre de points d'action que coûte la neutralisation d'un portail de base.
 cout_neutralisation  :: Int
 cout_neutralisation = 10
--- | Nombre de points d'action supplémentaires que coûte l'attaque pour chaque bouclier présent.
+-- | Nombre de points d'action supplémentaires que coûte la neutralisation pour chaque bouclier présent.
 cout_neutralisation_bouclier  :: Int
-cout_neutralisation_bouclier = 4
--- | Nombre de points d'action que coûte la mise en place d'un bouclier.
+cout_neutralisation_bouclier = 5
+-- | Nombre de points d'action que coûte la mise en place d'un bouclier sur un portail sans bouclier.
 cout_bouclier  :: Int
-cout_bouclier = 2
+cout_bouclier = 3
 -- | Nombre de points d'action que coûte l'utilisation d'un turbo.
 cout_turbo  :: Int
 cout_turbo = 6
 -- | Nombre maximum de boucliers sur un même portail.
 max_boucliers  :: Int
-max_boucliers = 4
+max_boucliers = 6
 -- | Nombre de points que rapporte la création d'un portail.
 points_creation_portail  :: Int
-points_creation_portail = 3
+points_creation_portail = 10
 -- | Constante de proportionnalité reliant l'aire d'un champ au nombre de points qu'il rapporte par tour.
 points_champ  :: Int
-points_champ = 10
+points_champ = 2

@@ -518,7 +518,7 @@ hist_boucliers_ajoutes  =  (hs_hist_boucliers_ajoutes ) >>= unStorable
 
 foreign import ccall
   hs_hist_boucliers_ajoutes ::  IO (ApiStorableType [Position])
--- | Renvoie la distance entre deux positions
+-- | Renvoie la distance de Manhattan entre deux positions.
 distance :: Position ->  Position -> IO Int
 distance pos1 pos2 = toStorable pos1 $ \pos1' ->  toStorable pos2 $ \pos2' ->  (hs_distance pos1' pos2') >>= unStorable
 

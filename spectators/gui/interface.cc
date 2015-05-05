@@ -600,7 +600,7 @@ return cxx2lang_array(api_hist_boucliers_ajoutes());
 }
 
 ///
-// Renvoie la distance entre deux positions
+// Renvoie la distance de Manhattan entre deux positions.
 //
 static PyObject* p_distance(PyObject* self, PyObject* args)
 {
