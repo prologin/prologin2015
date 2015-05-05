@@ -64,7 +64,7 @@ règles*. Notez que cette condition est indépendante des possesseurs
 des liens.
 
 De plus, la seule façon pour un lien de recontrer l'intérieur d'un
-champ sera d'être entierement inclus dans ce champ, qui aura été
+champ sera d'être entièrement inclus dans ce champ, qui aura été
 construit après le lien.
 
 
