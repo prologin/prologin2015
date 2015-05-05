@@ -72,9 +72,6 @@ void ActionLier::apply_on(GameState* st) const
     // Consume action points
     st->decrement_action_points(player_id_, COUT_LIEN);
 
-    // Score reward (TODO add test)
-    st->increment_score(player_id_, POINTS_CREATION_LIEN);
-
     int portal_here = st->map().portal_id_maybe(st->player_pos(player_id_));
     int portal_there = st->map().portal_id_maybe(portail_);
     st->graph().add_edge(std::make_pair(portal_here, portal_there));

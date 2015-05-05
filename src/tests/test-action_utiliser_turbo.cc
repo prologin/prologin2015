@@ -41,7 +41,7 @@ TEST_F(ActionTest, ActionUtiliserTurbo_RegularOK)
         EXPECT_EQ(initial_AP, st->action_points(st->get_opponent(player)));
 
         // Check that movement points are increased
-        EXPECT_EQ(initial_MP + GAIN_TURBO, st->move_points(player));
+        EXPECT_EQ(initial_MP + 1, st->move_points(player));
         EXPECT_EQ(initial_MP_other, st->move_points(st->get_opponent(player)));
     }
 }
