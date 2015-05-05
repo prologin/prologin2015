@@ -438,7 +438,7 @@ std::vector<position> Api::hist_boucliers_ajoutes()
 }
 
 ///
-// Renvoie la distance entre deux positions
+// Renvoie la distance de Manhattan entre deux positions.
 //
 int Api::distance(position pos1, position pos2)
 {
