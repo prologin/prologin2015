@@ -7,24 +7,27 @@ Introduction
 ------------
 
 Le sujet de la finale de Prologin 2013 est un jeu de stratégie en tour
-par tour qui se déroule sur une carte remplie de portails, qui peuvent
-être capturés à l'aide d'un agent que les joueurs doivent déplacer sur
-la carte. Le but est de recouvrir la surface de la carte avec des
-champs triangulaires, formés en reliant les portails capturés entre
-eux.
+par tour qui se déroule sur une carte de taille constante. Des portails sont
+disposés sur la carte, leur nombre est variable selon la carte mais leur
+positions sont fixes et connues des joueurs.
 
+Il y a deux joueurs présents lors d'une partie, le joueur *bleu* et le joueur
+*vert*. Les portails, les liens et les champs apparaissent sur la carte de la
+même couleur que le joueur qui les possède. Les joueurs jouent chacun leur tour
+pendant toute la partie.
 
-Généralités
-===========
+Il est possible de capturer les portails neutres et de détruire les portails
+ennemis. Quand deux portails vous appartiennent, vous pouvez les relier entre
+eux pour créer un *lien*. Quand trois portails sont reliés entre eux et
+forment un triangle, ils forment un *champ de contrôle*, ce qui signifie
+que vous contrôlez la zone sous ce triangle. Créer un champ de contrôle empêche
+votre adversaire de créer des liens à l'intérieur de celui-ci.
 
-Une partie voit s'affronter 2 joueurs (bleu et vert sur l'interface
-graphique).
+À la fin de chaque tour, l'aire totale de vos champs de contrôle est ajoutée à
+votre score. Votre but est donc de maximiser cette aire à chaque tour.
 
-Il y a alternance des tours des deux joueurs, et pas de découpage
-particulier des tours en phases. (TODO expliquer mieux)
-
-La condition de victoire est d'avoir un score plus élevé que celui de
-son adversaire à la fin de la partie.
+Le gagnant de la partie est le joueur qui a le score le plus élevé à la fin des
+tours.
 
 -----------
 État du jeu
