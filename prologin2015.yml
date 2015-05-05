@@ -4,65 +4,56 @@ constant:
   -
     cst_name: TAILLE_TERRAIN
     cst_val: 30
-    cst_comment: Taille du terrain (longueur et largeur)
+    cst_comment: Taille du terrain (longueur et largeur).
 
   -
     cst_name: NB_TOURS
     cst_val: 100
-    cst_comment: Nombre de tours à jouer avant la fin de la partie
+    cst_comment: Nombre de tours à jouer avant la fin de la partie.
 
   -
     cst_name: NB_POINTS_DEPLACEMENT
     cst_val: 6
-    cst_comment: Nombre de points de déplacements par tour
+    cst_comment: Nombre de points de déplacement par tour
+                 (avant utilisation du turbo).
 
   -
     cst_name: NB_POINTS_ACTION
     cst_val: 42
-    cst_comment: Nombre de points d'action à chaque tour
+    cst_comment: Nombre de points d'action par tour.
 
   -
     cst_name: COUT_CAPTURE
     cst_val: 1
-    cst_comment: Nombre de points d'actions que coûte la capture d'un portail
+    cst_comment: Nombre de points d'action que coûte la capture d'un portail.
 
   -
     cst_name: COUT_LIEN
     cst_val: 1
-    cst_comment: Nombre de points d'actions que coûte la création d'un lien
+    cst_comment: Nombre de points d'action que coûte la création d'un lien.
 
   -
     cst_name: COUT_NEUTRALISATION
     cst_val: 10
-    cst_comment: Nombre de points d'actions que coûte la neutralisation
+    cst_comment: Nombre de points d'action que coûte la neutralisation
                  d'un portail de base.
 
   -
     cst_name: COUT_NEUTRALISATION_BOUCLIER
     cst_val: 4
-    cst_comment: Nombre de points d'actions supplémentaires que coûte
+    cst_comment: Nombre de points d'action supplémentaires que coûte
                  l'attaque pour chaque bouclier présent.
 
   -
     cst_name: COUT_BOUCLIER
     cst_val: 2
-    cst_comment: Nombre de points d'actions que coûte la mise en place
+    cst_comment: Nombre de points d'action que coûte la mise en place
                  d'un bouclier.
-
-  -
-    cst_name: COUT_VIRUS
-    cst_val: 20
-    cst_comment: Nombre de points d'actions que coûte l'utilisation d'un virus
 
   -
     cst_name: COUT_TURBO
     cst_val: 6
-    cst_comment: Nombre de points d'actions que coûte un turbo
-
-  -
-    cst_name: GAIN_TURBO
-    cst_val: 1
-    cst_comment: Nombre de points de déplacement donnés par le turbo
+    cst_comment: Nombre de points d'action que coûte l'utilisation d'un turbo.
 
   -
     cst_name: MAX_BOUCLIERS
@@ -73,11 +64,6 @@ constant:
     cst_name: POINTS_CREATION_PORTAIL
     cst_val: 3
     cst_comment: Nombre de points que rapporte la création d'un portail.
-
-  -
-    cst_name: POINTS_CREATION_LIEN
-    cst_val: 5
-    cst_comment: Nombre de points que rapporte la création d'un lien.
 
   -
     cst_name: POINTS_CHAMP
@@ -134,6 +120,22 @@ struct:
 function:
 
 # Actions
+
+  -
+    fct_name: deplacer
+    fct_summary: Déplace votre agent sur la case passée en argument.
+    fct_ret_type: erreur
+    fct_action: yes
+    fct_arg:
+      - [dest, position, "Case de destination."]
+
+  -
+    fct_name: utiliser_turbo
+    fct_summary: Utilise un turbo.
+    fct_ret_type: erreur
+    fct_action: yes
+    fct_arg: []
+
   -
     fct_name: capturer
     fct_summary: Capture le portail où est positionné votre agent.
@@ -158,31 +160,8 @@ function:
     fct_arg: []
 
   -
-    fct_name: deplacer
-    fct_summary: Déplace votre agent sur la case passée en argument.
-    fct_ret_type: erreur
-    fct_action: yes
-    fct_arg:
-      - [dest, position, "Case de destination."]
-
-  -
     fct_name: ajouter_bouclier
     fct_summary: Ajoute un bouclier au portail sur lequel se trouve votre agent.
-    fct_ret_type: erreur
-    fct_action: yes
-    fct_arg: []
-
-  -
-    fct_name: utiliser_virus
-    fct_summary: "Fait passer le portail où se situe votre agent à l'autre
-                  joueur."
-    fct_ret_type: erreur
-    fct_action: yes
-    fct_arg: []
-
-  -
-    fct_name: utiliser_turbo
-    fct_summary: Utilise un turbo.
     fct_ret_type: erreur
     fct_action: yes
     fct_arg: []
@@ -339,7 +318,7 @@ function:
 
   -
     fct_name: distance
-    fct_summary: Retourne la distance entre deux positions
+    fct_summary: Renvoie la distance entre deux positions
     fct_ret_type: int
     fct_arg:
       - [pos1, position, "Première position"]
@@ -406,13 +385,13 @@ function:
     fct_arg: []
   -
     fct_name: score
-    fct_summary: Retourne le score du joueur désigné par le numéro ``id_joueur``.
+    fct_summary: Renvoie le score du joueur désigné par le numéro ``id_joueur``.
     fct_ret_type: int
     fct_arg:
       - [id_joueur, int, "Identifiant du joueur"]
   -
     fct_name: tour_actuel
-    fct_summary: Retourne le numéro du tour actuel.
+    fct_summary: Renvoie le numéro du tour actuel.
     fct_ret_type: int
     fct_arg: []
   -
@@ -425,16 +404,16 @@ function:
 user_function:
   -
     fct_name: partie_init
-    fct_summary: Fonction appelée au début de la partie
+    fct_summary: Fonction appelée au début de la partie.
     fct_ret_type: void
     fct_arg: []
   -
     fct_name: jouer_tour
-    fct_summary: Fonction appelée à chaque tour
+    fct_summary: Fonction appelée à chaque tour.
     fct_ret_type: void
     fct_arg: []
   -
     fct_name: partie_fin
-    fct_summary: Fonction appelée à la fin de la partie
+    fct_summary: Fonction appelée à la fin de la partie.
     fct_ret_type: void
     fct_arg: []

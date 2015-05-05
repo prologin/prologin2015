@@ -37,6 +37,14 @@ Rules::Rules(const rules::Options opt)
 
     // Register actions
     api_->actions()->register_action(
+        ID_ACTION_DEPLACER,
+        []() -> rules::IAction* { return new ActionDeplacer(); }
+        );
+    api_->actions()->register_action(
+        ID_ACTION_UTILISER_TURBO,
+        []() -> rules::IAction* { return new ActionUtiliserTurbo(); }
+        );
+    api_->actions()->register_action(
         ID_ACTION_CAPTURER,
         []() -> rules::IAction* { return new ActionCapturer(); }
         );
@@ -49,20 +57,8 @@ Rules::Rules(const rules::Options opt)
         []() -> rules::IAction* { return new ActionNeutraliser(); }
         );
     api_->actions()->register_action(
-        ID_ACTION_DEPLACER,
-        []() -> rules::IAction* { return new ActionDeplacer(); }
-        );
-    api_->actions()->register_action(
         ID_ACTION_AJOUTER_BOUCLIER,
         []() -> rules::IAction* { return new ActionAjouterBouclier(); }
-        );
-    api_->actions()->register_action(
-        ID_ACTION_UTILISER_VIRUS,
-        []() -> rules::IAction* { return new ActionUtiliserVirus(); }
-        );
-    api_->actions()->register_action(
-        ID_ACTION_UTILISER_TURBO,
-        []() -> rules::IAction* { return new ActionUtiliserTurbo(); }
         );
 }
 
