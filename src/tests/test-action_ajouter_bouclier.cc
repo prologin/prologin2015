@@ -78,7 +78,7 @@ TEST_F(ActionTest, ActionAjouterBouclier_ShieldLimit)
 {
     for (int player : {PLAYER_1, PLAYER_2})
     {
-        set_points(st, player, 2 * COUT_BOUCLIER);
+        set_points(st, player, COUT_BOUCLIER + MAX_BOUCLIERS + 1);
         st->set_pos(player, st->portal_pos(0));
         st->capture(0, player);
         ActionAjouterBouclier action(player);
@@ -116,3 +116,25 @@ TEST_F(ActionTest, ActionAjouterBouclier_RegularOK)
         EXPECT_EQ(1, st->num_shields(0));
     }
 }
+
+// Test that shield cost increases with number of shields
+TEST_F(ActionTest, ActionAjouterBouclier_ShieldTwice)
+{
+    for (int player : {PLAYER_1, PLAYER_2})
+    {
+        // Put the player in a correct state for adding shield
+        const int initial_AP = 2*COUT_BOUCLIER;
+        set_points(st, player, initial_AP);
+        st->set_pos(player, st->portal_pos(0));
+        st->capture(0, player);
+        ActionAjouterBouclier action(player);
+
+        EXPECT_EQ(OK, action.check(st));
+        action.apply_on(st);
+
+        EXPECT_EQ(PA_INSUFFISANTS, action.check(st));
+        set_points(st, player, COUT_BOUCLIER + 1);
+        EXPECT_EQ(OK, action.check(st));
+    }
+}
+
