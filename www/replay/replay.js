@@ -140,7 +140,25 @@ $(function () {
             .attr('stroke', function (d) {
                 if (d.owner === null)
                     return '#777';
-                return COLORS[player_map[d.owner]];
+                var new_color = COLORS[player_map[d.owner]];
+                var old_color = d3.select(this).attr('stroke');
+                if (old_color && new_color && old_color !== new_color) {
+                    // fancy round splash on portal capture
+                    setTimeout(function () {
+                        svg_content.append('circle')
+                            .attr('r', CELL_SIZE / 3)
+                            .attr('fill', 'none')
+                            .attr('stroke', new_color)
+                            .attr('stroke-width', 1.5)
+                            .attr('transform', svg_translate(d))
+                            .attr('opacity', 1)
+                            .transition().ease('linear').duration(EVENT_DURATION * 2)
+                            .attr('r', CELL_SIZE * 1.5)
+                            .attr('opacity', 0)
+                            .transition().duration(0).remove();
+                    }, EVENT_DURATION / 2);
+                }
+                return new_color;
             });
         svg_portals
             .select('.portal-shield')
@@ -149,7 +167,27 @@ $(function () {
                 return COLORS[player_map[d.owner]];
             })
             .text(function (d) {
-                return (d.owner === null || d.shields <= 0) ? '' : d.shields;
+                if (d.owner === null)
+                    return '';
+                var that = d3.select(this),
+                    old_value = that.text();
+                if (d.shields && old_value != d.shields.toString()) {
+                    // fancy shield splash
+                    setTimeout(function () {
+                        var cont = d3.select(that.node().parentNode);
+                        cont.append('text')
+                            .attr('transform', 'translate(8 -5)')
+                            .attr('stroke', 'none')
+                            .attr('fill', COLORS[player_map[d.owner]])
+                            .text(d.shields)
+                            .attr('opacity', 1)
+                            .transition().ease('cubic-in').duration(EVENT_DURATION * 2)
+                            .attr('transform', 'translate(8 -30)')
+                            .attr('opacity', 0)
+                            .transition().duration(0).remove();
+                    }, EVENT_DURATION / 2);
+                }
+                return d.shields <= 0 ? '' : d.shields;
             });
 
         svg_players = svg_content
