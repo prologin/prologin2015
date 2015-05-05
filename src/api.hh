@@ -147,7 +147,7 @@ public:
 //
    std::vector<position> hist_boucliers_ajoutes();
 ///
-// Renvoie la distance entre deux positions
+// Renvoie la distance de Manhattan entre deux positions.
 //
    int distance(position pos1, position pos2);
 ///
