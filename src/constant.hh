@@ -14,64 +14,54 @@
 # define CONSTANT_HH_
 
 ///
-// Taille du terrain (longueur et largeur)
+// Taille du terrain (longueur et largeur).
 //
 # define TAILLE_TERRAIN            30
 
 ///
-// Nombre de tours à jouer avant la fin de la partie
+// Nombre de tours à jouer avant la fin de la partie.
 //
 # define NB_TOURS                  100
 
 ///
-// Nombre de points de déplacements par tour
+// Nombre de points de déplacement par tour (avant utilisation du turbo).
 //
 # define NB_POINTS_DEPLACEMENT     6
 
 ///
-// Nombre de points d'action à chaque tour
+// Nombre de points d'action par tour.
 //
 # define NB_POINTS_ACTION          42
 
 ///
-// Nombre de points d'actions que coûte la capture d'un portail
+// Nombre de points d'action que coûte la capture d'un portail.
 //
 # define COUT_CAPTURE              1
 
 ///
-// Nombre de points d'actions que coûte la création d'un lien
+// Nombre de points d'action que coûte la création d'un lien.
 //
 # define COUT_LIEN                 1
 
 ///
-// Nombre de points d'actions que coûte la neutralisation d'un portail de base.
+// Nombre de points d'action que coûte la neutralisation d'un portail de base.
 //
 # define COUT_NEUTRALISATION       10
 
 ///
-// Nombre de points d'actions supplémentaires que coûte l'attaque pour chaque bouclier présent.
+// Nombre de points d'action supplémentaires que coûte l'attaque pour chaque bouclier présent.
 //
 # define COUT_NEUTRALISATION_BOUCLIER 4
 
 ///
-// Nombre de points d'actions que coûte la mise en place d'un bouclier.
+// Nombre de points d'action que coûte la mise en place d'un bouclier.
 //
 # define COUT_BOUCLIER             2
 
 ///
-// Nombre de points d'actions que coûte l'utilisation d'un virus
-//
-# define COUT_VIRUS                20
-
-///
-// Nombre de points d'actions que coûte un turbo
+// Nombre de points d'action que coûte l'utilisation d'un turbo.
 //
 # define COUT_TURBO                6
-
-///
-// Nombre de points de déplacement donnés par le turbo
-//
-# define GAIN_TURBO                1
 
 ///
 // Nombre maximum de boucliers sur un même portail.
@@ -82,11 +72,6 @@
 // Nombre de points que rapporte la création d'un portail.
 //
 # define POINTS_CREATION_PORTAIL   3
-
-///
-// Nombre de points que rapporte la création d'un lien.
-//
-# define POINTS_CREATION_LIEN      5
 
 ///
 // Constante de proportionnalité reliant l'aire d'un champ au nombre de points qu'il rapporte par tour.

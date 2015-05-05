@@ -27,6 +27,38 @@ Api::Api(GameState* game_state, rules::Player_sptr player)
 
 
 ///
+// Déplace votre agent sur la case passée en argument.
+//
+erreur Api::deplacer(position dest)
+{
+    rules::IAction_sptr action(new ActionDeplacer(dest, player_->id));
+
+    erreur err;
+    if ((err = static_cast<erreur>(action->check(game_state_))) != OK)
+        return err;
+
+    actions_.add(action);
+    game_state_set(action->apply(game_state_));
+    return OK;
+}
+
+///
+// Utilise un turbo.
+//
+erreur Api::utiliser_turbo()
+{
+    rules::IAction_sptr action(new ActionUtiliserTurbo(player_->id));
+
+    erreur err;
+    if ((err = static_cast<erreur>(action->check(game_state_))) != OK)
+        return err;
+
+    actions_.add(action);
+    game_state_set(action->apply(game_state_));
+    return OK;
+}
+
+///
 // Capture le portail où est positionné votre agent.
 //
 erreur Api::capturer()
@@ -75,59 +107,11 @@ erreur Api::neutraliser()
 }
 
 ///
-// Déplace votre agent sur la case passée en argument.
-//
-erreur Api::deplacer(position dest)
-{
-    rules::IAction_sptr action(new ActionDeplacer(dest, player_->id));
-
-    erreur err;
-    if ((err = static_cast<erreur>(action->check(game_state_))) != OK)
-        return err;
-
-    actions_.add(action);
-    game_state_set(action->apply(game_state_));
-    return OK;
-}
-
-///
 // Ajoute un bouclier au portail sur lequel se trouve votre agent.
 //
 erreur Api::ajouter_bouclier()
 {
     rules::IAction_sptr action(new ActionAjouterBouclier(player_->id));
-
-    erreur err;
-    if ((err = static_cast<erreur>(action->check(game_state_))) != OK)
-        return err;
-
-    actions_.add(action);
-    game_state_set(action->apply(game_state_));
-    return OK;
-}
-
-///
-// Fait passer le portail où se situe votre agent à l'autre joueur.
-//
-erreur Api::utiliser_virus()
-{
-    rules::IAction_sptr action(new ActionUtiliserVirus(player_->id));
-
-    erreur err;
-    if ((err = static_cast<erreur>(action->check(game_state_))) != OK)
-        return err;
-
-    actions_.add(action);
-    game_state_set(action->apply(game_state_));
-    return OK;
-}
-
-///
-// Utilise un turbo.
-//
-erreur Api::utiliser_turbo()
-{
-    rules::IAction_sptr action(new ActionUtiliserTurbo(player_->id));
 
     erreur err;
     if ((err = static_cast<erreur>(action->check(game_state_))) != OK)
@@ -301,7 +285,7 @@ std::vector<position> Api::hist_boucliers_ajoutes()
 }
 
 ///
-// Retourne la distance entre deux positions
+// Renvoie la distance entre deux positions
 //
 int Api::distance(position pos1, position pos2)
 {
@@ -382,7 +366,7 @@ int Api::points_deplacement()
 }
 
 ///
-// Retourne le score du joueur désigné par le numéro ``id_joueur``.
+// Renvoie le score du joueur désigné par le numéro ``id_joueur``.
 //
 int Api::score(int id_joueur)
 {
@@ -391,7 +375,7 @@ int Api::score(int id_joueur)
 }
 
 ///
-// Retourne le numéro du tour actuel.
+// Renvoie le numéro du tour actuel.
 //
 int Api::tour_actuel()
 {

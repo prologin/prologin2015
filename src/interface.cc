@@ -162,6 +162,22 @@ std::string convert_to_string(std::vector<champ> in){
   }
 }
 ///
+// Déplace votre agent sur la case passée en argument.
+//
+extern "C" erreur api_deplacer(position dest)
+{
+  return api->deplacer(dest);
+}
+
+///
+// Utilise un turbo.
+//
+extern "C" erreur api_utiliser_turbo()
+{
+  return api->utiliser_turbo();
+}
+
+///
 // Capture le portail où est positionné votre agent.
 //
 extern "C" erreur api_capturer()
@@ -186,35 +202,11 @@ extern "C" erreur api_neutraliser()
 }
 
 ///
-// Déplace votre agent sur la case passée en argument.
-//
-extern "C" erreur api_deplacer(position dest)
-{
-  return api->deplacer(dest);
-}
-
-///
 // Ajoute un bouclier au portail sur lequel se trouve votre agent.
 //
 extern "C" erreur api_ajouter_bouclier()
 {
   return api->ajouter_bouclier();
-}
-
-///
-// Fait passer le portail où se situe votre agent à l'autre joueur.
-//
-extern "C" erreur api_utiliser_virus()
-{
-  return api->utiliser_virus();
-}
-
-///
-// Utilise un turbo.
-//
-extern "C" erreur api_utiliser_turbo()
-{
-  return api->utiliser_turbo();
 }
 
 ///
@@ -362,7 +354,7 @@ extern "C" std::vector<position> api_hist_boucliers_ajoutes()
 }
 
 ///
-// Retourne la distance entre deux positions
+// Renvoie la distance entre deux positions
 //
 extern "C" int api_distance(position pos1, position pos2)
 {
@@ -434,7 +426,7 @@ extern "C" int api_points_deplacement()
 }
 
 ///
-// Retourne le score du joueur désigné par le numéro ``id_joueur``.
+// Renvoie le score du joueur désigné par le numéro ``id_joueur``.
 //
 extern "C" int api_score(int id_joueur)
 {
@@ -442,7 +434,7 @@ extern "C" int api_score(int id_joueur)
 }
 
 ///
-// Retourne le numéro du tour actuel.
+// Renvoie le numéro du tour actuel.
 //
 extern "C" int api_tour_actuel()
 {

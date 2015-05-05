@@ -51,6 +51,14 @@ private:
 public:
 
 ///
+// Déplace votre agent sur la case passée en argument.
+//
+   erreur deplacer(position dest);
+///
+// Utilise un turbo.
+//
+   erreur utiliser_turbo();
+///
 // Capture le portail où est positionné votre agent.
 //
    erreur capturer();
@@ -63,21 +71,9 @@ public:
 //
    erreur neutraliser();
 ///
-// Déplace votre agent sur la case passée en argument.
-//
-   erreur deplacer(position dest);
-///
 // Ajoute un bouclier au portail sur lequel se trouve votre agent.
 //
    erreur ajouter_bouclier();
-///
-// Fait passer le portail où se situe votre agent à l'autre joueur.
-//
-   erreur utiliser_virus();
-///
-// Utilise un turbo.
-//
-   erreur utiliser_turbo();
 ///
 // Renvoie la liste de tous les liens présents.
 //
@@ -151,7 +147,7 @@ public:
 //
    std::vector<position> hist_boucliers_ajoutes();
 ///
-// Retourne la distance entre deux positions
+// Renvoie la distance entre deux positions
 //
    int distance(position pos1, position pos2);
 ///
@@ -187,11 +183,11 @@ public:
 //
    int points_deplacement();
 ///
-// Retourne le score du joueur désigné par le numéro ``id_joueur``.
+// Renvoie le score du joueur désigné par le numéro ``id_joueur``.
 //
    int score(int id_joueur);
 ///
-// Retourne le numéro du tour actuel.
+// Renvoie le numéro du tour actuel.
 //
    int tour_actuel();
 ///
