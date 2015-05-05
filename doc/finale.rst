@@ -1,26 +1,28 @@
-============================
-Finale Prologin 2015 − Sujet
-============================
+=================================
+Prologin 2015 : Briefing détaillé
+=================================
 
-------------
-Introduction
-------------
+------------------
+Synthèse exécutive
+------------------
 
-Le sujet de la finale de Prologin 2015 est un jeu de stratégie en tour
-par tour qui se déroule sur une carte sur laquelle sont présents des
-portails.
+Votre objectif est de créer une intelligence artificielle pour une
+simulation d'une guerre de contrôle mental d'un territoire par
+l'utilisation de portails.
 
-Il y a deux joueurs présents lors d'une partie, le joueur *bleu* et le
-joueur *vert*. Les portails, les liens et les champs apparaissent sur la
-carte de la même couleur que le joueur qui les possède. Les joueurs
+Cette simulation prend la forme d'un jeu de stratégie en tour par tour
+qui se déroule sur une carte sur laquelle sont présents des portails.
+
+Deux agents interagissent lors d'une simulation, l'agent *bleu* et
+l'agent *vert*. Les portails, les liens et les champs apparaissent sur
+la carte de la même couleur que l'agent qui les possède. Les agents
 jouent chacun leur tour pendant toute la partie. Le but est de lier les
 portails entre eux afin de créer des champs de contrôle, et ainsi
-contrôler le plus d'aire possible.
+contrôler la plus grande aire possible.
 
 -----------
 État du jeu
 -----------
-
 
 Carte
 =====
@@ -29,23 +31,23 @@ La carte consiste en une grille carrée, de ``TAILLE_TERRAIN`` cases de
 côté. (La valeur de ``TAILLE_TERRAIN`` est la même pour toutes les
 cartes.) Des portails y sont disposés ; leur nombre et leur position
 varient selon la carte et restent constants durant toute une
-partie. Il en va de même pour les positions de départ des joueurs.
+partie. Il en va de même pour les positions de départ des agents.
 
 
 Portails, liens et champs
 =========================
 
 Chaque portail peut être soit neutre, soit *contrôlé* (on dira aussi
-*possédé*) par l'un des deux joueurs.
+*possédé*) par l'un des deux agents.
 
-Un joueur contrôlant deux portails peut les joindre par un *lien*, qui
-se matérialise sur la carte par un segment entre les deux portails. Le
-joueur qui contrôle les deux portails aux extrémités est considéré
+Un agent contrôlant deux portails peut les joindre par un *lien*, qui
+se matérialise sur la carte par un segment entre les deux portails.
+L'agent qui contrôle les deux portails aux extrémités est considéré
 comme possesseur du lien.
 
 Lorsque trois portails sont tous reliés entre eux, l'intérieur du
-triangle constitué par ces liens forme un *champ*. Les trois sommets
-du champ sont alors forcément contrôlés par le même joueur, dont on
+triangle constitué par ces liens forme un *champ*. Les trois portails
+du champ sont alors forcément contrôlés par le même agent, dont on
 dira qu'il possède le champ.
 
 Une *interférence* entre deux liens, c'est-à-dire une intersection
@@ -58,33 +60,17 @@ De plus, la seule façon pour un lien de recontrer l'intérieur d'un
 champ sera d'être entièrement inclus dans ce champ, qui aura été
 construit après le lien.
 
-
-Précisions sur la géométrie
----------------------------
-
-Deux liens [AB] et [CD] interfèrent si [AB] intersecte ]CD[ ou si ]AB[
-intersecte [CD]. Autrement dit, le cas où un point se trouve à
-l'intérieur d'un autre segment compte comme une interférence, mais pas
-le cas où ils partagent seulement une extrémité (sinon, impossible
-d'avoir des champs !).
-
-Cela exclut notamment la possibilité d'existence de champs
-plats. Notez également qu'un segment s'auto-intersecte ; par
-conséquent, il est impossible de relier deux portails deux fois.
-
-Un champ correspond à l'*intérieur* d'un triangle, c'est-à-dire en
-excluant les côtés.
+**Notes** : Les liens ne peuvent pas se croiser ni se superposer.
 
 Tous les triangles de la carte sont considérés comme des champs de
 contrôle, et pas simplement les faces triangulaires. Cela signifie qu'un
 triangle formé par trois triangles adjacents est compté comme un champ
 de contrôle supplémentaire, ce qui donne au total 4 champs de contrôle.
 
-
 Agent
 =====
 
-Chaque joueur contrôle un agent positionné sur la carte. La position
+Chaque agent contrôle un agent positionné sur la carte. La position
 de l'agent n'est soumise à aucune restriction, si ce n'est de rester à
 l'intérieur de la carte : un agent pourra tout autant se trouver sur
 un portail, sur une case non-portail, sur une case traversée par un
@@ -192,7 +178,7 @@ un tour.
 Score
 -----
 
-Le score des deux joueurs est initialisé à zéro en début de partie et
+Le score des deux agents est initialisé à zéro en début de partie et
 ne peut qu'augmenter au cours de la partie. Pour cela, vous pouvez :
 
 * capturer des portails, ce qui incrémente de
@@ -249,5 +235,3 @@ Voici un exemple : ::
   .......X.................X....
   ..........X........X..........
   ..............................
-
-
