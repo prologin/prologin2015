@@ -6,28 +6,16 @@ Finale Prologin 2015 − Sujet
 Introduction
 ------------
 
-Le sujet de la finale de Prologin 2013 est un jeu de stratégie en tour
-par tour qui se déroule sur une carte de taille constante. Des portails sont
-disposés sur la carte, leur nombre est variable selon la carte mais leur
-positions sont fixes et connues des joueurs.
+Le sujet de la finale de Prologin 2015 est un jeu de stratégie en tour
+par tour qui se déroule sur une carte sur laquelle sont présents des
+portails.
 
-Il y a deux joueurs présents lors d'une partie, le joueur *bleu* et le joueur
-*vert*. Les portails, les liens et les champs apparaissent sur la carte de la
-même couleur que le joueur qui les possède. Les joueurs jouent chacun leur tour
-pendant toute la partie.
-
-Il est possible de capturer les portails neutres et de détruire les portails
-ennemis. Quand deux portails vous appartiennent, vous pouvez les relier entre
-eux pour créer un *lien*. Quand trois portails sont reliés entre eux et
-forment un triangle, ils forment un *champ de contrôle*, ce qui signifie
-que vous contrôlez la zone sous ce triangle. Créer un champ de contrôle empêche
-votre adversaire de créer des liens à l'intérieur de celui-ci.
-
-À la fin de chaque tour, l'aire totale de vos champs de contrôle est ajoutée à
-votre score. Votre but est donc de maximiser cette aire à chaque tour.
-
-Le gagnant de la partie est le joueur qui a le score le plus élevé à la fin des
-tours.
+Il y a deux joueurs présents lors d'une partie, le joueur *bleu* et le
+joueur *vert*. Les portails, les liens et les champs apparaissent sur la
+carte de la même couleur que le joueur qui les possède. Les joueurs
+jouent chacun leur tour pendant toute la partie. Le but est de lier les
+portails entre eux afin de créer des champs de contrôle, et ainsi
+contrôler le plus d'aire possible.
 
 -----------
 État du jeu
@@ -55,10 +43,10 @@ se matérialise sur la carte par un segment entre les deux portails. Le
 joueur qui contrôle les deux portails aux extrémités est considéré
 comme possesseur du lien.
 
-Lorsque trois points sont tous reliés entre eux, l'intérieur du
+Lorsque trois portails sont tous reliés entre eux, l'intérieur du
 triangle constitué par ces liens forme un *champ*. Les trois sommets
 du champ sont alors forcément contrôlés par le même joueur, dont on
-dira qu'il possède le triangle.
+dira qu'il possède le champ.
 
 Une *interférence* entre deux liens, c'est-à-dire une intersection
 entre les deux segments, ne pourra *jamais* se produire et *toute
@@ -78,21 +66,19 @@ Deux liens [AB] et [CD] interfèrent si [AB] intersecte ]CD[ ou si ]AB[
 intersecte [CD]. Autrement dit, le cas où un point se trouve à
 l'intérieur d'un autre segment compte comme une interférence, mais pas
 le cas où ils partagent seulement une extrémité (sinon, impossible
-d'avoir des triangles !).
+d'avoir des champs !).
 
-Cela exclut notamment la possibilité d'existence de triangles
+Cela exclut notamment la possibilité d'existence de champs
 plats. Notez également qu'un segment s'auto-intersecte ; par
 conséquent, il est impossible de relier deux portails deux fois.
 
-Un champ correspond à l'*intérieur* au sens topologique d'un triangle,
-c'est-à-dire en excluant les côtés.
+Un champ correspond à l'*intérieur* d'un triangle, c'est-à-dire en
+excluant les côtés.
 
-Est compté comme un triangle tout triplet de sommets reliés, même si
-les triangles se superposent. Les superpositions devront être des
-inclusions, il n'y a pas d'intersection possible. Autrement dit, ce
-qu'on prend sur notre graphe planaire, ce n'est pas la liste des faces
-triangulaires, mais celle des 3-cliques. (TODO: alors lol ce
-paragraphe faut vraiment le réécrire)
+Tous les triangles de la carte sont considérés comme des champs de
+contrôle, et pas simplement les faces triangulaires. Cela signifie qu'un
+triangle formé par trois triangles adjacents est compté comme un champ
+de contrôle supplémentaire, ce qui donne au total 4 champs de contrôle.
 
 
 Agent
@@ -166,7 +152,7 @@ portail où votre agent se trouve à un autre quelconque si :
 - le lien n'interférerait avec aucun autre lien existant ;
 - aucun des deux portails ne se trouve à l'intérieur d'un champ
   existant.
- 
+
 
 Neutraliser un portail
 ----------------------
@@ -192,8 +178,9 @@ Ajouter un bouclier
 Vous pouvez dépenser ``COUT_BOUCLIER`` points d'action pour rajouter
 un bouclier sur un portail que vous contrôlez.
 
-Les boucliers sur un portail sont conservés d'un tour à l'autre. Leur
-nombre commence à zéro pour un portail qui vient d'être capturé.
+Les boucliers sur un portail sont conservés d'un tour à l'autre. Les
+boucliers disparaissent quand le portail sur lequel ils sont posés est
+détruit.
 
 Le nombre de boucliers que l'on peut mettre sur un même portail est
 borné par ``MAX_BOUCLIERS``. Ceci garantit qu'un portail restera

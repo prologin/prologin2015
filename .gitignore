@@ -4,4 +4,12 @@
 *.out
 *.so
 *.o.d
+*.log
+*.aux
+*.idx
+*.toc
 __pycache__
+subject/useapi.tex
+subject/subject.pdf
+subject/apidoc.tex
+subject/finale.tex
