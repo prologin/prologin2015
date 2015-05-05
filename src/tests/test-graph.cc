@@ -104,13 +104,16 @@ TEST(GraphTest, remove_incident_edges)
     Graph g2 = make_some_graph();
 
     // Delete incident edges semi-manually
-    for (int u : g1.adj_list()[4])
+    auto neighb4 = g1.adj_list()[4]; // copy to avoid iterator invalidation
+    for (int u : neighb4)
     {
         EXPECT_TRUE(g1.edge_exists({4,u}));
         g1.remove_edge({4,u});
     }
-    for (int u : g1.adj_list()[3])
+    auto neighb3 = g1.adj_list()[3];
+    for (int u : neighb3)
     {
+        EXPECT_TRUE(g1.edge_exists({3,u}));
         g1.remove_edge({3,u});
     }
 
