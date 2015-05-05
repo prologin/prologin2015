@@ -57,16 +57,15 @@ triangle constitué par ces liens forme un *champ*. Les trois sommets
 du champ sont alors forcément contrôlés par le même joueur, dont on
 dira qu'il possède le triangle.
 
-Certaines situations ne pourront *jamais* se produire et *toute action
-devant mener à une telle situation sera interdite par les règles* :
+Une *interférence* entre deux liens, c'est-à-dire une intersection
+entre les deux segments, ne pourra *jamais* se produire et *toute
+action devant mener à une telle situation sera interdite par les
+règles*. Notez que cette condition est indépendante des possesseurs
+des liens.
 
-- une interférence entre deux liens, c'est-à-dire une intersection
-  entre les deux segments ;
-- la présence d'un lien à l'intérieur d'un champ (TODO: rendre plus
-  précis)
-
-Notez que les deux conditions précédentes sont indépendantes des
-possesseurs des liens (resp. champs).
+De plus, la seule façon pour un lien de recontrer l'intérieur d'un
+champ sera d'être entierement inclus dans ce champ, qui aura été
+construit après le lien.
 
 
 Précisions sur la géométrie
