@@ -131,8 +131,8 @@ TEST_F(ActionTest, ActionLier_SameLinkTwice)
 {
     for (int player : {PLAYER_1, PLAYER_2})
     {
-        // Put the player in a correct state for creating a link
-        const int initial_AP = COUT_LIEN + 1;
+        // Put the player in a correct state for creating two links
+        const int initial_AP = 2*COUT_LIEN;
         set_points(st, player, initial_AP);
 
         st->capture(0, player);
