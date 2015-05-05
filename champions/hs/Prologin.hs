@@ -26,7 +26,7 @@ pickRandom xs = (xs !!) <$> randomRIO (0, length xs - 1)
 distance_ a b = unsafePerformIO $ distance a b
 
 nbTurbos = (nb_points_action `div` cout_turbo) - 1
-deplacement = nb_points_deplacement + nbTurbos * gain_turbo
+deplacement = nb_points_deplacement + nbTurbos
 
 -- | Fonction appelée au début de la partie
 partie_init :: IO ()
