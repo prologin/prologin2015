@@ -20,4 +20,4 @@ distclean: clean
 	rm -f apidoc.tex
 	rm -f useapi.tex
 	rm -f finale.tex
-	rm -f *.pdf
+	rm -f subject.pdf
