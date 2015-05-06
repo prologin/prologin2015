@@ -60,9 +60,9 @@ let cout_turbo = 6
 let max_boucliers = 6
 
 (*
-** Nombre de points que rapporte la création d'un portail.
+** Nombre de points que rapporte la capture d'un portail.
 *)
-let points_creation_portail = 10
+let points_capture = 10
 
 (*
 ** Constante de proportionnalité reliant l'aire d'un champ au nombre de points qu'il rapporte par tour.

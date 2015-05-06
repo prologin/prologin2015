@@ -1,8 +1,8 @@
 rules: libprologin2015.so
-map: ../maps/dummy_mapsdkhsdf.txt
+map: ../maps/map_52.txt
 verbose: 1
 clients:
-    - ./empty/champion.so
-    - ./empty/champion.so
-spectators: []
-#    - ../spectators/dumper/dumper.so
+    - ./caml_dummy_ai/champion.so
+    - ./hs/champion.so
+spectators:
+    - ../spectators/dumper/dumper.so

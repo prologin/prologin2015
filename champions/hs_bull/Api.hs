@@ -57,7 +57,7 @@ module Api ( Erreur(..)
            , cout_bouclier
            , cout_turbo
            , max_boucliers
-           , points_creation_portail
+           , points_capture
            , points_champ
            ) where
 
@@ -96,9 +96,9 @@ cout_turbo = 6
 -- | Nombre maximum de boucliers sur un même portail.
 max_boucliers  :: Int
 max_boucliers = 6
--- | Nombre de points que rapporte la création d'un portail.
-points_creation_portail  :: Int
-points_creation_portail = 10
+-- | Nombre de points que rapporte la capture d'un portail.
+points_capture  :: Int
+points_capture = 10
 -- | Constante de proportionnalité reliant l'aire d'un champ au nombre de points qu'il rapporte par tour.
 points_champ  :: Int
 points_champ = 2

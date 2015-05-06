@@ -1,9 +1,5 @@
 # -*- coding: iso-8859-1 -*-
-# This file is copied from the "api.py" that is generated for usual champions.
-# For the GUI, all we need is a few constants so don't bother with making the
-# rest of the API work:
-#
-#   from _api import *
+from _api import *
 
 # Taille du terrain (longueur et largeur).
 TAILLE_TERRAIN = 30
@@ -38,8 +34,8 @@ COUT_TURBO = 6
 # Nombre maximum de boucliers sur un même portail.
 MAX_BOUCLIERS = 6
 
-# Nombre de points que rapporte la création d'un portail.
-POINTS_CREATION_PORTAIL = 10
+# Nombre de points que rapporte la capture d'un portail.
+POINTS_CAPTURE = 10
 
 # Constante de proportionnalité reliant l'aire d'un champ au nombre de points qu'il rapporte par tour.
 POINTS_CHAMP = 2

@@ -64,6 +64,16 @@ typedef struct champ {
 extern "C" {
 
 ///
+// Déplace votre agent sur la case passée en argument.
+//
+erreur api_deplacer(position dest);
+
+///
+// Utilise un turbo.
+//
+erreur api_utiliser_turbo();
+
+///
 // Capture le portail où est positionné votre agent.
 //
 erreur api_capturer();
@@ -79,24 +89,9 @@ erreur api_lier(position portail);
 erreur api_neutraliser();
 
 ///
-// Déplace votre agent sur la case passée en argument.
-//
-erreur api_deplacer(position dest);
-
-///
 // Ajoute un bouclier au portail sur lequel se trouve votre agent.
 //
 erreur api_ajouter_bouclier();
-
-///
-// Fait passer le portail où se situe votre agent à l'autre joueur.
-//
-erreur api_utiliser_virus();
-
-///
-// Utilise un turbo.
-//
-erreur api_utiliser_turbo();
 
 ///
 // Renvoie la liste de tous les liens présents.
@@ -189,7 +184,7 @@ std::vector<champ> api_hist_champs_crees();
 std::vector<position> api_hist_boucliers_ajoutes();
 
 ///
-// Retourne la distance entre deux positions
+// Renvoie la distance de Manhattan entre deux positions.
 //
 int api_distance(position pos1, position pos2);
 
@@ -234,12 +229,12 @@ int api_points_action();
 int api_points_deplacement();
 
 ///
-// Retourne le score du joueur désigné par le numéro ``id_joueur``.
+// Renvoie le score du joueur désigné par le numéro ``id_joueur``.
 //
 int api_score(int id_joueur);
 
 ///
-// Retourne le numéro du tour actuel.
+// Renvoie le numéro du tour actuel.
 //
 int api_tour_actuel();
 
