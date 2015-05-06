@@ -69,9 +69,9 @@
 # define MAX_BOUCLIERS             6
 
 ///
-// Nombre de points que rapporte la création d'un portail.
+// Nombre de points que rapporte la capture d'un portail.
 //
-# define POINTS_CREATION_PORTAIL   10
+# define POINTS_CAPTURE            10
 
 ///
 // Constante de proportionnalité reliant l'aire d'un champ au nombre de points qu'il rapporte par tour.
