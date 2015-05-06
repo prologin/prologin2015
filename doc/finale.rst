@@ -143,7 +143,7 @@ Neutraliser un portail
 
 Vous pouvez dépenser ``COUT_NEUTRALISATION`` points d'action pour
 neutraliser un portail qui appartient à l'adversaire, celui-ci devient
-alors neutre. Si des boucliers (cf. :ref:`ajouter-bouclier`) sont
+alors neutre. Si des boucliers (cf. « Ajouter un bouclier ») sont
 présents sur le portail, un coût supplémentaire de ``nombre de
 boucliers × COUT_NEUTRALISATION_BOUCLIER`` vient s'ajouter au coût de
 base.
@@ -154,13 +154,13 @@ triangles incidents à ce portail. Il *n'est pas possible* de payer
 partiellement pour détruire des boucliers sans entièrement neutraliser
 le portail.
 
-.. _ajouter-bouclier:
 
 Ajouter un bouclier
 -------------------
 
-Vous pouvez dépenser ``COUT_BOUCLIER`` points d'action pour rajouter
-un bouclier sur un portail que vous contrôlez.
+Vous pouvez rajouter un bouclier sur un portail que vous contrôlez ;
+cette action coûte ``COUT_BOUCLIER`` pour un portail sans bouclier, et
+chaque bouclier présent fait monter le coût de 1 point d'action.
 
 Les boucliers sur un portail sont conservés d'un tour à l'autre. Les
 boucliers disparaissent quand le portail sur lequel ils sont posés est
