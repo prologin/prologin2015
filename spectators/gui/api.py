@@ -1,5 +1,9 @@
 # -*- coding: iso-8859-1 -*-
-from _api import *
+# This file is copied from the "api.py" that is generated for usual champions.
+# For the GUI, all we need is a few constants so don't bother with making the
+# rest of the API work:
+#
+#   from _api import *
 
 # Taille du terrain (longueur et largeur).
 TAILLE_TERRAIN = 30
