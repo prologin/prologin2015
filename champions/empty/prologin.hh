@@ -34,12 +34,12 @@
 ///
 // Nombre de points d'action que coûte la capture d'un portail.
 //
-# define COUT_CAPTURE              1
+# define COUT_CAPTURE              3
 
 ///
 // Nombre de points d'action que coûte la création d'un lien.
 //
-# define COUT_LIEN                 1
+# define COUT_LIEN                 2
 
 ///
 // Nombre de points d'action que coûte la neutralisation d'un portail de base.
@@ -47,14 +47,14 @@
 # define COUT_NEUTRALISATION       10
 
 ///
-// Nombre de points d'action supplémentaires que coûte l'attaque pour chaque bouclier présent.
+// Nombre de points d'action supplémentaires que coûte la neutralisation pour chaque bouclier présent.
 //
-# define COUT_NEUTRALISATION_BOUCLIER 4
+# define COUT_NEUTRALISATION_BOUCLIER 5
 
 ///
-// Nombre de points d'action que coûte la mise en place d'un bouclier.
+// Nombre de points d'action que coûte la mise en place d'un bouclier sur un portail sans bouclier.
 //
-# define COUT_BOUCLIER             2
+# define COUT_BOUCLIER             3
 
 ///
 // Nombre de points d'action que coûte l'utilisation d'un turbo.
@@ -64,17 +64,17 @@
 ///
 // Nombre maximum de boucliers sur un même portail.
 //
-# define MAX_BOUCLIERS             4
+# define MAX_BOUCLIERS             6
 
 ///
 // Nombre de points que rapporte la création d'un portail.
 //
-# define POINTS_CREATION_PORTAIL   3
+# define POINTS_CREATION_PORTAIL   10
 
 ///
 // Constante de proportionnalité reliant l'aire d'un champ au nombre de points qu'il rapporte par tour.
 //
-# define POINTS_CHAMP              10
+# define POINTS_CHAMP              2
 
 ///
 // Erreurs possibles
@@ -366,7 +366,7 @@ static inline std::vector<position> hist_boucliers_ajoutes()
 
 
 ///
-// Renvoie la distance entre deux positions
+// Renvoie la distance de Manhattan entre deux positions.
 //
 extern "C" int api_distance(position pos1, position pos2);
 static inline int distance(position pos1, position pos2)
