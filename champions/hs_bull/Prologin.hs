@@ -19,7 +19,7 @@ jouer_tour = do
   notMine <- filterM (fmap (/= id) . portail_joueur) =<< liste_portails
   let target = closest position notMine
   let off = distance' position target - nb_points_deplacement
-  replicateM_ (off `div` gain_turbo) utiliser_turbo
+  replicateM_ off utiliser_turbo
   deplacer target
   neutraliser
   capturer

@@ -11,7 +11,7 @@ module P = Api
 (* marche aléatoire lol *)
 
 let nb_turbos = P.nb_points_action / P.cout_turbo
-let deplacement = P.nb_points_deplacement + nb_turbos * P.gain_turbo
+let deplacement = P.nb_points_deplacement + nb_turbos
 
 let nonempty_list_to_array ((x::_) as l) =
   let t = A.make (L.length l) x in
