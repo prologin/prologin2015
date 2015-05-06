@@ -62,8 +62,11 @@ construit après le lien.
 
 Tous les triangles de la carte sont considérés comme des champs de
 contrôle, et pas simplement les faces triangulaires. Ainsi, sur la
-figure TODO, il faut compter 4 triangles : les trois faces et le
+figure suivante, il faut compter 4 triangles : les trois faces et le
 triangle extérieur.
+
+.. figure:: triangle3.svg
+   :alt: Exemple de configuration de liens entre 4 portails.
 
 Agent
 =====
