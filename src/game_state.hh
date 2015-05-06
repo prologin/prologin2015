@@ -79,7 +79,6 @@ public:
 
     // Accessor for the map.
     const Map& map() const { return *map_; }
-    Map& map() { return *map_; }
     // Accessor the graph for all edges/triangles created by players.
     const Graph& graph() const { return graph_; }
     Graph& graph() { return graph_; }
@@ -153,7 +152,7 @@ private:
     // of the Map, which is supposed to be *constant* during the entirety
     // of the game (the data it holds is entirely given by the map file)
     // hence the shared_ptr.
-    std::shared_ptr<Map> map_;
+    std::shared_ptr<const Map> map_;
     Graph graph_;
 
     // Mapping: portal ID -> ID of the player that owns the corresponding
