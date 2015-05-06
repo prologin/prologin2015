@@ -50,28 +50,26 @@ triangle constitué par ces liens forme un *champ*. Les trois portails
 du champ sont alors forcément contrôlés par le même agent, dont on
 dira qu'il possède le champ.
 
-Une *interférence* entre deux liens, c'est-à-dire une intersection
-entre les deux segments, ne pourra *jamais* se produire et *toute
-action devant mener à une telle situation sera interdite par les
-règles*. Notez que cette condition est indépendante des possesseurs
-des liens.
+Une *interférence* entre deux liens, c'est-à-dire une intersection ou
+une superposition entre les deux segments, ne pourra *jamais* se
+produire et *toute action devant mener à une telle situation sera
+interdite par les règles*. Notez que cette condition est indépendante
+des possesseurs des liens.
 
 De plus, la seule façon pour un lien de recontrer l'intérieur d'un
 champ sera d'être entièrement inclus dans ce champ, qui aura été
 construit après le lien.
 
-**Notes** : Les liens ne peuvent pas se croiser ni se superposer.
-
 Tous les triangles de la carte sont considérés comme des champs de
-contrôle, et pas simplement les faces triangulaires. Cela signifie qu'un
-triangle formé par trois triangles adjacents est compté comme un champ
-de contrôle supplémentaire, ce qui donne au total 4 champs de contrôle.
+contrôle, et pas simplement les faces triangulaires. Ainsi, sur la
+figure TODO, il faut compter 4 triangles : les trois faces et le
+triangle extérieur.
 
 Agent
 =====
 
-Chaque IA contrôle un agent positionné sur la carte. La position
-de l'agent n'est soumise à aucune restriction, si ce n'est de rester à
+Chaque IA contrôle un agent positionné sur la carte. La position de
+l'agent n'est soumise à aucune restriction, si ce n'est de rester à
 l'intérieur de la carte : un agent pourra tout autant se trouver sur
 un portail, sur une case non-portail, sur une case traversée par un
 lien, à l'intérieur d'un champ ou à l'extérieur de tout champ, etc.
