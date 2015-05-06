@@ -61,9 +61,9 @@ constant:
     cst_comment: Nombre maximum de boucliers sur un même portail.
 
   -
-    cst_name: POINTS_CREATION_PORTAIL
+    cst_name: POINTS_CAPTURE
     cst_val: 10
-    cst_comment: Nombre de points que rapporte la création d'un portail.
+    cst_comment: Nombre de points que rapporte la capture d'un portail.
 
   -
     cst_name: POINTS_CHAMP
