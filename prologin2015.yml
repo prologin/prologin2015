@@ -291,7 +291,7 @@ function:
   -
     fct_name: hist_portails_neutralises
     fct_summary: "Renvoie la liste des portails neutralisés par votre adversaire
-        au dernier tour. Cela inclut toutes les utilisations de virus."
+        au dernier tour."
     fct_ret_type: position array
     fct_arg: []
   -
