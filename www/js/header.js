@@ -203,16 +203,16 @@ $(function () {
         }
         var last_node = visited.slice(-1)[0];
         visited.push(cur_node);
-        if (last_node !== undefined) {
-            var link = links.filter(function (d) {
-                return d.target.index == last_node && d.source.index == cur_node ||
-                    d.source.index == last_node && d.target.index == cur_node;
-            })[0];
-            var orig = link.source.index == cur_node ? link.target : link.source;
-            orig.color = !orig.color;
-            link.color = orig.color;
-            apply_color(2000, 1000);
-        }
+        //if (last_node !== undefined) {
+        //    var link = links.filter(function (d) {
+        //        return d.target.index == last_node && d.source.index == cur_node ||
+        //            d.source.index == last_node && d.target.index == cur_node;
+        //    })[0];
+        //    var orig = link.source.index == cur_node ? link.target : link.source;
+        //    orig.color = !orig.color;
+        //    link.color = orig.color;
+        //    apply_color(2000, 1000);
+        //}
         arrow_go_to(nodes[cur_node]);
     }
 
