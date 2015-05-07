@@ -1,17 +1,9 @@
-(*
-** This file has been generated, if you wish to
-** modify it in a permanent way, please refer
-** to the script file : gen/generator_caml.rb
-*)
+open Api
 
-open Api;;
-
-let fin_action_bouclier = 9
-
-let coefLiens nb_liens tour = (4. +. max 3. nb_liens) *. 100.
-let coefChamp tour = 1.
-let coefBoucliers tour = 0.
-let coefPortails tour = 1.
+let coefLiens nb_liens tour = (4. +. max 4. nb_liens) *. 800.
+let coefChamp tour = 3.
+let coefBoucliers tour = 4.
+let coefPortails tour = 2.
 
 let coef_me = 1.
 let coef_adv = -1.
@@ -67,11 +59,7 @@ let cout_normalise c = c.pa + c.pd * cout_turbo
 let cout_scale a c = { pa = c.pa * a; pd = c.pd * a}
 let cout_lien = { pa=cout_lien; pd=0 }
 let cout_neutralisation_capture b =
-  let a = cout_neutralisation + cout_neutralisation_bouclier * b + cout_capture in
-  (* if a > cout_virus then {pa=cout_virus; pd=0} *)
-  (* else {pa=a; pd=0} *)
-  {pa=a; pd=0}
-let cout_bouclier = { pa=cout_bouclier; pd=0}
+  {pa= cout_neutralisation + cout_neutralisation_bouclier * b + cout_capture; pd=0}
 let cout_capture = { pa=cout_capture; pd=0 }
 let cout_neutralisation = { pa=cout_neutralisation; pd=0 }
 
@@ -99,6 +87,7 @@ type portail = {
     boucliers : int;
     deja : bool;
   }
+let cout_bouclier p = { pa=cout_bouclier + p.boucliers; pd=0}
 
 let perr p () = Printf.fprintf p "\027[31mErreur! \027[0m"
 
@@ -186,21 +175,11 @@ let ajouter_bouclier state p () =
   ajouter_bouclier () |> afficher_erreur state
 
 let neutralisation_capture state p () =
-  (* if (cout_neutralisation_capture p.boucliers).pa = cout_virus then *)
-  (*   begin *)
-  (*     Printf.printf "Virus capture %a\n" ppos p.pos; *)
-  (*     utiliser_virus () |> afficher_erreur state; *)
-  (*   end *)
-  (* else *)
-    begin
-      Printf.printf "Neutralisation capture %a\n" ppos p.pos;
-      neutraliser () |> afficher_erreur state;
-      capturer () |> afficher_erreur state;
-    end
-
-let neutralisation_capture_bouclier state p () =
-  neutralisation_capture state p ();
-  ajouter_bouclier state p ()
+  begin
+    Printf.printf "Neutralisation capture %a\n" ppos p.pos;
+    neutraliser () |> afficher_erreur state;
+    capturer () |> afficher_erreur state;
+  end
 
 let filtermap f li =
   List.fold_right (fun x acc -> match f x with
@@ -281,6 +260,10 @@ let actions_relier p position resources portails actions =
     let points_reliables = PosSet.fold (fun p' acc -> p'::acc) points_reliables [] in
     let points_reliables = List.map (fun p' -> distance p.pos p', p') points_reliables in
     let points_reliables = List.sort (fun (a, _) (b, _) -> b - a) points_reliables in
+    let points_reliables = match points_reliables with
+    | hd1::hd2::_ -> [hd1; hd2]
+    | _ -> points_reliables
+    in
     let points_reliables = List.map snd points_reliables in
     let resources, action, state = List.fold_left
         (fun (resources, action, state) p' ->
@@ -306,9 +289,9 @@ let possibles neutralises position resources portails = (* TODO flatten un peu t
       | Me -> (* on relie *)
           let actions = if mes_moyens resources cout_lien then
             actions_relier p position resources portails actions else actions
-          in if p.boucliers < 3 && resources.pa < fin_action_bouclier
-              && mes_moyens resources cout_bouclier then
-            (position, resources -- cout_bouclier, ajouter_bouclier portails p,
+          in if p.boucliers < 4
+              && mes_moyens resources (cout_bouclier p) then
+            (position, resources -- cout_bouclier p, ajouter_bouclier portails p,
              PosMap.add p.pos {p with boucliers = p.boucliers + 1} portails
 (* on ajoute une action ou on place juste un bouclier *)
             ) :: actions
@@ -316,11 +299,6 @@ let possibles neutralises position resources portails = (* TODO flatten un peu t
       | Adv ->
           if PosSet.mem position neutralises then
             actions
-          else
-          let cout = cout_neutralisation_capture p.boucliers ++ cout_bouclier in
-          if mes_moyens resources cout then
-            (position, resources -- cout, neutralisation_capture_bouclier portails p,
-             PosMap.map (state_neutralisation_capture 1 p) portails) :: actions
           else
             let cout = cout_neutralisation_capture p.boucliers in
             if mes_moyens resources cout then
