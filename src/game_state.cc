@@ -124,10 +124,6 @@ void GameState::end_of_player_turn(int player_id)
         {
             history_->hist_captured.push_back(portal_pos(i));
         }
-        // TODO: precise in the yaml comment that using the virus to
-        // neutralize one's own portal doesn't count towards this
-        // something like "the portals that have stopped belonging
-        // to you during your opponent's previous turn"
         if (portal_player_[i] != opponent &&
             old->portal_player_[i] == opponent)
         {
