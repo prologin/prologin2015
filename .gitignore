@@ -7,9 +7,12 @@
 *.log
 *.aux
 *.idx
+*.nav
 *.toc
+*.snm
 __pycache__
 subject/useapi.tex
 subject/subject.pdf
 subject/apidoc.tex
 subject/finale.tex
+subject/slides/noosphere.pdf
