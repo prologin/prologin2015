@@ -309,6 +309,42 @@ $(function () {
             }
         });
 
+        $('body').keydown(function (e) {
+            function stop() {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+
+            var key = e.which,
+                repeat = e.shiftKey ? 10 : 1,
+                i;
+            if (key === 32) {
+                // space
+                stop();
+                el_playpause.trigger('click');
+            } else if (key == 37) {
+                // left
+                stop();
+                for (i = 0; i < repeat; i++)
+                    el_previous.trigger('click');
+            } else if (key == 39) {
+                // left
+                stop();
+                for (i = 0; i < repeat; i++)
+                    el_next.trigger('click');
+            } else if (key == 65) {
+                // a
+                stop();
+                event_ind = 0;
+                el_turn_slider.val(event_ind).trigger('change');
+            } else if (key == 69) {
+                // e
+                stop();
+                event_ind = events.length - 1;
+                el_turn_slider.val(event_ind).trigger('change');
+            }
+        });
+
         // we are ready, trigger a fake playpause to init everything
         playing = true;
         el_playpause.trigger('click');
