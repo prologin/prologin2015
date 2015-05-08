@@ -55,7 +55,8 @@ int ActionLier::check(const GameState* st) const
             position a, b, c;
             st->unpack_triangle_pos(f, a, b, c);
 
-            if (point_in_triangle(a, b, c, player_pos))
+            if (point_in_triangle(a, b, c, player_pos)
+                || point_in_triangle(a, b, c, portail_))
                 return LIEN_CHAMP;
         }
     }
