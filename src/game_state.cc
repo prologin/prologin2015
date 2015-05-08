@@ -31,7 +31,8 @@ GameState::GameState(std::istream& map_stream, rules::Players_sptr players)
                 .action_points = NB_POINTS_ACTION,
                 .move_points = NB_POINTS_DEPLACEMENT,
                 .pos = map_->get_start_position(player_ordinal),
-                .score = &(p->score)
+                .score = 0,
+                .stechec_score = &(p->score)
             };
             player_ordinal++;
         }
@@ -89,7 +90,10 @@ void GameState::reset_points(int player_id)
 void GameState::end_of_player_turn(int player_id)
 {
     // Check that the player_id refers to an actual player
-    assert(player_info_.find(player_id) != player_info_.end());
+    auto iter = player_info_.find(player_id);
+    assert(iter != player_info_.end()); // should never happen
+
+    player_info& pi = iter->second;
 
     // Compute stuff
     auto edges = graph_.edges();
@@ -162,6 +166,9 @@ void GameState::end_of_player_turn(int player_id)
             old->owner(t) != owner(t))
             history_->hist_fields.push_back(triangle_to_field(t));
     }
+
+    // Update Stechec's score info
+    *(pi.stechec_score) = pi.score;
 }
 
 bool GameState::is_finished() const
@@ -179,12 +186,12 @@ int GameState::get_opponent(int player_id) const
 
 int GameState::get_score(int player_id) const
 {
-    return *(player_info_.at(player_id).score);
+    return player_info_.at(player_id).score;
 }
 
 void GameState::increment_score(int player_id, int delta)
 {
-    *(player_info_.at(player_id).score) += delta;
+    player_info_.at(player_id).score += delta;
 }
 
 int GameState::owner(int portal_id) const

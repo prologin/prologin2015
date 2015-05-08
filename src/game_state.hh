@@ -24,9 +24,12 @@ struct player_info
     // Position of the player's agent.
     position pos;
 
+    // Local score information
+    int score;
+
     // Reference to the score in Stechec's player data structures, for
     // convenience.
-    int *score;
+    int *stechec_score;
 };
 
 // Structure to store a diff between the states at the start of the
