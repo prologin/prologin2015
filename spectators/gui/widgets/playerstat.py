@@ -80,7 +80,7 @@ class PlayerStatWidget(BaseWidget):
                 self.surface.blit(data.icon_shadow, (col_left, top_shift))
             # Numberic value
             text = self.font.render(
-                str(stat), False,
+                str(stat), True,
                 WHITE if stat else DARK_GREY
             )
             text_w, text_h = text.get_size()
