@@ -69,7 +69,7 @@ $(function () {
         svg_edges = svg_content
             .selectAll('.edge')
             .data(edges, function (d) {
-                return '' + d.from + d.to;
+                return Sring([d.from, d.to]);
             });
         // edges.build
         svg_edges.enter()
@@ -91,7 +91,7 @@ $(function () {
         svg_triangles = svg_content
             .selectAll('.triangle')
             .data(triangles, function (d) {
-                return '' + d.s0 + d.s1 + d.s2;
+                return Sring([d.s0, d.s1, d.s2]);
             });
         // triangles.build
         svg_triangles.enter()
@@ -117,7 +117,7 @@ $(function () {
         svg_portals = svg_content
             .selectAll('.portal')
             .data(portals, function (d) {
-                return '' + d.x + d.y;
+                return String([d.x, d.y]);
             });
         // portals.build
         var el_portal = svg_portals.enter().append('g').attr('class', 'portal');
