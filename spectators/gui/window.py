@@ -30,6 +30,9 @@ class Window(object):
         self.state = State()
         self.state_reader = state_reader
 
+        # Repeat KEYDOWN event to help scrolling through history
+        pygame.key.set_repeat(350, 100)
+
         # The window is split into two columns: the left one contains the map
         # and the actions list while the right one contains the state and the
         # object details. We want two paddings between the two columns by the
