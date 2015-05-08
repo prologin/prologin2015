@@ -56,7 +56,6 @@ def load_images():
     global portal_tiles
 
     gui_icons = get_images(['score'])
-    stats_icons = get_images('portals links fields'.split())
     tiles = get_images('portal shield player1 player2'.split())
 
     portal_tiles = get_colored_images(tiles['portal'],
@@ -66,6 +65,19 @@ def load_images():
         utils.set_color(tiles['player2'], PLAYER_COLORS[1]),
     ])
     icon_shadow = utils.make_shadow(ICON_WIDTH, ICON_HEIGHT)
+
+    stats_icons_fuschia = get_images('portals links fields'.split())
+
+    stats_icons = { 'portals': get_colored_images(stats_icons_fuschia['portals'],
+                                                  lambda c: utils.lighter(c, 0.25)),
+                    'links': get_colored_images(stats_icons_fuschia['links'],
+                                                lambda c: utils.lighter(c, 0.25)),
+                    'fields': get_colored_images(stats_icons_fuschia['fields'],
+                                                 lambda c: utils.lighter(c, 0.25))
+                }
+
+
+
 
 def get_font_path(name):
     return os.path.join(images_dir, name)

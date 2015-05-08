@@ -20,6 +20,12 @@ class Player:
 def get_pos(obj):
     return Position(obj['x'], obj['y'])
 
+def area_x2(x):
+    a, b, c = x
+    ax, ay = a.pos
+    bx, by = b.pos
+    cx, cy = c.pos
+    return abs((bx-ax)*(cy-ay)-(cx-ax)*(by-ay))
 
 class GameState:
 
@@ -61,6 +67,8 @@ class GameState:
              self.portals[t['s2']])
             for t in game_map['triangles']
         ]
+        # sort by decreasing area so that inner triangles cover outer triangles
+        self.triangles.sort(key=lambda x: -area_x2(x))
 
     def get_owner(self, owner_id):
         if owner_id is not None:
