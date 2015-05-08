@@ -69,7 +69,7 @@ $(function () {
         svg_edges = svg_content
             .selectAll('.edge')
             .data(edges, function (d) {
-                return Sring([d.from, d.to]);
+                return String([d.from, d.to]);
             });
         // edges.build
         svg_edges.enter()
@@ -91,7 +91,7 @@ $(function () {
         svg_triangles = svg_content
             .selectAll('.triangle')
             .data(triangles, function (d) {
-                return Sring([d.s0, d.s1, d.s2]);
+                return String([d.s0, d.s1, d.s2]);
             });
         // triangles.build
         svg_triangles.enter()
