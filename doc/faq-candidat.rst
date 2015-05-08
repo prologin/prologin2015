@@ -46,3 +46,9 @@ Tous les triangles de la carte sont considérés comme des champs de
 contrôle, et pas simplement les faces triangulaires. Cela signifie qu'un
 triangle formé par trois triangles adjacents est compté comme un champ
 de contrôle supplémentaire, ce qui donne au total 4 champs de contrôle.
+
+
+Mon agent doit-il être sur la même case qu'un portail pour poser un bouclier ?
+------------------------------------------------------------------------------
+
+Oui.

@@ -49,6 +49,7 @@ Prenons un exemple (qui devrait par ailleurs satisfaire vos besoins)::
   names:
     - Player 1
     - Player 2
+  map: ./map.txt
 
 Vous devez lancer depuis votre ligne de commande stechec2::
 
@@ -69,7 +70,7 @@ votre ``config.yml``::
 Si vous préférez regarder le replay à la fin::
 
   spectators:
-   - /usr/share/stechec2/prologin2015/dumper/dumper.so
+   - /usr/lib/libprologin2015-dumper.so
 
 Ceci crée un fichier dump.json dans le répertoire courant, que vous pouvez
 visualiser avec::
@@ -80,4 +81,4 @@ Vous pouvez évidemment utiliser les deux en même temps::
 
   spectators:
    - /usr/share/stechec2/prologin2015/gui/gui.so
-   - /usr/share/stechec2/prologin2015/dumper/dumper.so
+   - /usr/lib/libprologin2015-dumper.so

@@ -20,6 +20,10 @@ DEPLOYDIR     ?= /var/www/prologin.halfr.net
 
 all: html
 
+api: ../prologin2015.yml
+	generator sphinxdoc ../prologin2015.yml .
+	mv file.rst api.rst
+
 help:
 	@echo "Please use \`make <target>' where <target> is one of"
 	@echo "  html       to make standalone HTML files"
@@ -45,7 +49,7 @@ help:
 clean:
 	-rm -rf $(BUILDDIR)/*
 
-html:
+html: api
 	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html
 	@echo
 	@echo "Build finished. The HTML pages are in $(BUILDDIR)/html."
