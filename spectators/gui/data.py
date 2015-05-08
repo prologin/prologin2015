@@ -66,13 +66,13 @@ def load_images():
     ])
     icon_shadow = utils.make_shadow(ICON_WIDTH, ICON_HEIGHT)
 
-    stats_icons_fuschia = get_images('portals links fields'.split())
+    stats_icons_fuchsia = get_images('portals links fields'.split())
 
-    stats_icons = { 'portals': get_colored_images(stats_icons_fuschia['portals'],
+    stats_icons = { 'portals': get_colored_images(stats_icons_fuchsia['portals'],
                                                   lambda c: utils.lighter(c, 0.25)),
-                    'links': get_colored_images(stats_icons_fuschia['links'],
+                    'links': get_colored_images(stats_icons_fuchsia['links'],
                                                 lambda c: utils.lighter(c, 0.25)),
-                    'fields': get_colored_images(stats_icons_fuschia['fields'],
+                    'fields': get_colored_images(stats_icons_fuchsia['fields'],
                                                  lambda c: utils.lighter(c, 0.25))
                 }
 
