@@ -90,7 +90,13 @@ void Rules::at_start()
 
 void Rules::at_player_start()
 {
-    sandbox_.execute(champion_partie_init_);
+    try {
+        sandbox_.execute(champion_partie_init_);
+    }
+    catch (utils::SandboxTimeout)
+    {
+        ERR("partie_init: timeout");
+    }
 }
 
 void Rules::at_spectator_start()
@@ -100,7 +106,13 @@ void Rules::at_spectator_start()
 
 void Rules::at_player_end()
 {
-    sandbox_.execute(champion_partie_fin_);
+    try {
+        sandbox_.execute(champion_partie_fin_);
+    }
+    catch (utils::SandboxTimeout)
+    {
+        ERR("partie_fin: timeout");
+    }
 }
 
 void Rules::at_spectator_end()
@@ -115,8 +127,13 @@ void Rules::player_turn()
 
 void Rules::spectator_turn()
 {
-    champion_jouer_tour_();
-    // No ack?
+    try {
+        champion_jouer_tour_();
+    }
+    catch (utils::SandboxTimeout)
+    {
+        ERR("partie_fin: timeout");
+    }
 }
 
 void Rules::start_of_round()
