@@ -107,7 +107,6 @@ class Game:
     neutraliser = wrap_action(api.neutraliser)
     _deplacer = wrap_action(api.deplacer)
     ajouter_bouclier = wrap_action(api.ajouter_bouclier)
-    utiliser_virus = wrap_action(api.utiliser_virus)
     utiliser_turbo = wrap_action(api.utiliser_turbo)
 
     def deplacer(self, pos):

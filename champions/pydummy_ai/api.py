@@ -34,8 +34,8 @@ COUT_TURBO = 6
 # Nombre maximum de boucliers sur un même portail.
 MAX_BOUCLIERS = 6
 
-# Nombre de points que rapporte la capture d'un portail.
-POINTS_CAPTURE = 10
+# Nombre de points que rapporte la création d'un portail.
+POINTS_CREATION_PORTAIL = 10
 
 # Constante de proportionnalité reliant l'aire d'un champ au nombre de points qu'il rapporte par tour.
 POINTS_CHAMP = 2
