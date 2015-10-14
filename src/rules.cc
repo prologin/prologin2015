@@ -1,4 +1,5 @@
 #include <fstream>
+#include <cstdlib>
 
 #include <utils/log.hh>
 #include <rules/player.hh>
@@ -161,3 +162,9 @@ void Rules::end_of_player_turn(uint32_t player_id)
     api_->game_state()->clear_old_version();
 }
 
+void Rules::dump_state(std::ostream& out)
+{
+    char* line = api_->get_dump();
+    out << line << std::endl;
+    free(line);
+}
