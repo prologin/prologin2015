@@ -89,7 +89,7 @@ void Rules::at_start()
     api_->game_state()->go_next_round();
 }
 
-void Rules::at_player_start()
+void Rules::at_player_start(rules::ClientMessenger_sptr)
 {
     try {
         sandbox_.execute(champion_partie_init_);
@@ -100,12 +100,12 @@ void Rules::at_player_start()
     }
 }
 
-void Rules::at_spectator_start()
+void Rules::at_spectator_start(rules::ClientMessenger_sptr)
 {
     champion_partie_init_();
 }
 
-void Rules::at_player_end()
+void Rules::at_player_end(rules::ClientMessenger_sptr)
 {
     try {
         sandbox_.execute(champion_partie_fin_);
@@ -116,7 +116,7 @@ void Rules::at_player_end()
     }
 }
 
-void Rules::at_spectator_end()
+void Rules::at_spectator_end(rules::ClientMessenger_sptr)
 {
     champion_partie_fin_();
 }

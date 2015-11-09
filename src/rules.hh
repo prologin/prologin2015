@@ -27,10 +27,10 @@ public:
     virtual bool is_finished();
 
     virtual void at_start();
-    virtual void at_player_start();
-    virtual void at_spectator_start();
-    virtual void at_player_end();
-    virtual void at_spectator_end();
+    virtual void at_player_start(rules::ClientMessenger_sptr);
+    virtual void at_spectator_start(rules::ClientMessenger_sptr);
+    virtual void at_player_end(rules::ClientMessenger_sptr);
+    virtual void at_spectator_end(rules::ClientMessenger_sptr);
 
     virtual void player_turn();
     virtual void spectator_turn();
