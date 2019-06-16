@@ -23,107 +23,10 @@
 // global used in interface.cc
 Api* api;
 
-Api::Api(GameState* game_state, rules::Player_sptr player)
-    : game_state_(game_state), player_(player)
+Api::Api(std::unique_ptr<GameState> game_state, rules::Player_sptr player)
+    : rules::Api<GameState, erreur>(std::move(game_state), player)
 {
     api = this;
-}
-
-///
-// Déplace votre agent sur la case passée en argument.
-//
-erreur Api::deplacer(position dest)
-{
-    rules::IAction_sptr action(new ActionDeplacer(dest, player_->id));
-
-    erreur err;
-    if ((err = static_cast<erreur>(action->check(game_state_))) != OK)
-        return err;
-
-    actions_.add(action);
-    game_state_set(action->apply(game_state_));
-    return OK;
-}
-
-///
-// Utilise un turbo.
-//
-erreur Api::utiliser_turbo()
-{
-    rules::IAction_sptr action(new ActionUtiliserTurbo(player_->id));
-
-    erreur err;
-    if ((err = static_cast<erreur>(action->check(game_state_))) != OK)
-        return err;
-
-    actions_.add(action);
-    game_state_set(action->apply(game_state_));
-    return OK;
-}
-
-///
-// Capture le portail où est positionné votre agent.
-//
-erreur Api::capturer()
-{
-    rules::IAction_sptr action(new ActionCapturer(player_->id));
-
-    erreur err;
-    if ((err = static_cast<erreur>(action->check(game_state_))) != OK)
-        return err;
-
-    actions_.add(action);
-    game_state_set(action->apply(game_state_));
-    return OK;
-}
-
-///
-// Crée un lien entre le portail où se trouve votre agent et le portail de
-// destination donné en argument.
-//
-erreur Api::lier(position portail)
-{
-    rules::IAction_sptr action(new ActionLier(portail, player_->id));
-
-    erreur err;
-    if ((err = static_cast<erreur>(action->check(game_state_))) != OK)
-        return err;
-
-    actions_.add(action);
-    game_state_set(action->apply(game_state_));
-    return OK;
-}
-
-///
-// Neutralise le portail où se trouve votre agent.
-//
-erreur Api::neutraliser()
-{
-    rules::IAction_sptr action(new ActionNeutraliser(player_->id));
-
-    erreur err;
-    if ((err = static_cast<erreur>(action->check(game_state_))) != OK)
-        return err;
-
-    actions_.add(action);
-    game_state_set(action->apply(game_state_));
-    return OK;
-}
-
-///
-// Ajoute un bouclier au portail sur lequel se trouve votre agent.
-//
-erreur Api::ajouter_bouclier()
-{
-    rules::IAction_sptr action(new ActionAjouterBouclier(player_->id));
-
-    erreur err;
-    if ((err = static_cast<erreur>(action->check(game_state_))) != OK)
-        return err;
-
-    actions_.add(action);
-    game_state_set(action->apply(game_state_));
-    return OK;
 }
 
 ///
@@ -546,12 +449,11 @@ int Api::tour_actuel()
 bool Api::annuler()
 {
     // CHECK
-    if (!game_state_->can_cancel())
+    if (!game_state_.can_cancel())
         return false;
 
     actions_.cancel();
-    game_state_ = rules::cancel(game_state_);
-
+    game_state_.cancel();
     return true;
 }
 

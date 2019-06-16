@@ -14,10 +14,12 @@
 #define API_HH_
 
 #include <rules/actions.hh>
+#include <rules/api.hh>
 #include <rules/game-state.hh>
 #include <rules/player.hh>
 #include <vector>
 
+#include "actions.hh"
 #include "constant.hh"
 #include "game_state.hh"
 
@@ -25,56 +27,36 @@
 ** The methods of this class are exported through 'interface.cc'
 ** to be called by the clients
 */
-class Api
+class Api final : public rules::Api<GameState, erreur>
 {
-
 public:
-    Api(GameState* game_state, rules::Player_sptr player);
-    virtual ~Api() {}
+    Api(std::unique_ptr<GameState> game_state, rules::Player_sptr player);
 
-    const rules::Player_sptr player() const { return player_; }
-    void player_set(rules::Player_sptr player) { player_ = player; }
-
-    rules::Actions* actions() { return &actions_; }
-
-    const GameState* game_state() const { return game_state_; }
-    GameState* game_state() { return game_state_; }
-    void game_state_set(rules::GameState* gs)
-    {
-        game_state_ = dynamic_cast<GameState*>(gs);
-    }
-
-private:
-    GameState* game_state_;
-    rules::Player_sptr player_;
-    rules::Actions actions_;
-
-public:
     ///
     // Déplace votre agent sur la case passée en argument.
     //
-    erreur deplacer(position dest);
+    ApiActionFunc<ActionDeplacer> deplacer{this};
     ///
     // Utilise un turbo.
     //
-    erreur utiliser_turbo();
+    ApiActionFunc<ActionUtiliserTurbo> utiliser_turbo{this};
     ///
     // Capture le portail où est positionné votre agent.
     //
-    erreur capturer();
+    ApiActionFunc<ActionCapturer> capturer{this};
     ///
     // Crée un lien entre le portail où se trouve votre agent et le portail de
     // destination donné en argument.
     //
-    erreur lier(position portail);
+    ApiActionFunc<ActionLier> lier{this};
     ///
     // Neutralise le portail où se trouve votre agent.
     //
-    erreur neutraliser();
+    ApiActionFunc<ActionNeutraliser> neutraliser{this};
     ///
     // Ajoute un bouclier au portail sur lequel se trouve votre agent.
     //
-    erreur ajouter_bouclier();
+    ApiActionFunc<ActionAjouterBouclier> ajouter_bouclier{this};
     ///
     // Renvoie la liste de tous les liens présents.
     //

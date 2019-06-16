@@ -20,28 +20,27 @@ class Rules : public rules::TurnBasedRules
 {
 public:
     explicit Rules(const rules::Options opt);
-    virtual ~Rules();
 
-    virtual rules::Actions* get_actions();
-    virtual void apply_action(const rules::IAction_sptr& action);
-    virtual bool is_finished();
+    rules::Actions* get_actions() override;
+    void apply_action(const rules::IAction_sptr& action) override;
+    bool is_finished() override;
 
-    virtual void at_start();
-    virtual void at_player_start(rules::ClientMessenger_sptr);
-    virtual void at_spectator_start(rules::ClientMessenger_sptr);
-    virtual void at_player_end(rules::ClientMessenger_sptr);
-    virtual void at_spectator_end(rules::ClientMessenger_sptr);
+    void at_start() override;
+    void at_player_start(rules::ClientMessenger_sptr) override;
+    void at_spectator_start(rules::ClientMessenger_sptr) override;
+    void at_player_end(rules::ClientMessenger_sptr) override;
+    void at_spectator_end(rules::ClientMessenger_sptr) override;
 
-    virtual void player_turn();
-    virtual void spectator_turn();
+    void player_turn() override;
+    void spectator_turn() override;
 
-    virtual void start_of_round();
-    virtual void end_of_round();
+    void start_of_round() override;
+    void end_of_round() override;
 
-    virtual void start_of_player_turn(uint32_t);
-    virtual void end_of_player_turn(uint32_t);
+    void start_of_player_turn(uint32_t) override;
+    void end_of_player_turn(uint32_t) override;
 
-    virtual void dump_state(std::ostream& out);
+    void dump_state(std::ostream& out) override;
 
 protected:
     f_champion_partie_init champion_partie_init_;
@@ -49,8 +48,10 @@ protected:
     f_champion_partie_fin champion_partie_fin_;
 
 private:
-    utils::DLL* champion_dll_;
-    Api* api_;
+    void register_actions();
+
+    std::unique_ptr<utils::DLL> champion_dll_;
+    std::unique_ptr<Api> api_;
     utils::Sandbox sandbox_;
 };
 

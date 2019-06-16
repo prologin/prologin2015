@@ -2,14 +2,14 @@
 
 #include "geometry.hh"
 
-int ActionDeplacer::check(const GameState* st) const
+int ActionDeplacer::check(const GameState& st) const
 {
     if (!Map::valid_position(dest_))
         return POSITION_INVALIDE;
 
     // Check the player is actually allowed to move that far.
     int p = player_id_;
-    if (l1_distance(st->player_pos(p), dest_) > st->move_points(p))
+    if (l1_distance(st.player_pos(p), dest_) > st.move_points(p))
         return POSITION_ELOIGNEE;
     return OK;
 }
