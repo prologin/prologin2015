@@ -14,11 +14,11 @@ TEST_F(ActionTest, ActionAjouterBouclier_TooFewActionPoints)
         st->capture(0, player);
         ActionAjouterBouclier action(player);
 
-        set_points(st, player, COUT_BOUCLIER - 1);
-        EXPECT_EQ(PA_INSUFFISANTS, action.check(st));
+        set_points(st.get(), player, COUT_BOUCLIER - 1);
+        EXPECT_EQ(PA_INSUFFISANTS, action.check(*st));
 
-        set_points(st, player, COUT_BOUCLIER);
-        EXPECT_NE(PA_INSUFFISANTS, action.check(st));
+        set_points(st.get(), player, COUT_BOUCLIER);
+        EXPECT_NE(PA_INSUFFISANTS, action.check(*st));
     }
 }
 
@@ -27,15 +27,15 @@ TEST_F(ActionTest, ActionAjouterBouclier_NoPortal)
 {
     for (int player : {PLAYER_1, PLAYER_2})
     {
-        set_points(st, player, 2 * COUT_BOUCLIER);
+        set_points(st.get(), player, 2 * COUT_BOUCLIER);
         st->capture(0, player);
         ActionAjouterBouclier action(player);
 
         st->set_pos(player, {0, 0});
-        EXPECT_EQ(AUCUN_PORTAIL, action.check(st));
+        EXPECT_EQ(AUCUN_PORTAIL, action.check(*st));
 
         st->set_pos(player, st->portal_pos(0));
-        EXPECT_NE(AUCUN_PORTAIL, action.check(st));
+        EXPECT_NE(AUCUN_PORTAIL, action.check(*st));
     }
 }
 
@@ -44,15 +44,15 @@ TEST_F(ActionTest, ActionAjouterBouclier_NeutralPortal)
 {
     for (int player : {PLAYER_1, PLAYER_2})
     {
-        set_points(st, player, 2 * COUT_BOUCLIER);
+        set_points(st.get(), player, 2 * COUT_BOUCLIER);
         st->set_pos(player, st->portal_pos(0));
         ActionAjouterBouclier action(player);
 
         st->capture(0, -1);
-        EXPECT_EQ(PORTAIL_NEUTRE, action.check(st));
+        EXPECT_EQ(PORTAIL_NEUTRE, action.check(*st));
 
         st->capture(0, player);
-        EXPECT_NE(PORTAIL_NEUTRE, action.check(st));
+        EXPECT_NE(PORTAIL_NEUTRE, action.check(*st));
     }
 }
 
@@ -61,15 +61,15 @@ TEST_F(ActionTest, ActionAjouterBouclier_EnemyPortal)
 {
     for (int player : {PLAYER_1, PLAYER_2})
     {
-        set_points(st, player, 2 * COUT_BOUCLIER);
+        set_points(st.get(), player, 2 * COUT_BOUCLIER);
         st->set_pos(player, st->portal_pos(0));
         ActionAjouterBouclier action(player);
 
         st->capture(0, st->get_opponent(player));
-        EXPECT_EQ(PORTAIL_ENNEMI, action.check(st));
+        EXPECT_EQ(PORTAIL_ENNEMI, action.check(*st));
 
         st->capture(0, player);
-        EXPECT_NE(PORTAIL_ENNEMI, action.check(st));
+        EXPECT_NE(PORTAIL_ENNEMI, action.check(*st));
     }
 }
 
@@ -78,17 +78,17 @@ TEST_F(ActionTest, ActionAjouterBouclier_ShieldLimit)
 {
     for (int player : {PLAYER_1, PLAYER_2})
     {
-        set_points(st, player, COUT_BOUCLIER + MAX_BOUCLIERS + 1);
+        set_points(st.get(), player, COUT_BOUCLIER + MAX_BOUCLIERS + 1);
         st->set_pos(player, st->portal_pos(0));
         st->capture(0, player);
         ActionAjouterBouclier action(player);
 
         for (int i = 0; i < MAX_BOUCLIERS; ++i)
             st->add_shield(0);
-        EXPECT_EQ(LIMITE_BOUCLIERS, action.check(st));
+        EXPECT_EQ(LIMITE_BOUCLIERS, action.check(*st));
 
         st->capture(0, player); // Reset shield number
-        EXPECT_NE(LIMITE_BOUCLIERS, action.check(st));
+        EXPECT_NE(LIMITE_BOUCLIERS, action.check(*st));
     }
 }
 
@@ -99,14 +99,14 @@ TEST_F(ActionTest, ActionAjouterBouclier_RegularOK)
     {
         // Put the player in a correct state for adding shield
         const int initial_AP = COUT_BOUCLIER + 1;
-        set_points(st, player, initial_AP);
-        set_points(st, st->get_opponent(player), initial_AP);
+        set_points(st.get(), player, initial_AP);
+        set_points(st.get(), st->get_opponent(player), initial_AP);
         st->set_pos(player, st->portal_pos(0));
         st->capture(0, player);
         ActionAjouterBouclier action(player);
 
-        EXPECT_EQ(OK, action.check(st));
-        action.apply_on(st);
+        EXPECT_EQ(OK, action.check(*st));
+        action.apply(st.get());
 
         // Check that correct action points are consumed for correct player
         EXPECT_EQ(initial_AP - COUT_BOUCLIER, st->action_points(player));
@@ -124,16 +124,16 @@ TEST_F(ActionTest, ActionAjouterBouclier_ShieldTwice)
     {
         // Put the player in a correct state for adding shield
         const int initial_AP = 2 * COUT_BOUCLIER;
-        set_points(st, player, initial_AP);
+        set_points(st.get(), player, initial_AP);
         st->set_pos(player, st->portal_pos(0));
         st->capture(0, player);
         ActionAjouterBouclier action(player);
 
-        EXPECT_EQ(OK, action.check(st));
-        action.apply_on(st);
+        EXPECT_EQ(OK, action.check(*st));
+        action.apply(st.get());
 
-        EXPECT_EQ(PA_INSUFFISANTS, action.check(st));
-        set_points(st, player, COUT_BOUCLIER + 1);
-        EXPECT_EQ(OK, action.check(st));
+        EXPECT_EQ(PA_INSUFFISANTS, action.check(*st));
+        set_points(st.get(), player, COUT_BOUCLIER + 1);
+        EXPECT_EQ(OK, action.check(*st));
     }
 }

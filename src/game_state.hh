@@ -54,9 +54,7 @@ public:
     // Build a game state out of a input stream containing a description
     // of the map, and some players.
     GameState(std::istream& map_stream, rules::Players_sptr players);
-    GameState(const GameState& st);
-    virtual rules::GameState* copy() const;
-    ~GameState();
+    GameState* copy() const;
 
     // Return the current round number.
     int get_current_round() const;
@@ -142,11 +140,16 @@ public:
     const history_info& history() { return *history_; }
 
 private:
+    GameState(const GameState& st);
+
     // Array of all clients on this game.  Note that this also contains
     // spectators.
     rules::Players_sptr players_;
 
     int current_round_;
+
+    // The game state at the begining of the round.
+    std::shared_ptr<GameState> initial_state;
 
     // The Graph is an adjacency list which doesn't know anything about
     // its concrete realization in the plane; portals are represented

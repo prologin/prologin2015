@@ -36,26 +36,25 @@ GameState::GameState(std::istream& map_stream, rules::Players_sptr players)
             player_ordinal++;
         }
     }
+
+    // Set initial state
+    initial_state.reset(copy());
 }
 
 GameState::GameState(const GameState& st)
     : rules::GameState(st)
     , players_(st.players_)
     , current_round_(st.current_round_)
+    , initial_state(st.initial_state)
     , map_(st.map_)
     , graph_(st.graph_)
     , portal_player_(st.portal_player_)
     , portal_shields_(st.portal_shields_)
     , player_info_(st.player_info_)
     , history_(st.history_)
-{
-    // I think that's the default copy constructor?
-    // CHECK : can we remove this declaration?
-}
+{}
 
-GameState::~GameState() {}
-
-rules::GameState* GameState::copy() const
+GameState* GameState::copy() const
 {
     return new GameState(*this);
 }
@@ -106,30 +105,25 @@ void GameState::end_of_player_turn(int player_id)
 
     // The rest of the function updates the history
     history_.reset(new history_info);
-    rules::GameState* st = this;
-    while (st->can_cancel())
-    {
-        // Retrieve the game state at the start of the turn
-        // as the last element of the stack
-        st = st->get_old_version();
-    }
-    GameState* old = dynamic_cast<GameState*>(st);
+
     int opponent = get_opponent(player_id);
 
     // Portals diff
     for (int i = 0; i < map_->num_portals(); ++i)
     {
         if (portal_player_[i] == player_id &&
-            old->portal_player_[i] != player_id)
+            initial_state->portal_player_[i] != player_id)
         {
             history_->hist_captured.push_back(portal_pos(i));
         }
-        if (portal_player_[i] != opponent && old->portal_player_[i] == opponent)
+        if (portal_player_[i] != opponent &&
+            initial_state->portal_player_[i] == opponent)
         {
             history_->hist_neutralised.push_back(portal_pos(i));
         }
         // Shields, counting multiplicity
-        for (int j = 0; j < portal_shields_[i] - old->portal_shields_[i]; ++j)
+        for (int j = 0;
+             j < portal_shields_[i] - initial_state->portal_shields_[i]; ++j)
         {
             history_->hist_shields.push_back(portal_pos(i));
         }
@@ -141,7 +135,8 @@ void GameState::end_of_player_turn(int player_id)
         // A new link is either a new edge on the graph, or
         // an opponent's link that was destroyed and replaced
         // by the current player
-        if (!old->graph_.edge_exists(e) || old->owner(e) != owner(e))
+        if (!initial_state->graph_.edge_exists(e) ||
+            initial_state->owner(e) != owner(e))
             history_->hist_links.push_back(edge_to_link(e));
     }
 
@@ -155,11 +150,15 @@ void GameState::end_of_player_turn(int player_id)
         int v2 = std::get<2>(t);
         // A field is new if one of its links is new,
         // or its owner has changed
-        if (!old->graph_.edge_exists({v0, v1}) ||
-            !old->graph_.edge_exists({v1, v2}) ||
-            !old->graph_.edge_exists({v2, v0}) || old->owner(t) != owner(t))
+        if (!initial_state->graph_.edge_exists({v0, v1}) ||
+            !initial_state->graph_.edge_exists({v1, v2}) ||
+            !initial_state->graph_.edge_exists({v2, v0}) ||
+            initial_state->owner(t) != owner(t))
             history_->hist_fields.push_back(triangle_to_field(t));
     }
+
+    // Set initial state to current state
+    initial_state.reset(copy());
 
     // Update Stechec's score info
     *(pi.stechec_score) = pi.score;

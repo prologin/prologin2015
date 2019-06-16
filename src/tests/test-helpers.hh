@@ -59,12 +59,10 @@ protected:
                 rules::Player_sptr(new rules::Player(1, rules::PLAYER)),
             }});
 
-        st = new GameState(map_stream, players);
+        st.reset(new GameState(map_stream, players));
     }
 
-    virtual void TearDown() { delete st; }
-
-    GameState* st;
+    std::unique_ptr<GameState> st;
 
     const int PLAYER_1 = 0;
     const int PLAYER_2 = 1;

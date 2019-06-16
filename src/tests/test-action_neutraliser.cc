@@ -17,14 +17,14 @@ TEST_F(ActionTest, ActionNeutraliser_TooFewActionPoints)
             st->capture(0, st->get_opponent(player));
             for (int j = 0; j < i; ++j)
                 st->add_shield(0);
-            set_points(st, player,
+            set_points(st.get(), player,
                        COUT_NEUTRALISATION + COUT_NEUTRALISATION_BOUCLIER * i -
                            1);
-            EXPECT_EQ(PA_INSUFFISANTS, action.check(st));
+            EXPECT_EQ(PA_INSUFFISANTS, action.check(*st));
 
-            set_points(st, player,
+            set_points(st.get(), player,
                        COUT_NEUTRALISATION + COUT_NEUTRALISATION_BOUCLIER * i);
-            EXPECT_NE(PA_INSUFFISANTS, action.check(st));
+            EXPECT_NE(PA_INSUFFISANTS, action.check(*st));
         }
     }
 }
@@ -34,15 +34,15 @@ TEST_F(ActionTest, ActionNeutraliser_NoPortal)
 {
     for (int player : {PLAYER_1, PLAYER_2})
     {
-        set_points(st, player, 2 * COUT_NEUTRALISATION);
+        set_points(st.get(), player, 2 * COUT_NEUTRALISATION);
         st->capture(0, st->get_opponent(player));
         ActionNeutraliser action(player);
 
         st->set_pos(player, {0, 0});
-        EXPECT_EQ(AUCUN_PORTAIL, action.check(st));
+        EXPECT_EQ(AUCUN_PORTAIL, action.check(*st));
 
         st->set_pos(player, st->portal_pos(0));
-        EXPECT_NE(AUCUN_PORTAIL, action.check(st));
+        EXPECT_NE(AUCUN_PORTAIL, action.check(*st));
     }
 }
 
@@ -51,15 +51,15 @@ TEST_F(ActionTest, ActionNeutraliser_FriendlyPortal)
 {
     for (int player : {PLAYER_1, PLAYER_2})
     {
-        set_points(st, player, 2 * COUT_NEUTRALISATION);
+        set_points(st.get(), player, 2 * COUT_NEUTRALISATION);
         st->set_pos(player, st->portal_pos(0));
         ActionNeutraliser action(player);
 
         st->capture(0, player);
-        EXPECT_EQ(PORTAIL_AMI, action.check(st));
+        EXPECT_EQ(PORTAIL_AMI, action.check(*st));
 
         st->capture(0, st->get_opponent(player));
-        EXPECT_NE(PORTAIL_AMI, action.check(st));
+        EXPECT_NE(PORTAIL_AMI, action.check(*st));
     }
 }
 
@@ -68,15 +68,15 @@ TEST_F(ActionTest, ActionNeutraliser_NeutralPortal)
 {
     for (int player : {PLAYER_1, PLAYER_2})
     {
-        set_points(st, player, 2 * COUT_NEUTRALISATION);
+        set_points(st.get(), player, 2 * COUT_NEUTRALISATION);
         st->set_pos(player, st->portal_pos(0));
         ActionNeutraliser action(player);
 
         st->capture(0, -1);
-        EXPECT_EQ(PORTAIL_NEUTRE, action.check(st));
+        EXPECT_EQ(PORTAIL_NEUTRE, action.check(*st));
 
         st->capture(0, st->get_opponent(player));
-        EXPECT_NE(PORTAIL_NEUTRE, action.check(st));
+        EXPECT_NE(PORTAIL_NEUTRE, action.check(*st));
     }
 }
 
@@ -90,16 +90,16 @@ TEST_F(ActionTest, ActionNeutraliser_RegularOK)
             // Put the player in a correct state for destroying a portal
             const int initial_AP = COUT_NEUTRALISATION +
                                    shields * COUT_NEUTRALISATION_BOUCLIER + 1;
-            set_points(st, player, initial_AP);
-            set_points(st, st->get_opponent(player), initial_AP);
+            set_points(st.get(), player, initial_AP);
+            set_points(st.get(), st->get_opponent(player), initial_AP);
             st->set_pos(player, st->portal_pos(0));
             st->capture(0, st->get_opponent(player));
             for (int i = 0; i < shields; ++i)
                 st->add_shield(0);
             ActionNeutraliser action(player);
 
-            EXPECT_EQ(OK, action.check(st));
-            action.apply_on(st);
+            EXPECT_EQ(OK, action.check(*st));
+            action.apply(st.get());
 
             // Check that correct action points are consumed for correct player
             EXPECT_EQ(initial_AP - COUT_NEUTRALISATION -

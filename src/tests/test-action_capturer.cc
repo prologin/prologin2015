@@ -10,7 +10,7 @@ TEST_F(ActionTest, Capturer_NoPortal)
 {
     ActionCapturer act(PLAYER_1);
 
-    EXPECT_EQ(AUCUN_PORTAIL, act.check(st));
+    EXPECT_EQ(AUCUN_PORTAIL, act.check(*st));
 }
 
 // Test that ActionCapturer rejects portals that already are owned.
@@ -24,10 +24,10 @@ TEST_F(ActionTest, Capturer_PortalOwned)
 
     // Then see if ActionCapturer accepts to take them.
     st->set_pos(PLAYER_1, st->portal_pos(0));
-    EXPECT_EQ(PORTAIL_AMI, act.check(st));
+    EXPECT_EQ(PORTAIL_AMI, act.check(*st));
 
     st->set_pos(PLAYER_1, st->portal_pos(1));
-    EXPECT_EQ(PORTAIL_ENNEMI, act.check(st));
+    EXPECT_EQ(PORTAIL_ENNEMI, act.check(*st));
 }
 
 // Test that ActionCapturer rejects too few action points.
@@ -44,13 +44,13 @@ TEST_F(ActionTest, Capturer_TooFewActionPoints)
     // ASSERT_TRUE(COUT_CAPTURE > 1);
     // st->decrement_action_points(PLAYER_1, NB_POINTS_ACTION);
     // EXPECT_EQ(1, st->action_points(PLAYER_1));
-    // EXPECT_EQ(PA_INSUFFISANTS, act.check(st));
+    // EXPECT_EQ(PA_INSUFFISANTS, act.check(*st));
 
     // Likewise with no action point at all.
     // st->decrement_action_points(PLAYER_1, 1);
     st->decrement_action_points(PLAYER_1, NB_POINTS_ACTION);
     EXPECT_EQ(0, st->action_points(PLAYER_1));
-    EXPECT_EQ(PA_INSUFFISANTS, act.check(st));
+    EXPECT_EQ(PA_INSUFFISANTS, act.check(*st));
 }
 //
 // Test that a regular successful ActionCapturer just does its job.
@@ -61,8 +61,8 @@ TEST_F(ActionTest, Capturer_RegularOK)
     // First move the player on a cell that contains a neutral portal.
     st->set_pos(PLAYER_1, st->portal_pos(0));
 
-    EXPECT_EQ(OK, act.check(st));
-    act.apply_on(st);
+    EXPECT_EQ(OK, act.check(*st));
+    act.apply(st.get());
 
     EXPECT_EQ(PLAYER_1, st->owner(0));
 
@@ -81,8 +81,8 @@ TEST_F(ActionTest, Capturer_RegularOK)
 //     st->set_pos(PLAYER_1, st->portal_pos(0));
 //     st->decrement_action_points(PLAYER_1, NB_POINTS_ACTION);
 //     EXPECT_EQ(0, st->action_points(PLAYER_1));
-//     ASSERT_EQ(PA_INSUFFISANTS, act.check(st));
+//     ASSERT_EQ(PA_INSUFFISANTS, act.check(*st));
 
 //     st->end_of_player_turn(PLAYER_1);
-//     ASSERT_EQ(OK, act.check(st));
+//     ASSERT_EQ(OK, act.check(*st));
 // }

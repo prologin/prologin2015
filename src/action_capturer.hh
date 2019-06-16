@@ -13,13 +13,13 @@ public:
     ActionCapturer(int player_id) : player_id_(player_id) {}
     ActionCapturer() {} // for register_action()
 
-    virtual int check(const GameState* st) const;
-    virtual void apply_on(GameState* st) const;
+    int check(const GameState& st) const override;
+    void apply_on(GameState* st) const override;
 
-    virtual void handle_buffer(utils::Buffer& buf) { buf.handle(player_id_); }
+    void handle_buffer(utils::Buffer& buf) override { buf.handle(player_id_); }
 
-    uint32_t player_id() const { return player_id_; };
-    uint32_t id() const { return ID_ACTION_CAPTURER; }
+    uint32_t player_id() const override { return player_id_; };
+    uint32_t id() const override { return ID_ACTION_CAPTURER; }
 
 private:
     // The player that is trying to seize a portal.  No need for a portal ID
