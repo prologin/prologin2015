@@ -6,7 +6,6 @@
 
 #include "test-helpers.hh"
 
-
 TEST(MapTest, valid_position)
 {
     std::istringstream map_stream(some_map);
@@ -49,7 +48,10 @@ TEST(MapTest, getters)
 
     // Check invalid positions are properly handled: first for Map::is_portal,
     // then for Map::portal_id_maybe.
-    try { m.is_portal(invalid_pos); }
+    try
+    {
+        m.is_portal(invalid_pos);
+    }
     catch (const InvalidPosition& exc)
     {
         // Invalid positions make it raise an exception: all is fine.
@@ -58,7 +60,10 @@ TEST(MapTest, getters)
     EXPECT_TRUE(exception_thrown);
 
     exception_thrown = false;
-    try { m.portal_id_maybe(invalid_pos); }
+    try
+    {
+        m.portal_id_maybe(invalid_pos);
+    }
     catch (const InvalidPosition& exc)
     {
         exception_thrown = true;
@@ -67,13 +72,15 @@ TEST(MapTest, getters)
 
     // Likewise for invalid players.
     exception_thrown = false;
-    try { m.get_start_position(-1); }
+    try
+    {
+        m.get_start_position(-1);
+    }
     catch (const InvalidPlayer& exc)
     {
         exception_thrown = true;
     }
     EXPECT_TRUE(exception_thrown);
-
 
     // Now, test the getters themselves.
 
@@ -85,7 +92,7 @@ TEST(MapTest, getters)
     EXPECT_EQ(3, m.portal_id_maybe({4, 4}));
 
     const std::vector<position>& portals_full = m.get_portals();
-    EXPECT_EQ((size_t) 4, portals_full.size());
+    EXPECT_EQ((size_t)4, portals_full.size());
     EXPECT_EQ(4, m.num_portals());
 
     EXPECT_EQ(player1_startpos, m.get_start_position(0));

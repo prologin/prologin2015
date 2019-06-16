@@ -12,23 +12,21 @@
 
 TEST(GraphTest, ordered_triple)
 {
-    itriple t = std::make_tuple(0,1,2);
-    EXPECT_EQ(ordered_triple(0,1,2), t);
-    EXPECT_EQ(ordered_triple(1,0,2), t);
-    EXPECT_EQ(ordered_triple(0,2,1), t);
-    EXPECT_EQ(ordered_triple(2,1,0), t);
-    EXPECT_EQ(ordered_triple(1,2,0), t);
-    EXPECT_EQ(ordered_triple(2,0,1), t);
+    itriple t = std::make_tuple(0, 1, 2);
+    EXPECT_EQ(ordered_triple(0, 1, 2), t);
+    EXPECT_EQ(ordered_triple(1, 0, 2), t);
+    EXPECT_EQ(ordered_triple(0, 2, 1), t);
+    EXPECT_EQ(ordered_triple(2, 1, 0), t);
+    EXPECT_EQ(ordered_triple(1, 2, 0), t);
+    EXPECT_EQ(ordered_triple(2, 0, 1), t);
 }
 
-const bool some_adj_matrix[6][6] = {
-    {false, true,  false, true,  false, true},
-    {true,  false, true,  true,  false, true},
-    {false, true,  false, true,  false, false},
-    {true,  true,  true,  false, true,  false},
-    {false, false, false, true,  false, true},
-    {true,  true,  false, false, true,  false}
-};
+const bool some_adj_matrix[6][6] = {{false, true, false, true, false, true},
+                                    {true, false, true, true, false, true},
+                                    {false, true, false, true, false, false},
+                                    {true, true, true, false, true, false},
+                                    {false, false, false, true, false, true},
+                                    {true, true, false, false, true, false}};
 
 // 5-----1
 // |\   /|
@@ -45,13 +43,13 @@ Graph make_some_graph()
     Graph g(6);
     for (int i = 0; i < 6; ++i)
     {
-        g.add_edge({i, (i+1) % 6});
+        g.add_edge({i, (i + 1) % 6});
     }
-    g.add_edge({5,1});
-    g.add_edge({0,3});
-    g.add_edge({1,3});
+    g.add_edge({5, 1});
+    g.add_edge({0, 3});
+    g.add_edge({1, 3});
     // redundant add_edge juste to see what it does
-    g.add_edge({2,1});
+    g.add_edge({2, 1});
     return g;
 }
 
@@ -65,31 +63,31 @@ TEST(GraphTest, edges)
         for (int j = 0; j < 6; ++j)
             if (some_adj_matrix[i][j])
                 num_edges++;
-    EXPECT_EQ(num_edges, 2*edges.size());
+    EXPECT_EQ(num_edges, 2 * edges.size());
 
     for (int i = 0; i < 6; ++i)
     {
         for (int j = 0; j < 6; ++j)
         {
-            auto e = std::make_pair(i,j);
-            auto e_transpose = std::make_pair(j,i);
+            auto e = std::make_pair(i, j);
+            auto e_transpose = std::make_pair(j, i);
             // Check edge_exists()
             EXPECT_EQ(some_adj_matrix[i][j], some_adj_matrix[j][i]);
             EXPECT_EQ(some_adj_matrix[i][j], g.edge_exists(e));
             // Check edges()
             if (some_adj_matrix[i][j])
             {
-                EXPECT_TRUE((std::find(edges.begin(), edges.end(), e)
-                             != edges.end()) ||
-                            (std::find(edges.begin(), edges.end(), e_transpose)
-                             != edges.end()));
+                EXPECT_TRUE(
+                    (std::find(edges.begin(), edges.end(), e) != edges.end()) ||
+                    (std::find(edges.begin(), edges.end(), e_transpose) !=
+                     edges.end()));
             }
             else
             {
-                EXPECT_FALSE(std::find(edges.begin(), edges.end(), e)
-                             != edges.end());
-                EXPECT_FALSE(std::find(edges.begin(), edges.end(), e_transpose)
-                             != edges.end());
+                EXPECT_FALSE(std::find(edges.begin(), edges.end(), e) !=
+                             edges.end());
+                EXPECT_FALSE(std::find(edges.begin(), edges.end(),
+                                       e_transpose) != edges.end());
             }
         }
     }
@@ -107,14 +105,14 @@ TEST(GraphTest, remove_incident_edges)
     auto neighb4 = g1.adj_list()[4]; // copy to avoid iterator invalidation
     for (int u : neighb4)
     {
-        EXPECT_TRUE(g1.edge_exists({4,u}));
-        g1.remove_edge({4,u});
+        EXPECT_TRUE(g1.edge_exists({4, u}));
+        g1.remove_edge({4, u});
     }
     auto neighb3 = g1.adj_list()[3];
     for (int u : neighb3)
     {
-        EXPECT_TRUE(g1.edge_exists({3,u}));
-        g1.remove_edge({3,u});
+        EXPECT_TRUE(g1.edge_exists({3, u}));
+        g1.remove_edge({3, u});
     }
 
     // Check number of edges deleted
@@ -168,7 +166,7 @@ TEST(GraphTest, triangles)
 
     // Now, do the same thing with triangles incident to edges
     auto edges = g.edges();
-    
+
     for (auto& e : edges)
     {
         auto incident = g.incident_triangles(e);
@@ -183,5 +181,3 @@ TEST(GraphTest, triangles)
         EXPECT_EQ(kv.second, 6);
     }
 }
-
-

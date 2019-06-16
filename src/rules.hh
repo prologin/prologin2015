@@ -1,14 +1,14 @@
 #ifndef RULES_RULES_HH_
 #define RULES_RULES_HH_
 
-#include <utils/dll.hh>
-#include <utils/sandbox.hh>
-#include <rules/options.hh>
+#include <rules/actions.hh>
 #include <rules/client-messenger.hh>
-#include <rules/server-messenger.hh>
+#include <rules/options.hh>
 #include <rules/player.hh>
 #include <rules/rules.hh>
-#include <rules/actions.hh>
+#include <rules/server-messenger.hh>
+#include <utils/dll.hh>
+#include <utils/sandbox.hh>
 
 #include "api.hh"
 

@@ -2,7 +2,6 @@
 
 #include "test-helpers.hh"
 
-
 // All the tests below are methods coming from the ActionTest class (see
 // test-helpers.hh).  This is where the "st" GameState is coming from.
 
@@ -39,7 +38,7 @@ TEST_F(ActionTest, Capturer_TooFewActionPoints)
     // First move the player on a cell that contains a portal and remove enough
     // actions point.
     st->set_pos(PLAYER_1, {1, 1});
-    
+
     // since capture now costs 1, the following is obsolete
     // st->decrement_action_points(PLAYER_1, NB_POINTS_ACTION - 1);
     // ASSERT_TRUE(COUT_CAPTURE > 1);
@@ -69,7 +68,7 @@ TEST_F(ActionTest, Capturer_RegularOK)
 
     // Check that actions points are updated (or not) accordingly.
     EXPECT_EQ(NB_POINTS_ACTION - COUT_CAPTURE, st->action_points(PLAYER_1));
-    EXPECT_EQ(NB_POINTS_ACTION,                st->action_points(PLAYER_2));
+    EXPECT_EQ(NB_POINTS_ACTION, st->action_points(PLAYER_2));
 }
 
 // Test that action points are reset when going to the next turn.

@@ -32,7 +32,6 @@ TEST_F(ActionTest, Deplacer_InvalidPos)
     EXPECT_EQ(POSITION_INVALIDE, action.check(st));
 }
 
-
 // Test that the action does not work when the player is not on a portal
 TEST_F(ActionTest, ActionLier_NoPortalHere)
 {
@@ -51,7 +50,8 @@ TEST_F(ActionTest, ActionLier_NoPortalHere)
     }
 }
 
-// Test that the action does not work when there is no portal on the target destination
+// Test that the action does not work when there is no portal on the target
+// destination
 TEST_F(ActionTest, ActionLier_NoPortalThere)
 {
     for (int player : {PLAYER_1, PLAYER_2})
@@ -132,7 +132,7 @@ TEST_F(ActionTest, ActionLier_SameLinkTwice)
     for (int player : {PLAYER_1, PLAYER_2})
     {
         // Put the player in a correct state for creating two links
-        const int initial_AP = 2*COUT_LIEN;
+        const int initial_AP = 2 * COUT_LIEN;
         set_points(st, player, initial_AP);
 
         st->capture(0, player);
@@ -176,7 +176,6 @@ TEST_F(ActionTest, ActionLier_Crossing)
     }
 }
 
-
 // Test that a regular action just does it job
 TEST_F(ActionTest, ActionLier_RegularOK)
 {
@@ -200,7 +199,7 @@ TEST_F(ActionTest, ActionLier_RegularOK)
         EXPECT_EQ(initial_AP, st->action_points(st->get_opponent(player)));
 
         // Check that the link is created
-        EXPECT_TRUE(st->graph().edge_exists({0,1}));
-        st->graph().remove_edge({0,1});
+        EXPECT_TRUE(st->graph().edge_exists({0, 1}));
+        st->graph().remove_edge({0, 1});
     }
 }

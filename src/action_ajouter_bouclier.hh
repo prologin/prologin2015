@@ -4,8 +4,8 @@
 #include <rules/action.hh>
 
 #include "actions.hh"
-#include "game_state.hh"
 #include "constant.hh"
+#include "game_state.hh"
 
 class ActionAjouterBouclier : public rules::Action<GameState>
 {
@@ -16,10 +16,7 @@ public:
     virtual int check(const GameState* st) const;
     virtual void apply_on(GameState* st) const;
 
-    virtual void handle_buffer(utils::Buffer& buf)
-    {
-        buf.handle(player_id_);
-    }
+    virtual void handle_buffer(utils::Buffer& buf) { buf.handle(player_id_); }
 
     uint32_t player_id() const { return player_id_; };
     uint32_t id() const { return ID_ACTION_AJOUTER_BOUCLIER; }

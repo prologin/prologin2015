@@ -6,7 +6,7 @@ ipair ordered_pair(int a, int b)
 {
     if (a > b)
         std::swap(a, b);
-    return std::make_pair(a,b);
+    return std::make_pair(a, b);
 }
 
 // Size 3 sorting network
@@ -14,26 +14,19 @@ itriple ordered_triple(int a, int b, int c)
 {
     // b, c = min(b, c), max(b,c)
     if (b > c)
-        std::swap(b,c);
+        std::swap(b, c);
     // a, b = min(a, b), max(a, b)
     if (a > b)
-        std::swap(a,b);
+        std::swap(a, b);
     // a is now minimal, swap b and c if necessary
     if (b > c)
-        std::swap(b,c);
+        std::swap(b, c);
     return std::make_tuple(a, b, c);
 }
 
-Graph::Graph(int size)
-    : adj_list_(size)
-{
-}
+Graph::Graph(int size) : adj_list_(size) {}
 
-Graph::Graph(const Graph& g)
-    : adj_list_(g.adj_list_)
-{
-}
-
+Graph::Graph(const Graph& g) : adj_list_(g.adj_list_) {}
 
 bool Graph::edge_exists(ipair e) const
 {
@@ -89,14 +82,14 @@ std::vector<itriple> Graph::triangles() const
     {
         degree_order[i] = i;
     }
-    std::sort(degree_order.begin(), degree_order.end(),
-              [this](int u, int v)
-              { return adj_list_[u].size() > adj_list_[v].size(); });
+    std::sort(degree_order.begin(), degree_order.end(), [this](int u, int v) {
+        return adj_list_[u].size() > adj_list_[v].size();
+    });
 
     // do a copy of the adjacency list, since we're going to mutate it
     // and we want to respect const-correctness
     auto adj_list_copy = adj_list_;
- 
+
     std::vector<itriple> triangles;
     for (int v : degree_order)
     {
@@ -146,10 +139,7 @@ std::vector<int> Graph::incident_triangles(ipair e) const
     std::vector<int> inter;
     auto& neighb_1 = adj_list_[e.first];
     auto& neighb_2 = adj_list_[e.second];
-    std::set_intersection(neighb_1.begin(), neighb_1.end(),
-                          neighb_2.begin(), neighb_2.end(),
-                          std::back_inserter(inter));
+    std::set_intersection(neighb_1.begin(), neighb_1.end(), neighb_2.begin(),
+                          neighb_2.end(), std::back_inserter(inter));
     return inter;
 }
-
-

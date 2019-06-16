@@ -6,12 +6,12 @@
 #include "constant.hh"
 
 #include <set>
-#include <vector>
-#include <utility>
 #include <tuple>
+#include <utility>
+#include <vector>
 
-typedef std::pair<int,int> ipair;
-typedef std::tuple<int,int,int> itriple;
+typedef std::pair<int, int> ipair;
+typedef std::tuple<int, int, int> itriple;
 ipair ordered_pair(int a, int b);
 itriple ordered_triple(int a, int b, int c);
 
@@ -26,9 +26,7 @@ public:
     void remove_edge(ipair e);
     void remove_incident_edges(int v);
 
-    const std::vector<std::set<int>>& adj_list() const {
-        return adj_list_;
-    }
+    const std::vector<std::set<int>>& adj_list() const { return adj_list_; }
 
     // This interface causes unnecessary copying
     // but iterators and higher-order functions are too cumbersome…
@@ -43,4 +41,3 @@ private:
 };
 
 #endif /* !GRAPH_HH */
-

@@ -10,26 +10,24 @@
 ** Copyright (C) 2015 Prologin
 */
 
-#include <stdlib.h>
 #include <algorithm>
+#include <stdlib.h>
 
 #include "api.hh"
 
 #include "actions.hh"
 #include "dumper.hh"
-#include "geometry.hh"
 #include "errors.hh"
+#include "geometry.hh"
 
 // global used in interface.cc
 Api* api;
 
 Api::Api(GameState* game_state, rules::Player_sptr player)
-    : game_state_(game_state),
-      player_(player)
+    : game_state_(game_state), player_(player)
 {
     api = this;
 }
-
 
 ///
 // Déplace votre agent sur la case passée en argument.
@@ -80,7 +78,8 @@ erreur Api::capturer()
 }
 
 ///
-// Crée un lien entre le portail où se trouve votre agent et le portail de destination donné en argument.
+// Crée un lien entre le portail où se trouve votre agent et le portail de
+// destination donné en argument.
 //
 erreur Api::lier(position portail)
 {
@@ -135,10 +134,10 @@ std::vector<lien> Api::liste_liens()
     // TODO tester
 
     auto edges = game_state_->graph().edges();
-    std::vector<lien> links(edges.size()); 
-    std::transform (edges.cbegin(), edges.cend(), links.begin(),
-                    [this](const ipair& e)
-                    { return game_state_->edge_to_link(e); });
+    std::vector<lien> links(edges.size());
+    std::transform(
+        edges.cbegin(), edges.cend(), links.begin(),
+        [this](const ipair& e) { return game_state_->edge_to_link(e); });
     return links;
 }
 
@@ -151,9 +150,9 @@ std::vector<champ> Api::liste_champs()
 
     auto triangles = game_state_->graph().triangles();
     std::vector<champ> fields(triangles.size());
-    std::transform (triangles.cbegin(), triangles.cend(), fields.begin(),
-                    [this](const itriple& t)
-                    { return game_state_->triangle_to_field(t); });
+    std::transform(
+        triangles.cbegin(), triangles.cend(), fields.begin(),
+        [this](const itriple& t) { return game_state_->triangle_to_field(t); });
     return fields;
 }
 
@@ -181,8 +180,7 @@ std::vector<lien> Api::liens_bloquants(position ext1, position ext2)
     {
         for (const auto& e : edges)
         {
-            if (segments_intersect(ext1, ext2,
-                                   game_state_->portal_pos(e.first),
+            if (segments_intersect(ext1, ext2, game_state_->portal_pos(e.first),
                                    game_state_->portal_pos(e.second)))
                 blocking_links.push_back(game_state_->edge_to_link(e));
         }
@@ -232,9 +230,9 @@ bool Api::champ_existe(position som1, position som2, position som3)
         if (u == v || v == w || w == u)
             return false; // degenerate triangle
 
-        return game_state_->graph().edge_exists({u, v})
-            && game_state_->graph().edge_exists({v, w})
-            && game_state_->graph().edge_exists({w, u});
+        return game_state_->graph().edge_exists({u, v}) &&
+               game_state_->graph().edge_exists({v, w}) &&
+               game_state_->graph().edge_exists({w, u});
     }
     catch (const InvalidPosition& exc)
     {
@@ -334,7 +332,9 @@ std::vector<lien> Api::liens_incidents_portail(position portail)
             incident_links.push_back(game_state_->edge_to_link(e));
         }
     }
-    catch (const InvalidPosition& exc) { }
+    catch (const InvalidPosition& exc)
+    {
+    }
 
     return incident_links; // empty if not a portal
 }
@@ -351,15 +351,17 @@ std::vector<champ> Api::champs_incidents_portail(position portail)
     try
     {
         int portal_id = game_state_->map().portal_id_exn(portail);
-        auto neighbor_edges
-            = game_state_->graph().incident_triangles(portal_id);
+        auto neighbor_edges =
+            game_state_->graph().incident_triangles(portal_id);
         for (auto& e : neighbor_edges)
         {
             auto t = ordered_triple(portal_id, e.first, e.second);
             incident_fields.push_back(game_state_->triangle_to_field(t));
         }
     }
-    catch (const InvalidPosition& exc) { }
+    catch (const InvalidPosition& exc)
+    {
+    }
 
     return incident_fields; // empty if not a portal
 }
@@ -382,8 +384,8 @@ std::vector<champ> Api::champs_incidents_segment(position ext1, position ext2)
 
         if (u != v) // segment must be non-degenerate
         {
-            auto third_vertices
-                = game_state_->graph().incident_triangles(std::make_pair(u,v));
+            auto third_vertices =
+                game_state_->graph().incident_triangles(std::make_pair(u, v));
             for (int w : third_vertices)
             {
                 auto t = ordered_triple(u, v, w);
@@ -391,7 +393,9 @@ std::vector<champ> Api::champs_incidents_segment(position ext1, position ext2)
             }
         }
     }
-    catch (const InvalidPosition& exc) { }
+    catch (const InvalidPosition& exc)
+    {
+    }
 
     return incident_fields; // empty if not a portal
 }
@@ -430,7 +434,8 @@ std::vector<champ> Api::hist_champs_crees()
 }
 
 ///
-// Renvoie la liste des positions où votre adversaire a ajouté des boucliers au dernier tour.
+// Renvoie la liste des positions où votre adversaire a ajouté des boucliers au
+// dernier tour.
 //
 std::vector<position> Api::hist_boucliers_ajoutes()
 {
@@ -451,7 +456,7 @@ int Api::distance(position pos1, position pos2)
 //
 int Api::score_triangle(position som1, position som2, position som3)
 {
-    return (POINTS_CHAMP/2) * abs(determinant(som1, som2, som1, som3));
+    return (POINTS_CHAMP / 2) * abs(determinant(som1, som2, som1, som3));
 }
 
 ///
@@ -459,17 +464,18 @@ int Api::score_triangle(position som1, position som2, position som3)
 // la condition d'interférence entre liens, c'est-à-dire qu'elle renvoie
 // ``false`` si l'intersection est une extrémité des deux segments.
 //
-bool Api::intersection_segments(position a1, position a2,
-                                position b1, position b2)
+bool Api::intersection_segments(position a1, position a2, position b1,
+                                position b2)
 {
     return segments_intersect(a1, a2, b1, b2);
 }
 
 ///
-// Indique si un point se trouve à l'intérieur d'un triangle. Le critère coïncide avec celui de ``case_champs``.
+// Indique si un point se trouve à l'intérieur d'un triangle. Le critère
+// coïncide avec celui de ``case_champs``.
 //
-bool Api::point_dans_triangle(position p,
-                              position som1, position som2, position som3)
+bool Api::point_dans_triangle(position p, position som1, position som2,
+                              position som3)
 {
     // LOL mismatch in argument ordering
     // I should have checked geometry.hh first…
@@ -552,7 +558,7 @@ bool Api::annuler()
 ///
 // Retourne un dump JSON de l'état complet du jeu.
 //
-char *Api::get_dump()
+char* Api::get_dump()
 {
     return dump_game_state(*game_state_, actions_);
 }
@@ -572,5 +578,3 @@ char *Api::get_dump()
 ///
 // Affiche le contenu d'une valeur de type champ
 //
-
-

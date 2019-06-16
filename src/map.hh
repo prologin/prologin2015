@@ -1,5 +1,5 @@
 #ifndef MAP_HH_
-# define MAP_HH_
+#define MAP_HH_
 
 #include <array>
 #include <vector>
@@ -44,7 +44,7 @@ private:
     // See the Map::index method, and please use it so that we never mix
     // indices.  If the cell contains no portal, it holds -1.  It holds the
     // portal ID otherwise.
-    std::array<int, TAILLE_TERRAIN*TAILLE_TERRAIN> portals_map_;
+    std::array<int, TAILLE_TERRAIN * TAILLE_TERRAIN> portals_map_;
 
     // Quick access to the list of all portals so we do not have to go through
     // all portals_map_ to find portals.
@@ -54,10 +54,7 @@ private:
     std::array<position, NB_JOUEURS> start_positions_;
 
     // Get the index for "p" in portals_map_.
-    static int index(const position& p)
-    {
-        return p.x * TAILLE_TERRAIN + p.y;
-    }
+    static int index(const position& p) { return p.x * TAILLE_TERRAIN + p.y; }
 };
 
 #endif // !MAP_HH_

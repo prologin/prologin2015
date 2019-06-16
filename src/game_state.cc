@@ -2,10 +2,10 @@
 
 #include <stdexcept>
 
-#include "game_state.hh"
 #include "constant.hh"
-#include "geometry.hh"
 #include "errors.hh"
+#include "game_state.hh"
+#include "geometry.hh"
 
 GameState::GameState(std::istream& map_stream, rules::Players_sptr players)
     : rules::GameState()
@@ -27,13 +27,12 @@ GameState::GameState(std::istream& map_stream, rules::Players_sptr players)
         if (p->type == rules::PLAYER)
         {
             p->score = 0;
-            player_info_[p->id] = (player_info) {
-                .action_points = NB_POINTS_ACTION,
-                .move_points = NB_POINTS_DEPLACEMENT,
-                .pos = map_->get_start_position(player_ordinal),
-                .score = 0,
-                .stechec_score = &(p->score)
-            };
+            player_info_[p->id] =
+                (player_info){.action_points = NB_POINTS_ACTION,
+                              .move_points = NB_POINTS_DEPLACEMENT,
+                              .pos = map_->get_start_position(player_ordinal),
+                              .score = 0,
+                              .stechec_score = &(p->score)};
             player_ordinal++;
         }
     }
@@ -54,10 +53,7 @@ GameState::GameState(const GameState& st)
     // CHECK : can we remove this declaration?
 }
 
-
-GameState::~GameState()
-{
-}
+GameState::~GameState() {}
 
 rules::GameState* GameState::copy() const
 {
@@ -106,18 +102,18 @@ void GameState::end_of_player_turn(int player_id)
         if (owner(t) == player_id)
             area_x2 += field_area_x2(t);
     }
-    increment_score(player_id, (POINTS_CHAMP/2) * area_x2);
+    increment_score(player_id, (POINTS_CHAMP / 2) * area_x2);
 
     // The rest of the function updates the history
     history_.reset(new history_info);
-    rules::GameState *st = this;
+    rules::GameState* st = this;
     while (st->can_cancel())
     {
         // Retrieve the game state at the start of the turn
         // as the last element of the stack
         st = st->get_old_version();
     }
-    GameState *old = dynamic_cast<GameState*>(st);
+    GameState* old = dynamic_cast<GameState*>(st);
     int opponent = get_opponent(player_id);
 
     // Portals diff
@@ -128,8 +124,7 @@ void GameState::end_of_player_turn(int player_id)
         {
             history_->hist_captured.push_back(portal_pos(i));
         }
-        if (portal_player_[i] != opponent &&
-            old->portal_player_[i] == opponent)
+        if (portal_player_[i] != opponent && old->portal_player_[i] == opponent)
         {
             history_->hist_neutralised.push_back(portal_pos(i));
         }
@@ -160,10 +155,9 @@ void GameState::end_of_player_turn(int player_id)
         int v2 = std::get<2>(t);
         // A field is new if one of its links is new,
         // or its owner has changed
-        if (!old->graph_.edge_exists({v0,v1}) ||
-            !old->graph_.edge_exists({v1,v2}) ||
-            !old->graph_.edge_exists({v2,v0}) ||
-            old->owner(t) != owner(t))
+        if (!old->graph_.edge_exists({v0, v1}) ||
+            !old->graph_.edge_exists({v1, v2}) ||
+            !old->graph_.edge_exists({v2, v0}) || old->owner(t) != owner(t))
             history_->hist_fields.push_back(triangle_to_field(t));
     }
 
@@ -226,9 +220,9 @@ int GameState::owner(const itriple& field) const
 
 lien GameState::edge_to_link(const ipair& e) const
 {
-    return (lien) { .extr1 = portal_pos(e.first),
-                    .extr2 = portal_pos(e.second),
-                    .joueur_l = owner(e) };
+    return (lien){.extr1 = portal_pos(e.first),
+                  .extr2 = portal_pos(e.second),
+                  .joueur_l = owner(e)};
 }
 
 champ GameState::triangle_to_field(const itriple& t) const
@@ -239,8 +233,8 @@ champ GameState::triangle_to_field(const itriple& t) const
     return c;
 }
 
-void GameState::unpack_triangle_pos(const itriple& t,
-                         position& a, position& b, position& c) const
+void GameState::unpack_triangle_pos(const itriple& t, position& a, position& b,
+                                    position& c) const
 {
     a = portal_pos(std::get<0>(t));
     b = portal_pos(std::get<1>(t));
@@ -254,7 +248,6 @@ int GameState::field_area_x2(const itriple& field) const
 
     return abs(determinant(a, b, a, c));
 }
-
 
 int GameState::num_shields(int portal_id) const
 {
@@ -300,5 +293,3 @@ void GameState::set_pos(int player_id, const position& position)
 {
     player_info_.at(player_id).pos = position;
 }
-
-

@@ -4,13 +4,15 @@
 #include <rules/action.hh>
 
 #include "actions.hh"
-#include "game_state.hh"
 #include "constant.hh"
+#include "game_state.hh"
 
 class ActionDeplacer : public rules::Action<GameState>
 {
 public:
-    ActionDeplacer(position dest, int player_id) : dest_(dest), player_id_(player_id) {}
+    ActionDeplacer(position dest, int player_id)
+        : dest_(dest), player_id_(player_id)
+    {}
     ActionDeplacer() {} // for register_action()
 
     virtual int check(const GameState* st) const;

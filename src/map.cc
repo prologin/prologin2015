@@ -1,11 +1,11 @@
-#include <istream>
-#include <string>
-#include <sstream>
-#include <map>
 #include <array>
+#include <istream>
+#include <map>
+#include <sstream>
+#include <string>
 
-#include <utils/log.hh>
 #include <rules/player.hh>
+#include <utils/log.hh>
 
 #include "constant.hh"
 #include "errors.hh"
@@ -19,11 +19,12 @@ Map::Map(std::istream& s)
     for (int i = 0; i < 2; i++)
     {
         s >> start_positions_[i].x >> start_positions_[i].y;
-        INFO("Player %d starting position is x=%d, y=%d",
-                i, start_positions_[i].x, start_positions_[i].y);
+        INFO("Player %d starting position is x=%d, y=%d", i,
+             start_positions_[i].x, start_positions_[i].y);
         if (!valid_position((position){.x = start_positions_[i].x,
                                        .y = start_positions_[i].y}))
-            switch(i) {
+            switch (i)
+            {
             case 0:
                 FATAL("starting position for first player is invalid");
                 break;
@@ -34,7 +35,6 @@ Map::Map(std::istream& s)
                 FATAL("dead code elimination should remove this");
                 break;
             }
-
     }
 
     portals_map_.fill(-1);
@@ -42,10 +42,10 @@ Map::Map(std::istream& s)
     {
         s >> line;
 
-        if (line.length() != (size_t) TAILLE_TERRAIN)
+        if (line.length() != (size_t)TAILLE_TERRAIN)
             FATAL("map: line %d is too short or too long "
                   "(is %d long, should be %d)",
-                    y, line.length(), TAILLE_TERRAIN);
+                  y, line.length(), TAILLE_TERRAIN);
 
         for (int x = 0; x < TAILLE_TERRAIN; ++x)
         {
@@ -84,8 +84,7 @@ Map::Map(std::istream& s)
 
 bool Map::valid_position(position p)
 {
-    return 0 <= p.x && p.x < TAILLE_TERRAIN &&
-           0 <= p.y && p.y < TAILLE_TERRAIN;
+    return 0 <= p.x && p.x < TAILLE_TERRAIN && 0 <= p.y && p.y < TAILLE_TERRAIN;
 }
 
 int Map::portal_id_maybe(position p) const

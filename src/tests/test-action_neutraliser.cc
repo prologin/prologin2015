@@ -17,14 +17,13 @@ TEST_F(ActionTest, ActionNeutraliser_TooFewActionPoints)
             st->capture(0, st->get_opponent(player));
             for (int j = 0; j < i; ++j)
                 st->add_shield(0);
-            set_points(
-                st, player,
-                COUT_NEUTRALISATION + COUT_NEUTRALISATION_BOUCLIER * i - 1);
+            set_points(st, player,
+                       COUT_NEUTRALISATION + COUT_NEUTRALISATION_BOUCLIER * i -
+                           1);
             EXPECT_EQ(PA_INSUFFISANTS, action.check(st));
 
-            set_points(
-                st, player,
-                COUT_NEUTRALISATION + COUT_NEUTRALISATION_BOUCLIER * i);
+            set_points(st, player,
+                       COUT_NEUTRALISATION + COUT_NEUTRALISATION_BOUCLIER * i);
             EXPECT_NE(PA_INSUFFISANTS, action.check(st));
         }
     }
@@ -90,7 +89,7 @@ TEST_F(ActionTest, ActionNeutraliser_RegularOK)
         {
             // Put the player in a correct state for destroying a portal
             const int initial_AP = COUT_NEUTRALISATION +
-                shields * COUT_NEUTRALISATION_BOUCLIER + 1;
+                                   shields * COUT_NEUTRALISATION_BOUCLIER + 1;
             set_points(st, player, initial_AP);
             set_points(st, st->get_opponent(player), initial_AP);
             st->set_pos(player, st->portal_pos(0));
@@ -104,7 +103,7 @@ TEST_F(ActionTest, ActionNeutraliser_RegularOK)
 
             // Check that correct action points are consumed for correct player
             EXPECT_EQ(initial_AP - COUT_NEUTRALISATION -
-                      shields * COUT_NEUTRALISATION_BOUCLIER,
+                          shields * COUT_NEUTRALISATION_BOUCLIER,
                       st->action_points(player));
             EXPECT_EQ(initial_AP, st->action_points(st->get_opponent(player)));
 

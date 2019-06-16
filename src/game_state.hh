@@ -4,14 +4,14 @@
 #define GAME_STATE_HH
 
 #include <cstdint>
-#include <memory>
 #include <map>
+#include <memory>
 
 #include <rules/game-state.hh>
 #include <rules/player.hh>
 
-#include "map.hh"
 #include "graph.hh"
+#include "map.hh"
 
 // Game-specific information related to each player
 struct player_info
@@ -29,7 +29,7 @@ struct player_info
 
     // Reference to the score in Stechec's player data structures, for
     // convenience.
-    int *stechec_score;
+    int* stechec_score;
 };
 
 // Structure to store a diff between the states at the start of the
@@ -108,8 +108,8 @@ public:
     champ triangle_to_field(const itriple& t) const;
 
     // Helper to unpack triangles into portals.
-    void unpack_triangle_pos(const itriple& t,
-                             position& a, position& b, position& c) const;
+    void unpack_triangle_pos(const itriple& t, position& a, position& b,
+                             position& c) const;
     // Computes the area of the triangle spanned by a field,
     // multiplied by a factor of 2 to ensure that it is an integer
     int field_area_x2(const itriple& field) const;

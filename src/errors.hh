@@ -9,6 +9,7 @@ class BaseException : public std::exception
 {
 public:
     virtual const char* what() const noexcept;
+
 protected:
     std::string message_;
 };
@@ -17,7 +18,7 @@ protected:
 class InvalidPosition : public BaseException
 {
 public:
-    InvalidPosition(const position &p);
+    InvalidPosition(const position& p);
 };
 
 // Exception to raise when provided an invalid player.

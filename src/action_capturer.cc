@@ -5,11 +5,13 @@
 int ActionCapturer::check(const GameState* st) const
 {
     // Check action points
-    if (st->action_points(player_id_) < COUT_CAPTURE) return PA_INSUFFISANTS;
+    if (st->action_points(player_id_) < COUT_CAPTURE)
+        return PA_INSUFFISANTS;
 
     // Check that the agent's current position is a portal
     int portal_here = st->map().portal_id_maybe(st->player_pos(player_id_));
-    if (portal_here == -1) return AUCUN_PORTAIL;
+    if (portal_here == -1)
+        return AUCUN_PORTAIL;
 
     // It isn't allowed to seize a portal that already belongs to someone:
     // players have to "destroy" it first (see ActionDetruire).

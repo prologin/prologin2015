@@ -123,7 +123,7 @@ TEST_F(ActionTest, ActionAjouterBouclier_ShieldTwice)
     for (int player : {PLAYER_1, PLAYER_2})
     {
         // Put the player in a correct state for adding shield
-        const int initial_AP = 2*COUT_BOUCLIER;
+        const int initial_AP = 2 * COUT_BOUCLIER;
         set_points(st, player, initial_AP);
         st->set_pos(player, st->portal_pos(0));
         st->capture(0, player);
@@ -137,4 +137,3 @@ TEST_F(ActionTest, ActionAjouterBouclier_ShieldTwice)
         EXPECT_EQ(OK, action.check(st));
     }
 }
-

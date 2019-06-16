@@ -4,13 +4,15 @@
 #include <rules/action.hh>
 
 #include "actions.hh"
-#include "game_state.hh"
 #include "constant.hh"
+#include "game_state.hh"
 
 class ActionLier : public rules::Action<GameState>
 {
 public:
-    ActionLier(position portail, int player_id) : portail_(portail), player_id_(player_id) {}
+    ActionLier(position portail, int player_id)
+        : portail_(portail), player_id_(player_id)
+    {}
     ActionLier() {} // for register_action()
 
     virtual int check(const GameState* st) const;

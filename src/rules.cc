@@ -1,17 +1,15 @@
-#include <fstream>
 #include <cstdlib>
+#include <fstream>
 
-#include <utils/log.hh>
-#include <rules/player.hh>
 #include <rules/actions.hh>
+#include <rules/player.hh>
+#include <utils/log.hh>
 
-#include "rules.hh"
 #include "actions.hh"
 #include "errors.hh"
+#include "rules.hh"
 
-Rules::Rules(const rules::Options opt)
-    : TurnBasedRules(opt)
-    , sandbox_(opt.time)
+Rules::Rules(const rules::Options opt) : TurnBasedRules(opt), sandbox_(opt.time)
 {
     if (!opt.champion_lib.empty())
     {
@@ -39,28 +37,21 @@ Rules::Rules(const rules::Options opt)
     // Register actions
     api_->actions()->register_action(
         ID_ACTION_DEPLACER,
-        []() -> rules::IAction* { return new ActionDeplacer(); }
-        );
+        []() -> rules::IAction* { return new ActionDeplacer(); });
     api_->actions()->register_action(
         ID_ACTION_UTILISER_TURBO,
-        []() -> rules::IAction* { return new ActionUtiliserTurbo(); }
-        );
+        []() -> rules::IAction* { return new ActionUtiliserTurbo(); });
     api_->actions()->register_action(
         ID_ACTION_CAPTURER,
-        []() -> rules::IAction* { return new ActionCapturer(); }
-        );
+        []() -> rules::IAction* { return new ActionCapturer(); });
     api_->actions()->register_action(
-        ID_ACTION_LIER,
-        []() -> rules::IAction* { return new ActionLier(); }
-        );
+        ID_ACTION_LIER, []() -> rules::IAction* { return new ActionLier(); });
     api_->actions()->register_action(
         ID_ACTION_NEUTRALISER,
-        []() -> rules::IAction* { return new ActionNeutraliser(); }
-        );
+        []() -> rules::IAction* { return new ActionNeutraliser(); });
     api_->actions()->register_action(
         ID_ACTION_AJOUTER_BOUCLIER,
-        []() -> rules::IAction* { return new ActionAjouterBouclier(); }
-        );
+        []() -> rules::IAction* { return new ActionAjouterBouclier(); });
 }
 
 Rules::~Rules()
@@ -91,7 +82,8 @@ void Rules::at_start()
 
 void Rules::at_player_start(rules::ClientMessenger_sptr)
 {
-    try {
+    try
+    {
         sandbox_.execute(champion_partie_init_);
     }
     catch (utils::SandboxTimeout&)
@@ -107,7 +99,8 @@ void Rules::at_spectator_start(rules::ClientMessenger_sptr)
 
 void Rules::at_player_end(rules::ClientMessenger_sptr)
 {
-    try {
+    try
+    {
         sandbox_.execute(champion_partie_fin_);
     }
     catch (utils::SandboxTimeout&)
@@ -123,7 +116,8 @@ void Rules::at_spectator_end(rules::ClientMessenger_sptr)
 
 void Rules::player_turn()
 {
-    try {
+    try
+    {
         sandbox_.execute(champion_jouer_tour_);
     }
     catch (utils::SandboxTimeout&)

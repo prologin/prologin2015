@@ -3,7 +3,8 @@
 int ActionUtiliserTurbo::check(const GameState* st) const
 {
     // Check action points
-    if (st->action_points(player_id_) < (COUT_TURBO)) return PA_INSUFFISANTS;
+    if (st->action_points(player_id_) < (COUT_TURBO))
+        return PA_INSUFFISANTS;
 
     return OK;
 }

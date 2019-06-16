@@ -13,8 +13,8 @@
 ** along with prologin2015.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <cstring>
 #include <cstdlib>
+#include <cstring>
 #include <sstream>
 
 #include <rules/action.hh>
@@ -29,9 +29,7 @@
 #include "map.hh"
 
 /* Put some binary content as a JSON string in the output stream. */
-static void dump_binary(
-    std::ostream& ss, const uint8_t bytes[], unsigned size
-)
+static void dump_binary(std::ostream& ss, const uint8_t bytes[], unsigned size)
 {
     const char* hextable = "0123456789ABCDEF";
 
@@ -43,10 +41,9 @@ static void dump_binary(
         else if (bytes[i] == '\\')
             ss << "\\\\";
         else if (0x20 <= bytes[i] && bytes[i] <= 0x7e)
-            ss << (char) bytes[i];
+            ss << (char)bytes[i];
         else
-            ss << "\\u00"
-               << hextable[bytes[i] >> 4]
+            ss << "\\u00" << hextable[bytes[i] >> 4]
                << hextable[bytes[i] & 0x0f];
     }
     ss << "\"";
@@ -73,16 +70,13 @@ static void dump_players(std::ostream& ss, const GameState& st)
         is_first = false;
         ss << "\"" << id << "\": {"
            << "\"name\": ";
-        dump_binary(
-            ss,
-            reinterpret_cast<const uint8_t *>(players[i]->name.c_str()),
-            players[i]->name.size()
-        );
+        dump_binary(ss,
+                    reinterpret_cast<const uint8_t*>(players[i]->name.c_str()),
+                    players[i]->name.size());
         ss << ", "
            << "\"x\": " << pos.x << ", "
            << "\"y\": " << pos.y << ", "
-           << "\"score\": " << players[i]->score
-           << "}";
+           << "\"score\": " << players[i]->score << "}";
     }
     ss << "}";
 }
@@ -113,9 +107,9 @@ static void dump_map(std::ostream& ss, const GameState& st)
            << "\"y\": " << portal.y << ", "
            << "\"shields\": " << st.num_shields(portal_id) << ", ";
         if (owner == -1)
-           ss << "\"owner\": null";
+            ss << "\"owner\": null";
         else
-           ss << "\"owner\": " << st.owner(portal_id);
+            ss << "\"owner\": " << st.owner(portal_id);
         ss << "}";
     }
     ss << "], ";
@@ -130,8 +124,7 @@ static void dump_map(std::ostream& ss, const GameState& st)
         is_first = false;
         ss << "{"
            << "\"from\": " << edge.first << ", "
-           << "\"to\": "   << edge.second
-           << "}";
+           << "\"to\": " << edge.second << "}";
     }
     ss << "], ";
 
@@ -146,8 +139,7 @@ static void dump_map(std::ostream& ss, const GameState& st)
         ss << "{"
            << "\"s0\": " << std::get<0>(triangle) << ", "
            << "\"s1\": " << std::get<1>(triangle) << ", "
-           << "\"s2\": " << std::get<2>(triangle)
-           << "}";
+           << "\"s2\": " << std::get<2>(triangle) << "}";
     }
 
     ss << "]"
@@ -165,7 +157,7 @@ static void dump_actions(std::ostream& ss, rules::Actions& acts)
    list of actions.  The returned string is heap-allocated and must be delete'd
    by the caller.  The JSON tree fits in one line (i.e. it doesn't contain a
    new line character), making it easy to maintain a collection of dumps in a
-   text file.  */ 
+   text file.  */
 char* dump_game_state(const GameState& st, rules::Actions& acts)
 {
     std::stringstream ss;
@@ -173,29 +165,25 @@ char* dump_game_state(const GameState& st, rules::Actions& acts)
     ss << "{";
 
     // - "turn": [current turn, number of turns]
-    ss << "\"turn\": ["
-        << st.get_current_round() << ", "
-        << NB_TOURS
-        << "] ";
+    ss << "\"turn\": [" << st.get_current_round() << ", " << NB_TOURS << "] ";
 
     ss << ", "
        << "\"players\": ";
     dump_players(ss, st);
 
     ss << ", "
-        << "\"map\": ";
+       << "\"map\": ";
     dump_map(ss, st);
 
     ss << ", "
-        << "\"actions\": ";
+       << "\"actions\": ";
     dump_actions(ss, acts);
 
     ss << "}";
 
     /* Use malloc(), since the caller will use free(). */
-    char* result = (char*) malloc(sizeof (char) * ss.str().size() + 1);
+    char* result = (char*)malloc(sizeof(char) * ss.str().size() + 1);
 
     strcpy(result, ss.str().c_str());
     return result;
 }
-

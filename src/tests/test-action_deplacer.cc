@@ -2,10 +2,8 @@
 
 #include "test-helpers.hh"
 
-
 // All the tests below are methods coming from the ActionTest class (see
 // test-helpers.hh).  This is where the "st" GameState is coming from.
-
 
 // Test that ActionDeplacer properly behaves with an invalid position.
 TEST_F(ActionTest, Deplacer_InvalidPos)
@@ -18,7 +16,7 @@ TEST_F(ActionTest, Deplacer_InvalidPos)
 // Test that ActionDeplacer does not accept too big moves.
 TEST_F(ActionTest, Deplacer_TooBigMove)
 {
-    ActionDeplacer act({TAILLE_TERRAIN-1, TAILLE_TERRAIN-1}, PLAYER_1);
+    ActionDeplacer act({TAILLE_TERRAIN - 1, TAILLE_TERRAIN - 1}, PLAYER_1);
 
     EXPECT_EQ(POSITION_ELOIGNEE, act.check(st));
 }
@@ -47,19 +45,19 @@ TEST_F(ActionTest, Deplacer_NoMovePointLeft)
 // Test that a regular successful ActionDeplacer just does its job.
 TEST_F(ActionTest, Deplacer_RegularOK)
 {
-    const position &new_pos = {1, 1};
+    const position& new_pos = {1, 1};
     ActionDeplacer act(new_pos, PLAYER_1);
 
     EXPECT_EQ(OK, act.check(st));
     act.apply_on(st);
 
     // Check that player positions are updated (or not) accordingly.
-    EXPECT_EQ(new_pos,          st->player_pos(PLAYER_1));
+    EXPECT_EQ(new_pos, st->player_pos(PLAYER_1));
     EXPECT_EQ(player2_startpos, st->player_pos(PLAYER_2));
 
     // And check that move points are updated (or not) accordingly.
     EXPECT_EQ(NB_POINTS_DEPLACEMENT - 2, st->move_points(PLAYER_1));
-    EXPECT_EQ(NB_POINTS_DEPLACEMENT,     st->move_points(PLAYER_2));
+    EXPECT_EQ(NB_POINTS_DEPLACEMENT, st->move_points(PLAYER_2));
 }
 
 // Test that move points are reset when going to the next turn.
