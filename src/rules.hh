@@ -22,7 +22,7 @@ public:
     explicit Rules(const rules::Options opt);
 
     rules::Actions* get_actions() override;
-    void apply_action(const rules::IAction_sptr& action) override;
+    void apply_action(const rules::IAction& action) override;
     bool is_finished() override;
 
     void at_start() override;

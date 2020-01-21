@@ -34,23 +34,23 @@ Rules::Rules(const rules::Options opt) : TurnBasedRules(opt), sandbox_(opt.time)
 void Rules::register_actions()
 {
     // Register actions
+    api_->actions()->register_action(ID_ACTION_DEPLACER, []() {
+        return std::make_unique<ActionDeplacer>();
+    });
+    api_->actions()->register_action(ID_ACTION_UTILISER_TURBO, []() {
+        return std::make_unique<ActionUtiliserTurbo>();
+    });
+    api_->actions()->register_action(ID_ACTION_CAPTURER, []() {
+        return std::make_unique<ActionCapturer>();
+    });
     api_->actions()->register_action(
-        ID_ACTION_DEPLACER,
-        []() -> rules::IAction* { return new ActionDeplacer(); });
-    api_->actions()->register_action(
-        ID_ACTION_UTILISER_TURBO,
-        []() -> rules::IAction* { return new ActionUtiliserTurbo(); });
-    api_->actions()->register_action(
-        ID_ACTION_CAPTURER,
-        []() -> rules::IAction* { return new ActionCapturer(); });
-    api_->actions()->register_action(
-        ID_ACTION_LIER, []() -> rules::IAction* { return new ActionLier(); });
-    api_->actions()->register_action(
-        ID_ACTION_NEUTRALISER,
-        []() -> rules::IAction* { return new ActionNeutraliser(); });
-    api_->actions()->register_action(
-        ID_ACTION_AJOUTER_BOUCLIER,
-        []() -> rules::IAction* { return new ActionAjouterBouclier(); });
+        ID_ACTION_LIER, []() { return std::make_unique<ActionLier>(); });
+    api_->actions()->register_action(ID_ACTION_NEUTRALISER, []() {
+        return std::make_unique<ActionNeutraliser>();
+    });
+    api_->actions()->register_action(ID_ACTION_AJOUTER_BOUCLIER, []() {
+        return std::make_unique<ActionAjouterBouclier>();
+    });
 }
 
 rules::Actions* Rules::get_actions()
@@ -58,19 +58,19 @@ rules::Actions* Rules::get_actions()
     return api_->actions();
 }
 
-void Rules::apply_action(const rules::IAction_sptr& action)
+void Rules::apply_action(const rules::IAction& action)
 {
     // When receiving an action, the API should have already checked that it
     // is valid. We recheck that for the current gamestate here to avoid weird
     // client/server desynchronizations and make sure the gamestate is always
     // consistent across the clients and the server.
 
-    int err = action->check(api_->game_state());
+    int err = action.check(api_->game_state());
 
     if (err)
         FATAL("Synchronization error: received action %d from player %d, but "
               "check() on current gamestate returned %d.",
-              action->id(), action->player_id(), err);
+              action.id(), action.player_id(), err);
 
     api_->game_state_apply(action);
 }
