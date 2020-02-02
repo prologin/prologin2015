@@ -53,7 +53,7 @@ class GameState : public rules::GameState
 public:
     // Build a game state out of a input stream containing a description
     // of the map, and some players.
-    GameState(std::istream& map_stream, rules::Players_sptr players);
+    GameState(std::istream& map_stream, const rules::Players& players);
     GameState* copy() const;
 
     // Return the current round number.
@@ -70,7 +70,7 @@ public:
     bool is_finished() const;
 
     // Accessor for Stechec players, used in the dumper.
-    rules::Players_sptr get_players() const { return players_; }
+    const rules::Players get_players() const { return players_; }
     // Return the ID for "player_id"'s opponent player.
     int get_opponent(int player_id) const;
     // Return the score for "player_id".
@@ -144,7 +144,7 @@ private:
 
     // Array of all clients on this game.  Note that this also contains
     // spectators.
-    rules::Players_sptr players_;
+    rules::Players players_;
 
     int current_round_;
 

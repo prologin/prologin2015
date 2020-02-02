@@ -7,7 +7,7 @@
 #include "game_state.hh"
 #include "geometry.hh"
 
-GameState::GameState(std::istream& map_stream, rules::Players_sptr players)
+GameState::GameState(std::istream& map_stream, const rules::Players& players)
     : rules::GameState()
     , players_(players)
     , current_round_(0)
@@ -20,19 +20,19 @@ GameState::GameState(std::istream& map_stream, rules::Players_sptr players)
     , history_(new history_info)
 {
     int player_ordinal = 0;
-    for (auto& p : players_->players)
+    for (auto& player : players_)
     {
         if (player_ordinal > 2)
             FATAL("This game cannot accomodate more than two players.");
-        if (p->type == rules::PLAYER)
+        if (player->type == rules::PLAYER)
         {
-            p->score = 0;
-            player_info_[p->id] =
+            player->score = 0;
+            player_info_[player->id] =
                 (player_info){.action_points = NB_POINTS_ACTION,
                               .move_points = NB_POINTS_DEPLACEMENT,
                               .pos = map_->get_start_position(player_ordinal),
                               .score = 0,
-                              .stechec_score = &(p->score)};
+                              .stechec_score = &(player->score)};
             player_ordinal++;
         }
     }

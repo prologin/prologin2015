@@ -30,7 +30,8 @@
 class Api final : public rules::Api<GameState, erreur>
 {
 public:
-    Api(std::unique_ptr<GameState> game_state, rules::Player_sptr player);
+    Api(std::unique_ptr<GameState> game_state,
+        std::shared_ptr<rules::Player> player);
 
     ///
     // Déplace votre agent sur la case passée en argument.

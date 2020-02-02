@@ -53,7 +53,7 @@ static void dump_binary(std::ostream& ss, const uint8_t bytes[], unsigned size)
 
 static void dump_players(std::ostream& ss, const GameState& st)
 {
-    auto& players = st.get_players()->players;
+    auto& players = st.get_players();
     bool is_first = true;
 
     ss << "{";
